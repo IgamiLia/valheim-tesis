@@ -18,6 +18,19 @@ body {
     url("/cursor/cursor_fixed.cur") 0 0,
     auto;
 }
+
+a,
+button,
+input,
+select,
+textarea,
+[role="button"],
+.char-container,
+.pointer {
+  cursor:
+    url("/cursor/pointer_fixed.cur") 16 2,
+    pointer;
+}
 body::before {
   content: "";
   position: fixed;

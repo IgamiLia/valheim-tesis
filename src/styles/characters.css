@@ -115,7 +115,7 @@ main {
   position: relative;
   width: 100%;
   height: auto;
-  cursor: pointer;
+
   border: 2px solid var(--gold-dark);
   outline: 1px solid rgba(130, 103, 40, 0.5);
   outline-offset: 4px;
@@ -687,7 +687,7 @@ main {
   border: 2px solid var(--gold-dark);
   border-radius: 50%;
   color: var(--gold);
-  cursor: pointer;
+
   box-shadow:
     0 0 0 1px rgba(10, 9, 6, 0.8),
     0 0 15px 3px rgba(130, 103, 40, 0.3),
