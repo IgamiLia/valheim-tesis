@@ -1,0 +1,78 @@
+---
+const { name, img, portrait } = Astro.props;
+
+const RUNES = [
+  "ᚠ",
+  "ᚢ",
+  "ᚦ",
+  "ᚨ",
+  "ᚱ",
+  "ᚲ",
+  "ᚷ",
+  "ᚹ",
+  "ᚺ",
+  "ᚾ",
+  "ᛁ",
+  "ᛃ",
+  "ᛇ",
+  "ᛈ",
+  "ᛉ",
+  "ᛊ",
+  "ᛏ",
+  "ᛒ",
+  "ᛖ",
+  "ᛗ",
+  "ᛚ",
+  "ᛜ",
+  "ᛞ",
+  "ᛟ",
+];
+---
+
+<article class="char-container">
+  <section class="char-overlay">
+    <div class="corner-tr"></div>
+    <div class="corner-bl"></div>
+    <div class="rune-band"></div>
+    <img class="char-img" src={img} alt={name} />
+  </section>
+  <img class="character" src={portrait} alt="" />
+  <span class="char-name">{name}</span>
+</article>
+
+<script>
+  const RUNES = [
+    "ᚠ",
+    "ᚢ",
+    "ᚦ",
+    "ᚨ",
+    "ᚱ",
+    "ᚲ",
+    "ᚷ",
+    "ᚹ",
+    "ᚺ",
+    "ᚾ",
+    "ᛁ",
+    "ᛃ",
+    "ᛇ",
+    "ᛈ",
+    "ᛉ",
+    "ᛊ",
+    "ᛏ",
+    "ᛒ",
+    "ᛖ",
+    "ᛗ",
+    "ᛚ",
+    "ᛜ",
+    "ᛞ",
+    "ᛟ",
+  ];
+
+  document.querySelectorAll<HTMLElement>(".rune-band").forEach((band) => {
+    const count = Math.floor(band.offsetWidth / 13) + 4;
+    band.innerHTML = Array.from({ length: count }, (_, i) => {
+      const r = RUNES[Math.floor(Math.random() * RUNES.length)];
+      return `<span style="animation-delay:${(i * 0.11).toFixed(2)}s">${r}</span>`;
+    }).join("");
+  });
+</script>

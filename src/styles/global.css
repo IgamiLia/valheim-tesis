@@ -1,0 +1,31 @@
+html {
+  scrollbar-gutter: stable;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: "Book Antiqua", "Palatino Linotype", Palatino, Georgia, serif;
+  display: grid;
+  place-items: center;
+  width: 100svw;
+  min-height: 100svh;
+  cursor:
+    url("./cursor/cursor_fixed.cur") 0 0,
+    auto;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100svw;
+  height: 100%;
+  z-index: -1;
+  filter: brightness(0.6);
+}

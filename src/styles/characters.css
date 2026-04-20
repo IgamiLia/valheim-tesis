@@ -1,0 +1,744 @@
+:root {
+  --gold: rgb(180, 151, 76);
+  --gold-dark: rgb(130, 103, 40);
+  --gold-light: rgb(220, 195, 120);
+  --gold-glow: rgba(180, 151, 76, 0.35);
+  --gold-subtle: rgba(180, 151, 76, 0.08);
+}
+
+/* ─── Keyframes ─────────────────────────────── */
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 6px 1px var(--gold-glow),
+      inset 0 0 6px 1px var(--gold-glow);
+  }
+  50% {
+    box-shadow:
+      0 0 16px 4px var(--gold-glow),
+      inset 0 0 10px 2px var(--gold-glow);
+  }
+}
+
+@keyframes rune-shimmer {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes band-appear {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 0;
+  }
+}
+
+/* ─── Base ───────────────────────────── */
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(./images/background.webp);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  filter: brightness(0.5);
+}
+@keyframes page-fade-in {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+/* ─── Logos ──────────────────────────────────── */
+
+.logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform: translateY(5%);
+  opacity: 0;
+  animation: page-fade-in 1s ease forwards;
+  animation-delay: 0.2s;
+}
+
+#logo {
+  width: 40vw;
+  height: auto;
+  margin: 3rem 0;
+  transform: translateX(-2%);
+}
+
+#characters-logo {
+  width: 30vw;
+  height: auto;
+  filter: drop-shadow(0 0 4px #000000) drop-shadow(0 0 8px #6d3718);
+  transform: translateY(5%);
+  opacity: 0;
+  animation: page-fade-in 1s ease forwards;
+  animation-delay: 0.3s;
+}
+
+/* ─── Grid de personajes ─────────────────────── */
+main {
+  width: 80vw;
+  display: grid;
+  grid: repeat(2, 1fr) / repeat(3, 1fr);
+  gap: 8rem;
+  padding-bottom: 4rem;
+  transform: translateY(5%);
+  opacity: 0;
+  animation: page-fade-in 1s ease forwards;
+  animation-delay: 0.4s;
+}
+
+/* ─── Tarjeta de personaje ───────────────────── */
+.char-container,
+.modal-card {
+  position: relative;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  border: 2px solid var(--gold-dark);
+  outline: 1px solid rgba(130, 103, 40, 0.5);
+  outline-offset: 4px;
+  box-shadow:
+    0 0 0 1px rgba(10, 9, 6, 0.8),
+    0 0 0 5px rgb(130, 103, 40),
+    0 0 24px 4px rgba(130, 103, 40, 0.35),
+    inset 0 1px 0 rgba(220, 195, 120, 0.1);
+  border-radius: 2px;
+  animation: glow-pulse 3.5s ease-in-out infinite;
+  overflow: visible;
+  opacity: 1;
+  animation:
+    glow-pulse 3.5s ease-in-out infinite,
+    card-in 0.6s ease forwards;
+  transition: all 0.3s ease;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.char-container:nth-child(1) {
+  animation-delay:
+    0s,
+    0.05s forwards;
+}
+.char-container:nth-child(2) {
+  animation-delay:
+    0s,
+    0.15s forwards;
+}
+.char-container:nth-child(3) {
+  animation-delay:
+    0s,
+    0.25s forwards;
+}
+.char-container:nth-child(4) {
+  animation-delay:
+    0s,
+    0.35s forwards;
+}
+.char-container:nth-child(5) {
+  animation-delay:
+    0s,
+    0.45s forwards;
+}
+.char-container:nth-child(6) {
+  animation-delay:
+    0s,
+    0.55s forwards;
+}
+
+.char-container:hover {
+  box-shadow:
+    0 0 0 1px rgba(10, 9, 6, 0.8),
+    0 0 0 5px var(--gold-dark),
+    0 0 36px 8px rgba(180, 151, 76, 0.5),
+    0 12px 32px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(220, 195, 120, 0.2);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  opacity: 1;
+}
+
+.char-container::before,
+.char-container::after,
+.modal-card::before,
+.modal-card::after {
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Esquina superior izquierda */
+.char-container::before,
+.modal-card::before {
+  top: -6px;
+  left: -6px;
+  border-top: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  border-radius: 0;
+  box-shadow:
+    -2px -2px 8px var(--gold-glow),
+    inset 1px 1px 4px rgba(220, 195, 120, 0.2);
+}
+
+/* Esquina inferior derecha */
+.char-container::after,
+.modal-card::after {
+  bottom: -6px;
+  right: -6px;
+  border-bottom: 2px solid var(--gold);
+  border-right: 2px solid var(--gold);
+  box-shadow:
+    2px 2px 8px var(--gold-glow),
+    inset -1px -1px 4px rgba(220, 195, 120, 0.2);
+}
+
+.corner-tr,
+.corner-bl {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.corner-tr {
+  top: -6px;
+  right: -6px;
+  border-top: 2px solid var(--gold);
+  border-right: 2px solid var(--gold);
+  box-shadow: 2px -2px 8px var(--gold-glow);
+}
+
+.corner-bl {
+  bottom: -6px;
+  left: -6px;
+  border-bottom: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  box-shadow: -2px 2px 8px var(--gold-glow);
+}
+
+/* ─── Imagen ─────────────────────────────────── */
+.char-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: brightness(0.9) contrast(1.05) sepia(0.08);
+  transition: filter 0.4s ease;
+}
+
+.char-container:hover .char-img {
+  filter: brightness(1.3) contrast(1.2) sepia(0);
+}
+
+/* ─── Nombre del personaje ───────────────────── */
+.char-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0.6rem 0.5rem 0.7rem;
+  background: linear-gradient(
+    to top,
+    rgba(20, 14, 4, 0.88) 0%,
+    rgba(10, 8, 3, 0.55) 70%,
+    transparent 100%
+  );
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-top: 1px solid var(--gold-dark);
+  text-align: center;
+  font-size: 5rem;
+  letter-spacing: 2px;
+  color: transparent;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--gold);
+  text-shadow: 0 0 20px rgba(180, 151, 76, 0.5);
+  transition:
+    letter-spacing 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.char-container:hover .char-name {
+  letter-spacing: 5px;
+  -webkit-text-stroke-color: var(--gold-light);
+  text-shadow:
+    0 0 30px rgba(180, 151, 76, 0.8),
+    0 0 60px rgba(180, 151, 76, 0.3);
+  border-top-color: var(--gold);
+}
+
+/* ─── Banda de runas ─────────── */
+.rune-band {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-subtle) 25%,
+    var(--gold-subtle) 75%,
+    transparent
+  );
+  border-bottom: 1px solid rgba(180, 151, 76, 0.2);
+  overflow: hidden;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.rune-band span {
+  color: var(--gold);
+  font-size: 16px;
+  font-family: serif;
+  line-height: 1;
+  animation: rune-shimmer 2s ease-in-out infinite;
+  user-select: none;
+}
+
+.rune-band span:nth-child(2n) {
+  animation-delay: 0.3s;
+  opacity: 0.5;
+}
+.rune-band span:nth-child(3n) {
+  animation-delay: 0.6s;
+}
+.rune-band span:nth-child(5n) {
+  color: var(--gold-light);
+  animation-delay: 0.9s;
+}
+
+/* Transformaciones con JavaScript */
+
+.character,
+.presentation__character {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 110%;
+  height: 120%;
+  z-index: 10;
+  transform: translate(-50%, 25%);
+  opacity: 0;
+  filter: drop-shadow(0 2px 10px #000);
+}
+@keyframes char-appear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 25%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 10%);
+  }
+}
+.character-show {
+  animation: none;
+  z-index: 30;
+  transform: translate(-50%, 10%);
+  /* opacity: 1; */
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  animation: char-appear 0.3s ease forwards;
+}
+
+.card-transform {
+  transform: perspective(250px) rotateX(10deg) translateY(-10%) translateZ(0);
+  animation: none;
+  z-index: 20;
+}
+.card-transform::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 10%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0) 95%
+  );
+}
+.modal-card {
+  max-width: 23vw !important;
+  position: relative;
+}
+.presentation {
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rem;
+  padding: 5rem;
+}
+.presentation__card {
+  height: 90%;
+  min-width: 20vw;
+  max-height: 50svh;
+}
+
+.presentation__text {
+  color: var(--gold-light);
+  font-size: 2rem;
+  line-height: 1.8;
+  text-shadow: 0 0 20px rgba(21, 11, 3, 0.552);
+  text-wrap: pretty;
+  max-width: 40vw;
+  transform: translateY(-3%);
+}
+
+.presentation__text h2 {
+  text-shadow: none;
+  font-size: 6rem;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--gold);
+  margin-bottom: 1rem;
+  letter-spacing: 3px;
+}
+
+.presentation::before {
+  z-index: -1;
+  content: "";
+  width: 100svw;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #020202 20%,
+    #020202 50%,
+    #020202 80%,
+    transparent 100%
+  );
+  animation: band-appear 0.3s ease forwards;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 15;
+  filter: brightness(0.2);
+  backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.brightness {
+  filter: brightness(0.1);
+}
+.char-overlay {
+  width: 100%;
+  height: 100%;
+}
+.hidden {
+  display: none;
+}
+.fixed {
+  position: fixed;
+}
+#smoke {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  z-index: -1;
+}
+/* ─── Responsive: Laptop (≤ 1200px) ─────────── */
+@media (max-width: 1200px) {
+  #logo {
+    width: 55vw;
+  }
+
+  #characters-logo {
+    width: 40vw;
+  }
+
+  main {
+    width: 90vw;
+    grid: repeat(2, 1fr) / repeat(3, 1fr);
+    gap: 4rem;
+  }
+
+  .char-name {
+    font-size: 3.5rem;
+  }
+
+  .presentation {
+    gap: 4rem;
+    padding: 3rem;
+  }
+
+  .presentation__text {
+    font-size: 1.6rem;
+    max-width: 35vw;
+  }
+
+  .presentation__text h2 {
+    font-size: 4.5rem;
+  }
+
+  .modal-card {
+    max-width: 28vw !important;
+    max-height: 50svh;
+  }
+
+  .char-traits li {
+    font-size: 1.5rem;
+  }
+}
+
+/* ─── Responsive: Tablet (≤ 900px) ──────────── */
+@media (max-width: 900px) {
+  #logo {
+    width: 65vw;
+    margin: 2rem 0;
+  }
+
+  #characters-logo {
+    width: 50vw;
+  }
+
+  main {
+    width: 92vw;
+    grid: auto / repeat(2, 1fr);
+    gap: 3rem;
+  }
+
+  .char-name {
+    font-size: 2.8rem;
+  }
+
+  .presentation {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+  }
+
+  .presentation__text {
+    font-size: 1.4rem;
+    max-width: 80vw;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .presentation__text h2 {
+    font-size: 3.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .presentation__card {
+    min-width: unset;
+    width: 55vw;
+    height: auto;
+  }
+
+  .modal-card {
+    max-width: 55vw !important;
+  }
+
+  .char-traits li {
+    font-size: 1.3rem;
+  }
+
+  .presentation__character {
+    width: 70%;
+    height: 60%;
+  }
+}
+
+/* ─── Responsive: Mobile (≤ 600px) ──────────── */
+@media (max-width: 600px) {
+  #logo {
+    width: 80vw;
+    margin: 1.5rem 0;
+  }
+
+  #characters-logo {
+    width: 65vw;
+  }
+
+  main {
+    width: 80svw;
+    padding: 0 1rem;
+    grid: auto / 1fr;
+    gap: 3.5rem;
+  }
+
+  .char-name {
+    font-size: clamp(3rem, 5vw, 5rem);
+    letter-spacing: 1px;
+    -webkit-text-stroke-width: 1.5px;
+  }
+
+  .char-container:hover .char-name {
+    letter-spacing: 3px;
+  }
+
+  .presentation {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 100svw;
+    height: 100svh;
+    padding: 0;
+  }
+
+  .presentation__text {
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .presentation__text h2 {
+    font-size: 2.6rem;
+    -webkit-text-stroke-width: 1.5px;
+    /* margin-bottom: 0.5rem; */
+  }
+
+  .presentation__card {
+    width: 60vw !important;
+    height: auto;
+  }
+
+  .presentation__character {
+    width: 80%;
+    height: 50%;
+  }
+
+  .presentation::before {
+    height: 100%;
+  }
+
+  .rune-band span {
+    font-size: 13px;
+  }
+  #smoke {
+    display: none;
+  }
+}
+
+/* ─── Botón de música ────────────────────────── */
+.music-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 14, 4, 0.95) 0%,
+    rgba(40, 30, 15, 0.9) 100%
+  );
+  border: 2px solid var(--gold-dark);
+  border-radius: 50%;
+  color: var(--gold);
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(10, 9, 6, 0.8),
+    0 0 15px 3px rgba(130, 103, 40, 0.3),
+    inset 0 1px 0 rgba(220, 195, 120, 0.1);
+  transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+  border-color: var(--gold);
+  box-shadow:
+    0 0 0 1px rgba(10, 9, 6, 0.8),
+    0 0 25px 5px rgba(180, 151, 76, 0.5),
+    inset 0 1px 0 rgba(220, 195, 120, 0.2);
+  transform: translateY(-2px);
+}
+
+.music-btn svg {
+  width: 22px;
+  height: 22px;
+  transition: all 0.3s ease;
+}
+
+/* Por defecto muestra pause (música sonando) */
+.music-btn .icon-pause {
+  display: block;
+}
+
+.music-btn .icon-play {
+  display: none;
+}
+
+/* Cuando está pausado, muestra play */
+.music-btn.paused .icon-pause {
+  display: none;
+}
+
+.music-btn.paused .icon-play {
+  display: block;
+}
+
+/* Responsive botón música */
+@media (max-width: 600px) {
+  .music-btn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+  }
+
+  .music-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}

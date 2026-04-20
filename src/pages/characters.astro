@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CharacterCard from "../components/CharacterCard.astro";
+import MusicButton from "../components/MusicButton.astro";
+import SmokeEffect from "../components/SmokeEffect.astro";
+
+const characters = [
+  {
+    name: "Einar",
+    img: "/images/EinarVsModer.webp",
+    portrait: "/images/Einar-removebg-preview.png",
+  },
+  {
+    name: "Runa",
+    img: "/images/EinarVsModer.webp",
+    portrait: "/images/upscalemedia-transformed.png",
+  },
+  {
+    name: "Hel",
+    img: "/images/EinarVsModer.webp",
+    portrait: "/images/Einar-removebg-preview.png",
+  },
+  {
+    name: "Sombra",
+    img: "/images/EinarVsModer.webp",
+    portrait: "/images/Einar-removebg-preview.png",
+  },
+  {
+    name: "Moder",
+    img: "/images/EinarVsModer.webp",
+    portrait: "/images/Einar-removebg-preview.png",
+  },
+  {
+    name: "Fader",
+    img: "/images/EinarVsModer.webp",
+    portrait: "/images/Einar-removebg-preview.png",
+  },
+];
+---
+
+<Layout title="Valheim: Larga vida a La Reina | Personajes">
+  <div class="background"></div>
+
+  <div class="logo-container">
+    <img id="logo" src="/images/Logo_valheim.webp" alt="Logo de Valheim" />
+  </div>
+
+  <img
+    id="characters-logo"
+    src="/images/personajes_logo.png"
+    alt="Logo de Personajes"
+  />
+
+  <main>
+    {
+      characters.map((char, i) => (
+        <CharacterCard
+          name={char.name}
+          img={char.img}
+          portrait={char.portrait}
+          index={i}
+        />
+      ))
+    }
+  </main>
+
+  <div class="presentation hidden">
+    <div class="presentation__text hidden"></div>
+    <div class="presentation__card"></div>
+    <div class="presentation__character"></div>
+  </div>
+
+  <section class="modal hidden">
+    <div class="overlay hidden"></div>
+  </section>
+
+  <SmokeEffect />
+  <MusicButton />
+
+  <script src="../scripts/characters.js"></script>
+</Layout>
