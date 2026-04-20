@@ -33,7 +33,7 @@
   const loader = new THREE.TextureLoader();
   loader.crossOrigin = "";
 
-  loader.load("./images/smoke.webp", (texture) => {
+  loader.load("/images/smoke.webp", (texture) => {
     const smokeGeometry = new THREE.PlaneGeometry(300, 300);
     const smokeMaterial = new THREE.MeshLambertMaterial({
       map: texture,

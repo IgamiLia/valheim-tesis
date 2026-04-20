@@ -15,7 +15,7 @@ body {
   width: 100svw;
   min-height: 100svh;
   cursor:
-    url("./cursor/cursor_fixed.cur") 0 0,
+    url("/cursor/cursor_fixed.cur") 0 0,
     auto;
 }
 body::before {
