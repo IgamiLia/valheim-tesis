@@ -1,0 +1,191 @@
+---
+const biografias = [
+  {
+    name: "Einar",
+    bio: "Einar es un valiente guerrero que se embarca en una peligrosa aventura para salvar a su pueblo de la amenaza de Moder, el dragón ancestral. Con habilidades de combate excepcionales y un corazón valiente, Einar se convierte en el héroe que su gente necesita para enfrentar los desafíos que se avecinan.",
+  },
+  {
+    name: "Runa",
+    bio: "Runa es una astuta y habilidosa arquera que se une a Einar en su misión para derrotar a Moder. Con su aguda puntería y su ingenio, Runa se convierte en una aliada invaluable en la lucha contra el dragón, aportando su destreza y valentía al equipo.",
+  },
+  {
+    name: "Hel",
+    bio: "Hel es una misteriosa hechicera que posee conocimientos ancestrales sobre la magia y los secretos del mundo. A medida que Einar y Runa se adentran en su aventura, Hel se une a ellos para compartir su sabiduría y habilidades mágicas, convirtiéndose en un recurso crucial para enfrentar los desafíos que les esperan.",
+  },
+  {
+    name: "Stalker",
+    bio: "Stalker es un astuto ladrón que se une a Einar y Runa en su misión para derrotar a Moder. Con su habilidad para moverse sigilosamente y su destreza en el combate cuerpo a cuerpo, Sombra se convierte en un aliado valioso en la lucha contra el dragón, aportando su astucia y habilidades únicas al equipo.",
+  },
+  {
+    name: "Moder",
+    bio: "Moder es el temible dragón ancestral que amenaza con destruir el mundo de Valheim. Con su poder devastador y su presencia imponente, Moder representa la mayor amenaza que Einar y sus aliados deben enfrentar en su misión para salvar a su pueblo.",
+  },
+  {
+    name: "Fader",
+    bio: `Fader fue llamado padre antes de ser llamado monstruo. Su existencia precede a muchos de los pactos que hoy sostienen a Midgard, y su influencia fue tan profunda que incluso los dioses temieron aquello que había creado. Por eso, no lo mataron. Lo borraron. Su nombre fue arrancado de las runas, de las canciones y de la memoria divina. Desterrado al bioma más infernal de Midgard, Fader fue condenado a existir en un lugar donde la tierra quema, el aire corrompe y el tiempo se distorsiona. Allí no hay redención ni muerte verdadera, solo una eternidad de furia contenida. Cada latido del mundo resuena como un recordatorio de lo que le fue arrebatado.`,
+  },
+];
+---
+
+<svg width="0" height="0" style="position:absolute; pointer-events:none;">
+  <defs>
+    <filter id="roughen" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence
+        type="turbulence"
+        baseFrequency="0.018"
+        numOctaves="4"
+        seed="8"
+        result="noise"></feTurbulence>
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="noise"
+        scale="22"
+        xChannelSelector="R"
+        yChannelSelector="G"></feDisplacementMap>
+    </filter>
+  </defs>
+</svg>
+
+{
+  biografias.map((bio) => (
+    <section class="parallax">
+      <div class="content">
+        <div class="card">
+          <h2>{bio.name}</h2>
+          <div class="text-wrap">
+            <div class="vignette" />
+            <p class="parallax-text">{bio.bio}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))
+}
+
+<style>
+  .parallax {
+    height: 110vh;
+    width: 100%;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+  }
+  .parallax:nth-of-type(1) {
+    background-image: url("/images/parallax/bg1.jpg");
+  }
+  .parallax:nth-of-type(2) {
+    background-image: url("/images/parallax/bg2.jpg");
+  }
+  .parallax:nth-of-type(3) {
+    background-image: url("/images/parallax/bg3.jpg");
+  }
+  .parallax:nth-of-type(4) {
+    background-image: url("/images/parallax/bg1.jpg");
+  }
+  .parallax:nth-of-type(5) {
+    background-image: url("/images/parallax/bg2.jpg");
+  }
+  .parallax:nth-of-type(6) {
+    background-image: url("/images/parallax/bg3.jpg");
+  }
+
+  .content {
+    color: #fefefe;
+    text-align: center;
+    padding: 50px;
+    width: 100%;
+  }
+
+  .card {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5rem;
+    text-align: start;
+    text-wrap: balance;
+    padding: 1rem;
+  }
+
+  .card h2 {
+    grid-column: span 2 / span 2;
+    grid-row-start: 2;
+    font-size: clamp(5rem, 11.0803vw + 1.6898rem, 10rem);
+    position: relative;
+    z-index: 2;
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(180, 151, 76);
+    text-shadow: 0 0 40px rgba(180, 151, 76, 0.35);
+    letter-spacing: 4px;
+  }
+
+  .text-wrap {
+    position: relative;
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-row-start: 3;
+    height: fit-content;
+  }
+
+  .vignette {
+    position: absolute;
+    inset: -10% -10%;
+    z-index: 0;
+    background: radial-gradient(
+      ellipse at 45% 50%,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.72) 35%,
+      rgba(0, 0, 0, 0.38) 60%,
+      transparent 100%
+    );
+    filter: url(#roughen);
+    pointer-events: none;
+  }
+
+  .card p {
+    position: relative;
+    z-index: 2;
+    font-size: clamp(1.4rem, 2.2161vw + 1.338rem, 2.2rem);
+    line-height: 1.85;
+    color: rgb(225, 210, 178);
+    letter-spacing: 0.03em;
+    margin: 0;
+    padding: 0.5rem 0;
+  }
+
+  @media (max-width: 900px) {
+    .card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 2rem;
+    }
+    .card h2 {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .text-wrap {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .vignette {
+      inset: -40% -20%;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .content {
+      padding: 24px 16px;
+    }
+    .card p {
+      font-size: clamp(1.1rem, 4vw, 1.6rem);
+    }
+    .vignette {
+      inset: -50% -25%;
+    }
+  }
+</style>

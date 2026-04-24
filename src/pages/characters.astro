@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import CharacterCard from "../components/CharacterCard.astro";
 import MusicButton from "../components/MusicButton.astro";
 import SmokeEffect from "../components/SmokeEffect.astro";
+import Parallax from "../components/Parallax.astro";
 import "../styles/global.css";
 const characters = [
   {
@@ -42,12 +43,16 @@ const characters = [
   <div class="background"></div>
 
   <div class="logo-container">
-    <img id="logo" src="/images/Logo_valheim.webp" alt="Logo de Valheim" />
+    <img
+      id="logo"
+      src="/images/logos/Logo_valheim.webp"
+      alt="Logo de Valheim"
+    />
   </div>
 
   <img
     id="characters-logo"
-    src="/images/personajes_logo.png"
+    src="/images/logos/personajes_logo.png"
     alt="Logo de Personajes"
   />
 
@@ -74,6 +79,7 @@ const characters = [
     <div class="overlay hidden"></div>
   </section>
 
+  <Parallax />
   <SmokeEffect />
   <MusicButton />
 

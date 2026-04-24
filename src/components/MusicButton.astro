@@ -29,3 +29,80 @@
 </button>
 
 <script src="../scripts/music.js"></script>
+
+<style>
+  .music-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(20, 14, 4, 0.95) 0%,
+      rgba(40, 30, 15, 0.9) 100%
+    );
+    border: 2px solid var(--color-gold-dark);
+    border-radius: 50%;
+    color: var(--color-gold);
+
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 15px 3px rgba(130, 103, 40, 0.3),
+      inset 0 1px 0 rgba(220, 195, 120, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .music-btn:hover {
+    border-color: var(--gold);
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 25px 5px rgba(180, 151, 76, 0.5),
+      inset 0 1px 0 rgba(220, 195, 120, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .music-btn svg {
+    width: 22px;
+    height: 22px;
+    transition: all 0.3s ease;
+  }
+
+  /* Por defecto muestra pause (música sonando) */
+  .music-btn .icon-pause {
+    display: block;
+  }
+
+  .music-btn .icon-play {
+    display: none;
+  }
+
+  /* Cuando está pausado, muestra play */
+  .music-btn.paused .icon-pause {
+    display: none;
+  }
+
+  .music-btn.paused .icon-play {
+    display: block;
+  }
+
+  /* Responsive botón música */
+  @media (max-width: 600px) {
+    .music-btn {
+      bottom: 1rem;
+      right: 1rem;
+      width: 44px;
+      height: 44px;
+    }
+
+    .music-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+</style>
