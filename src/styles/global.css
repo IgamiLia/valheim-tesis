@@ -1,3 +1,50 @@
+/* ─── CSS Custom Properties ───────────────────────────────────────────────── */
+:root {
+  /* Colors - Gold Palette */
+  --color-gold: rgb(180, 151, 76);
+  --color-gold-dark: rgb(130, 103, 40);
+  --color-gold-light: rgb(220, 195, 120);
+  --color-gold-glow: rgba(180, 151, 76, 0.35);
+  --color-gold-subtle: rgba(180, 151, 76, 0.08);
+
+  /* Shadows */
+  --shadow-gold-soft: 0 0 6px 1px var(--color-gold-glow);
+  --shadow-gold-strong: 0 0 16px 4px var(--color-gold-glow);
+  --shadow-gold-intense: 0 0 36px 8px rgba(180, 151, 76, 0.5);
+  --shadow-card-base:
+    0 0 0 1px rgba(10, 9, 6, 0.8), 0 0 0 5px var(--color-gold-dark),
+    0 0 24px 4px rgba(130, 103, 40, 0.35),
+    inset 0 1px 0 rgba(220, 195, 120, 0.1);
+  --shadow-card-hover:
+    0 0 0 1px rgba(10, 9, 6, 0.8), 0 0 0 5px var(--color-gold-dark),
+    var(--shadow-gold-intense), 0 12px 32px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(220, 195, 120, 0.2);
+
+  /* Spacing */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  --spacing-2xl: 8rem;
+
+  /* Typography */
+  --font-size-hero: 6rem;
+  --font-size-title: 5rem;
+  --font-size-body: 2rem;
+  --font-size-rune: 16px;
+
+  /* Animation Timing */
+  --transition-fast: 0.3s ease;
+  --transition-medium: 0.4s ease;
+  --transition-slow: 0.6s ease;
+  --animation-glow-duration: 3.5s;
+
+  /* Layout */
+  --card-corner-size: 36px;
+  --card-corner-offset: -6px;
+  --card-border-width: 2px;
+}
+
 html {
   scrollbar-gutter: stable;
 }

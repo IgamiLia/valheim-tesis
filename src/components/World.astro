@@ -1,16 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
 interface Props {
   width?: string;
   height?: string;
 }
 
-const { width = "100vw", height = "100vh" } = Astro.props;
+const { width = "500px", height = "500px" } = Astro.props;
 ---
 
 <Layout>
-  <div class="world" style={`width: ${width}; height: ${height};`}></div>
+  <div class="world" style={`width: ${width}; height: ${height};`}>
+    <div class="corner-tr"></div>
+    <div class="corner-bl"></div>
+  </div>
 </Layout>
 
 <script>
@@ -18,7 +20,7 @@ const { width = "100vw", height = "100vh" } = Astro.props;
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
   import getStarfield from "../scripts/getStarfield.js";
   import { getFresnelMat } from "../scripts/getFresnelMat.js";
-  
+
   const worldContainer = document.querySelector(".world");
   let w = worldContainer?.clientWidth || window.innerWidth;
   let h = worldContainer?.clientHeight || window.innerHeight;
@@ -98,3 +100,81 @@ const { width = "100vw", height = "100vh" } = Astro.props;
   window.addEventListener("resize", resize);
   animate();
 </script>
+
+<style>
+  .world {
+    border: var(--card-border-width) solid var(--color-gold-dark);
+    outline: 1px solid rgba(130, 103, 40, 0.5);
+    outline-offset: 4px;
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 0 5px var(--color-gold-dark),
+      0 0 24px 4px rgba(130, 103, 40, 0.35),
+      inset 0 1px 0 rgba(220, 195, 120, 0.1);
+    border-radius: 2px;
+    overflow: visible;
+    transition: all var(--transition-fast);
+    position: relative;
+  }
+
+  .world::before,
+  .world::after {
+    content: "";
+    position: absolute;
+    width: var(--card-corner-size);
+    height: var(--card-corner-size);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .world::before {
+    top: var(--card-corner-offset);
+    left: var(--card-corner-offset);
+    border-top: var(--card-border-width) solid var(--color-gold);
+    border-left: var(--card-border-width) solid var(--color-gold);
+    border-radius: 0;
+    box-shadow:
+      -2px -2px 8px var(--color-gold-glow),
+      inset 1px 1px 4px rgba(220, 195, 120, 0.2);
+  }
+
+  .world::after {
+    bottom: var(--card-corner-offset);
+    right: var(--card-corner-offset);
+    border-bottom: var(--card-border-width) solid var(--color-gold);
+    border-right: var(--card-border-width) solid var(--color-gold);
+    box-shadow:
+      2px 2px 8px var(--color-gold-glow),
+      inset -1px -1px 4px rgba(220, 195, 120, 0.2);
+  }
+  .corner-tr,
+  .corner-bl {
+    position: absolute;
+    width: var(--card-corner-size);
+    height: var(--card-corner-size);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .corner-tr {
+    top: var(--card-corner-offset);
+    right: var(--card-corner-offset);
+    border-top: var(--card-border-width) solid var(--color-gold);
+    border-right: var(--card-border-width) solid var(--color-gold);
+    box-shadow: 2px -2px 8px var(--color-gold-glow);
+  }
+
+  .corner-bl {
+    bottom: var(--card-corner-offset);
+    left: var(--card-corner-offset);
+    border-bottom: var(--card-border-width) solid var(--color-gold);
+    border-left: var(--card-border-width) solid var(--color-gold);
+    box-shadow: -2px 2px 8px var(--color-gold-glow);
+  }
+
+  @media (max-width: 600px) {
+    .world {
+      display: none;
+    }
+  }
+</style>

@@ -2,23 +2,68 @@
 const biografias = [
   {
     name: "Einar",
-    bio: "Einar es un valiente guerrero que se embarca en una peligrosa aventura para salvar a su pueblo de la amenaza de Moder, el dragón ancestral. Con habilidades de combate excepcionales y un corazón valiente, Einar se convierte en el héroe que su gente necesita para enfrentar los desafíos que se avecinan.",
+    bio: `Guerrero por vocación y por necesidad, Einar entiende la disciplina como una 
+forma de fe. Cada combate, cada herida y cada victoria son pasos hacia un mismo 
+propósito: proteger a su hermana, Runa. Ella es el centro de su mundo, aunque rara vez 
+lo exprese en palabras. Su lealtad no es ruidosa, pero es absoluta. 
+A diferencia de quienes temen el poder que Runa porta, Einar no lo cuestiona. Confía en 
+ella con una certeza inquebrantable, aun cuando sabe que ese poder podría atraer fuerzas 
+capaces de destruirlos a ambos. Si el destino exige un precio, está dispuesto a pagarlo 
+con su propia vida antes de permitir que ella cargue sola con ese peso.  
+En un mundo donde los dioses observan desde la distancia y los hombres vacilan, Einar 
+permanece firme. No como un héroe legendario, sino como un escudo constante, 
+silencioso, incansable y dispuesto a romperse antes que fallar. `,
   },
   {
     name: "Runa",
-    bio: "Runa es una astuta y habilidosa arquera que se une a Einar en su misión para derrotar a Moder. Con su aguda puntería y su ingenio, Runa se convierte en una aliada invaluable en la lucha contra el dragón, aportando su destreza y valentía al equipo.",
+    bio: `La hechicera rúnica fue elegida por fuerzas antiguas que anteceden incluso a la 
+fundación de Midgard. Su cuerpo es el contenedor de un poder ancestral sellado en 
+runas vivientes, un legado prohibido que pocos conocen y que ella misma apenas 
+comprende del todo. Este don, tan vasto como peligroso, la obliga a caminar siempre en 
+el delicado equilibrio entre el orden y la destrucción. Más allá de su rol como núcleo 
+energético y protectora de Midgard, su vínculo más fuerte es con su hermano, Einar. Él 
+es su ancla a la humanidad, la razón por la que reprime el poder que arde en su interior. 
+Cuidarlo no es solo una promesa de sangre, sino el último hilo que la separa de 
+convertirse en aquello que las runas susurran que podría ser. 
+Mientras el mundo avanza hacia un destino incierto, ella permanece en guardia, 
+consciente de que el verdadero peligro no siempre llega desde afuera… sino desde el 
+poder que duerme dentro de sí misma. `,
   },
   {
     name: "Hel",
-    bio: "Hel es una misteriosa hechicera que posee conocimientos ancestrales sobre la magia y los secretos del mundo. A medida que Einar y Runa se adentran en su aventura, Hel se une a ellos para compartir su sabiduría y habilidades mágicas, convirtiéndose en un recurso crucial para enfrentar los desafíos que les esperan.",
+    bio: `Hel es la Señora soberana del reino de los muertos. No fue coronada, el dominio de 
+las almas le pertenece por naturaleza. Gobierna su reino con una calma aterradora. No 
+grita, no castiga por capricho ni se deja llevar por emociones humanas. Cada alma caída 
+es juzgada y confinada bajo reglas que solo ella comprende. Ante Hel no hay súplicas ni 
+redención fácil; la muerte no es un final, sino una sentencia administrada con precisión 
+absoluta. 
+Para algunos, Hel es una diosa; para otros, una maldición inevitable. Ella no reclama 
+adoración ni teme al olvido. `,
   },
   {
     name: "Stalker",
-    bio: "Stalker es un astuto ladrón que se une a Einar y Runa en su misión para derrotar a Moder. Con su habilidad para moverse sigilosamente y su destreza en el combate cuerpo a cuerpo, Sombra se convierte en un aliado valioso en la lucha contra el dragón, aportando su astucia y habilidades únicas al equipo.",
+    bio: `Stalker camina entre los vivos y los caídos, una sombra consciente que no 
+pertenece por completo a ningún reino. Su forma es inestable, como si la muerte nunca 
+hubiera terminado de reclamarlo y la vida lo rechazara por igual. Nadie conoce su 
+verdadero origen ni el propósito que lo guía. No deja huellas, no pronuncia juramentos 
+y jamás explica sus actos. Solo una verdad es incuestionable: sirve a su reina, Hel. Su 
+voluntad no le pertenece; es una extensión del dominio de la Señora de los Muertos. 
+Quienes han cruzado su mirada aseguran haber sentido cómo sus recuerdos más oscuros 
+eran examinados, como si el propio umbral de la muerte los estuviera evaluando. 
+No busca gloria, ni venganza, ni redención. Mientras Hel reine sobre las almas, Stalker 
+continuará su marcha silenciosa, recordándole a los vivos que la frontera entre los 
+mundos es más frágil de lo que creen. `,
   },
   {
     name: "Moder",
-    bio: "Moder es el temible dragón ancestral que amenaza con destruir el mundo de Valheim. Con su poder devastador y su presencia imponente, Moder representa la mayor amenaza que Einar y sus aliados deben enfrentar en su misión para salvar a su pueblo.",
+    bio: `Antes de que los hombres nombraran a los dioses, su hielo y su aliento ya 
+habían dado forma al mundo. De ella descienden los linajes dracónicos, portadores de 
+poder, memoria y destrucción. 
+Antiguamente reinó en Nidafjöll, cuna de los dragones y montaña sagrada donde el 
+tiempo parecía detenido. Sin embargo, su grandeza se volvió motivo de temor. Las 
+mismas fuerzas que alguna vez la veneraron decidieron desterrarla, temiendo el alcance 
+de su poder y la libertad que representaba. Su exilio no fue una derrota, sino una herida 
+que el mundo aún no termina de pagar.`,
   },
   {
     name: "Fader",
@@ -64,8 +109,8 @@ const biografias = [
 
 <style>
   .parallax {
-    height: 110vh;
     width: 100%;
+    height: 100%;
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -98,6 +143,7 @@ const biografias = [
     text-align: center;
     padding: 50px;
     width: 100%;
+    height: 100%;
   }
 
   .card {
@@ -114,8 +160,10 @@ const biografias = [
 
   .card h2 {
     grid-column: span 2 / span 2;
-    grid-row-start: 2;
-    font-size: clamp(5rem, 11.0803vw + 1.6898rem, 10rem);
+    grid-row-start: 1;
+    display: grid;
+    align-items: center;
+    font-size: clamp(5rem, 11.0803vw + 1.6898rem, 8rem);
     position: relative;
     z-index: 2;
     color: transparent;
@@ -128,7 +176,7 @@ const biografias = [
     position: relative;
     grid-column: span 3 / span 3;
     grid-row: span 3 / span 3;
-    grid-row-start: 3;
+    grid-row-start: 2;
     height: fit-content;
   }
 
@@ -150,7 +198,7 @@ const biografias = [
   .card p {
     position: relative;
     z-index: 2;
-    font-size: clamp(1.4rem, 2.2161vw + 1.338rem, 2.2rem);
+    font-size: clamp(0.5rem, 3.3241vw + -0.4931rem, 2rem);
     line-height: 1.85;
     color: rgb(225, 210, 178);
     letter-spacing: 0.03em;
@@ -173,19 +221,13 @@ const biografias = [
       grid-row: 2;
     }
     .vignette {
-      inset: -40% -20%;
+      inset: -5% -5%;
     }
   }
 
   @media (max-width: 600px) {
-    .content {
-      padding: 24px 16px;
-    }
-    .card p {
-      font-size: clamp(1.1rem, 4vw, 1.6rem);
-    }
-    .vignette {
-      inset: -50% -25%;
+    .parallax {
+      display: none;
     }
   }
 </style>
