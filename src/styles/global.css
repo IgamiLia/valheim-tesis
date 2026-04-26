@@ -71,12 +71,13 @@ button,
 input,
 select,
 textarea,
+canvas,
 [role="button"],
 .char-container,
 .pointer {
   cursor:
     url("/cursor/pointer_fixed.cur") 16 2,
-    pointer;
+    pointer !important;
 }
 body::before {
   content: "";

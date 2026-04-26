@@ -1,0 +1,715 @@
+---
+import Layout from "../layouts/Layout.astro";
+interface Props {
+  width?: string;
+  height?: string;
+}
+
+const { width = "500px", height = "500px" } = Astro.props;
+---
+
+<Layout>
+  <div class="world-wrapper">
+    <div class="world" style={`width: ${width}; height: ${height};`}>
+      <div class="corner-tr"></div>
+      <div class="corner-bl"></div>
+      <!-- Modal -->
+      <div class="island-modal" id="islandModal">
+        <div class="modal-rune-bar"></div>
+        <button class="modal-close" id="modalClose" aria-label="Cerrar"
+          >✕</button
+        >
+        <div class="modal-header">
+          <div class="modal-icon" id="modalIcon"></div>
+          <div>
+            <h2 class="modal-name" id="modalName"></h2>
+            <p class="modal-biome" id="modalBiome"></p>
+          </div>
+        </div>
+        <div class="modal-divider">
+          <span class="modal-divider-rune">᛭</span>
+        </div>
+        <div class="modal-lore" id="modalLore"></div>
+        <div class="modal-divider">
+          <span class="modal-divider-rune">᛭</span>
+        </div>
+        <p class="modal-description" id="modalDescription"></p>
+        <div class="modal-footer">
+          <span class="modal-footer-rune">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import * as THREE from "three";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+  import getStarfield from "../scripts/getStarfield.js";
+  import { getFresnelMat } from "../scripts/getFresnelMat.js";
+
+  // ─── Datos de las islas ───────────────────────────────────────────────────
+  const islandsData = [
+    {
+      id: "meadows",
+      name: "Prados del Inicio",
+      biome: "Prados",
+      icon: "🌿",
+      maskFile: "/images/world/masks/meadows_mask.png",
+      lore: "Donde todo comenzó. Las tierras verdes y suaves reciben a los recién llegados con la promesa de un nuevo destino.",
+      description:
+        "Bioma de inicio. Hierbas altas, flores silvestres y suaves colinas esconden los primeros secretos de este mundo. Los Greylings acechan en los bordes del bosque.",
+    },
+    {
+      id: "nidafjoll",
+      name: "Nidafjöll",
+      biome: "montaña del norte",
+      icon: "🗻",
+      maskFile: "/images/world/masks/nidafjoll_mask.png",
+      lore: `La luz aquí es cruel. Cuando las nubes cubren el cielo, la montaña se vuelve gris e interminable. La visibilidad engaña: la niebla puede envolverlo todo en segundos y borrar el mundo más allá de unos pasos. La vida existe, pero es hostil. Criaturas del hielo observan desde las alturas, y en las cavernas resuenan ecos que no siempre son del viento. Las ruinas entre la nieve hablan de intentos fallidos por dominar un lugar que nunca quiso ser conquistado.`,
+      description:
+        "Montaña sagrada al norte de Ashlands donde yace Moder, madre de los dragones",
+    },
+    {
+      id: "swamp",
+      name: "Las Marismas Eternas",
+      biome: "Pantano",
+      icon: "🍄",
+      maskFile: "/images/world/masks/swamp_mask.png",
+      lore: "Nadie llega a las marismas por elección. La niebla perpetua y el lodo que engulle a los incautos.",
+      description:
+        "Bioma peligroso. Aguas estancadas, árboles muertos y una lluvia que nunca cesa. Draugr, Blobs y la temida Leech habitan estas tierras malditas.",
+    },
+    {
+      id: "mountains",
+      name: "Las Cimas Eternas",
+      biome: "Montañas",
+      icon: "🏔️",
+      maskFile: "/images/world/masks/mountains_mask.png",
+      lore: "Las montañas son el puente entre el mundo de los hombres y el de los dioses. Solo los más fuertes sobreviven.",
+      description:
+        "Bioma extremo. Picos nevados donde la visibilidad es casi nula. Lobos, Dragones y el Golem de Piedra defienden las reservas de Plata.",
+    },
+    {
+      id: "plains",
+      name: "Las Llanuras sin Fin",
+      biome: "Llanura",
+      icon: "🌾",
+      maskFile: "/images/world/masks/plains_mask.png",
+      lore: "Tierras abiertas donde el viento no encuentra obstáculos y los Fulings construyen sus aldeas de hueso y barro.",
+      description:
+        "Bioma avanzado. Campos de cebada salvaje y colinas bajas ocultan campamentos Fuling. Las Deathsquitos son pequeñas, veloces y letales.",
+    },
+    {
+      id: "mistlands",
+      name: "Las Tierras de la Niebla",
+      biome: "Tierras de Niebla",
+      icon: "🕸️",
+      maskFile: "/images/world/masks/mistlands_mask.png",
+      lore: "Una niebla mágica y densa que no puede ser disipada por ningún viento natural cubre estas tierras.",
+      description:
+        "Bioma endgame. Estructuras de los Dvergr y telarañas gigantes cubren un paisaje de roca negra. Los Seekers son criaturas insectoides mortales.",
+    },
+    {
+      id: "ashlands",
+      name: "Las Tierras de Ceniza",
+      biome: "Tierras de Ceniza",
+      icon: "🔥",
+      maskFile: "/images/world/masks/ashlands_mask.png",
+      lore: "Al sur del mundo conocido, donde el mar hierve y el cielo es rojo sangre, yace el dominio de Surtr.",
+      description:
+        "Bioma final. Lava, ceniza y llamas eternas. Los Charred y criaturas no-muertas de fuego defienden una tierra que parece el propio Muspelheim.",
+    },
+  ];
+
+  type IslandDef = (typeof islandsData)[0];
+  type MaskData = {
+    island: IslandDef;
+    ctx: CanvasRenderingContext2D;
+    width: number;
+    height: number;
+    texture: THREE.CanvasTexture;
+  };
+
+  // ─── Cargar máscaras ──────────────────────────────────────────────────────
+  function loadMask(island: IslandDef): Promise<MaskData> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0);
+        // También creamos una THREE.CanvasTexture para el shader
+        const texture = new THREE.CanvasTexture(canvas);
+        resolve({ island, ctx, width: img.width, height: img.height, texture });
+      };
+      img.onerror = reject;
+      img.src = island.maskFile;
+    });
+  }
+
+  function sampleMask(mask: MaskData, u: number, v: number): boolean {
+    const px = Math.max(
+      0,
+      Math.min(mask.width - 1, Math.floor(u * mask.width)),
+    );
+    const py = Math.max(
+      0,
+      Math.min(mask.height - 1, Math.floor(v * mask.height)),
+    );
+    return mask.ctx.getImageData(px, py, 1, 1).data[0] > 128;
+  }
+
+  // ─── Hover shader (borde dorado + glow sobre la isla) ────────────────────
+  // Usa edge detection sobre la máscara: pinta donde hay transición negro→blanco
+  const hoverVertexShader = `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+
+  const hoverFragmentShader = `
+    uniform sampler2D uMask;       // máscara de la isla activa
+    uniform float uTime;           // tiempo para animación
+    uniform float uOpacity;        // fade in/out (0→1)
+    uniform vec2 uTexelSize;       // 1/width, 1/height de la máscara
+
+    varying vec2 vUv;
+
+    // UV directo — el sampling del CPU invierte V, el shader no debe hacerlo
+    vec2 maskUV(vec2 uv) {
+      return uv;
+    }
+
+    void main() {
+      vec2 muv = maskUV(vUv);
+
+      // Sample del pixel central y vecinos (detección de borde 3x3)
+      float c  = texture2D(uMask, muv).r;
+      float n  = texture2D(uMask, muv + vec2(0.0,  uTexelSize.y) * 2.0).r;
+      float s  = texture2D(uMask, muv + vec2(0.0, -uTexelSize.y) * 2.0).r;
+      float e  = texture2D(uMask, muv + vec2( uTexelSize.x, 0.0) * 2.0).r;
+      float w  = texture2D(uMask, muv + vec2(-uTexelSize.x, 0.0) * 2.0).r;
+      float ne = texture2D(uMask, muv + vec2( uTexelSize.x,  uTexelSize.y) * 1.5).r;
+      float nw = texture2D(uMask, muv + vec2(-uTexelSize.x,  uTexelSize.y) * 1.5).r;
+      float se = texture2D(uMask, muv + vec2( uTexelSize.x, -uTexelSize.y) * 1.5).r;
+      float sw = texture2D(uMask, muv + vec2(-uTexelSize.x, -uTexelSize.y) * 1.5).r;
+
+      float minNeighbor = min(min(min(n, s), min(e, w)), min(min(ne, nw), min(se, sw)));
+      float maxNeighbor = max(max(max(n, s), max(e, w)), max(max(ne, nw), max(se, sw)));
+
+      // Borde: pixel dentro de la isla pero con vecinos afuera (o viceversa)
+      float edge = 0.0;
+      if (c > 0.5) {
+        // Estamos dentro → borde interior si algún vecino es negro
+        edge = 1.0 - minNeighbor;
+      } else {
+        // Estamos fuera → glow exterior si algún vecino es blanco
+        edge = maxNeighbor * 0.5;
+      }
+
+      // Fill tenue dentro de la isla
+      float fill = c * 0.08;
+
+      // Animación: pulso suave
+      float pulse = 0.75 + 0.25 * sin(uTime * 2.5);
+
+      // Color dorado
+      vec3 gold = vec3(0.95, 0.75, 0.2);
+
+      float alpha = (edge * pulse + fill) * uOpacity;
+
+      if (alpha < 0.01) discard;
+
+      gl_FragColor = vec4(gold, alpha);
+    }
+  `;
+
+  // Material del overlay hover
+  const hoverUniforms = {
+    uMask: { value: null as THREE.CanvasTexture | null },
+    uTime: { value: 0.0 },
+    uOpacity: { value: 0.0 },
+    uTexelSize: { value: new THREE.Vector2(1 / 2048, 1 / 1024) },
+  };
+
+  const hoverMaterial = new THREE.ShaderMaterial({
+    vertexShader: hoverVertexShader,
+    fragmentShader: hoverFragmentShader,
+    uniforms: hoverUniforms,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+
+  // ─── Scene setup ──────────────────────────────────────────────────────────
+  const worldContainer = document.querySelector(".world") as HTMLElement;
+  let w = worldContainer?.clientWidth || window.innerWidth;
+  let h = worldContainer?.clientHeight || window.innerHeight;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
+  camera.position.z = 5;
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  worldContainer?.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+
+  const earthGroup = new THREE.Group();
+  earthGroup.rotation.z = (-23.4 * Math.PI) / 180;
+  scene.add(earthGroup);
+
+  const geometry = new THREE.IcosahedronGeometry(1, 12);
+  const loader = new THREE.TextureLoader();
+
+  const material = new THREE.MeshPhongMaterial({
+    map: loader.load("/images/world/earthMesh.png"),
+  });
+  const earth = new THREE.Mesh(geometry, material);
+  earth.castShadow = true;
+  earth.receiveShadow = true;
+  earthGroup.add(earth);
+
+  // Overlay hover — esfera levemente más grande, mismo grupo → rota junto
+  const hoverOverlay = new THREE.Mesh(geometry, hoverMaterial);
+  hoverOverlay.scale.set(1.002, 1.002, 1.002);
+  earthGroup.add(hoverOverlay);
+
+  const star = getStarfield();
+  scene.add(star);
+
+  const sunLight = new THREE.DirectionalLight(0xffffff, 1);
+  sunLight.position.set(-2, 0.5, 1.5);
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  sunLight.shadow.bias = -0.001;
+  sunLight.shadow.radius = 8;
+  sunLight.shadow.camera.left = -5;
+  sunLight.shadow.camera.right = 5;
+  sunLight.shadow.camera.top = 5;
+  sunLight.shadow.camera.bottom = -5;
+  sunLight.shadow.camera.near = 0.5;
+  sunLight.shadow.camera.far = 50;
+  scene.add(sunLight);
+
+  const ambientLight = new THREE.AmbientLight(0xbbbbbb, 0.1);
+  scene.add(ambientLight);
+
+  const cloudsMat = new THREE.MeshStandardMaterial({
+    map: loader.load("/images/world/earthcloudmap.jpg"),
+    transparent: true,
+    opacity: 0.2,
+    blending: THREE.AdditiveBlending,
+    alphaMap: loader.load("/images/world/earthcloudmaptrans.jpg"),
+  });
+  const clouds = new THREE.Mesh(geometry, cloudsMat);
+  clouds.castShadow = true;
+  clouds.receiveShadow = true;
+  earthGroup.add(clouds);
+
+  const fresnelMat = getFresnelMat();
+  const atmosphere = new THREE.Mesh(geometry, fresnelMat);
+  atmosphere.scale.set(1.001, 1.001, 1.001);
+  earthGroup.add(atmosphere);
+
+  earthGroup.rotation.x = 0.1;
+  earthGroup.rotation.z = -0.2;
+  earthGroup.scale.set(2, 2, 2);
+
+  // ─── Raycaster + UV sampling ──────────────────────────────────────────────
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  let masks: MaskData[] = [];
+  let currentHovered: IslandDef | null = null;
+  let targetOpacity = 0;
+
+  function getIslandAtHit(hit: THREE.Intersection): IslandDef | null {
+    if (!hit.uv) return null;
+    const u = hit.uv.x;
+    const v = 1 - hit.uv.y;
+    for (const mask of masks) {
+      if (sampleMask(mask, u, v)) return mask.island;
+    }
+    return null;
+  }
+
+  function getMaskForIsland(island: IslandDef): MaskData | null {
+    return masks.find((m) => m.island.id === island.id) ?? null;
+  }
+
+  // ─── Modal ────────────────────────────────────────────────────────────────
+  const modal = document.getElementById("islandModal")!;
+  const modalName = document.getElementById("modalName")!;
+  const modalBiome = document.getElementById("modalBiome")!;
+  const modalIcon = document.getElementById("modalIcon")!;
+  const modalLore = document.getElementById("modalLore")!;
+  const modalDescription = document.getElementById("modalDescription")!;
+  const modalClose = document.getElementById("modalClose")!;
+
+  function openModal(island: IslandDef) {
+    modalName.textContent = island.name;
+    modalBiome.textContent = island.biome;
+    modalIcon.textContent = island.icon;
+    modalLore.textContent = island.lore;
+    modalDescription.textContent = island.description;
+    modal.classList.add("visible");
+  }
+
+  modalClose.addEventListener("click", () => modal.classList.remove("visible"));
+
+  // ─── Mouse events ─────────────────────────────────────────────────────────
+  renderer.domElement.addEventListener("mousemove", (e) => {
+    if (masks.length === 0) return;
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObject(earth);
+
+    if (hits.length > 0) {
+      const island = getIslandAtHit(hits[0]);
+      if (island) {
+        // Si cambiamos de isla, swappeamos la textura del shader
+        if (!currentHovered || currentHovered.id !== island.id) {
+          const maskData = getMaskForIsland(island);
+          if (maskData) {
+            hoverUniforms.uMask.value = maskData.texture;
+            // Actualizamos uTexelSize según dimensiones reales de esta máscara
+            hoverUniforms.uTexelSize.value.set(
+              1 / maskData.width,
+              1 / maskData.height,
+            );
+          }
+        }
+        currentHovered = island;
+        targetOpacity = 1;
+        renderer.domElement.style.cursor = "pointer";
+        return;
+      }
+    }
+
+    currentHovered = null;
+    targetOpacity = 0;
+    renderer.domElement.style.cursor = "default";
+  });
+
+  renderer.domElement.addEventListener("click", () => {
+    if (currentHovered) openModal(currentHovered);
+  });
+
+  // ─── Resize ───────────────────────────────────────────────────────────────
+  window.addEventListener("resize", () => {
+    w = worldContainer?.clientWidth || window.innerWidth;
+    h = worldContainer?.clientHeight || window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+
+  // ─── Animate ──────────────────────────────────────────────────────────────
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const elapsed = clock.getElapsedTime();
+
+    earthGroup.rotation.y += 0.002;
+    controls.update();
+
+    // Tiempo para el pulso del shader
+    hoverUniforms.uTime.value = elapsed;
+
+    // Fade in/out suave de la opacidad del hover (lerp)
+    hoverUniforms.uOpacity.value +=
+      (targetOpacity - hoverUniforms.uOpacity.value) * 0.08;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // ─── Cargar máscaras ──────────────────────────────────────────────────────
+  Promise.all(islandsData.map(loadMask))
+    .then((loaded) => {
+      masks = loaded;
+      console.log(`✅ ${masks.length} máscaras de isla cargadas`);
+    })
+    .catch((err) => console.error("Error cargando máscaras:", err));
+</script>
+
+<style>
+  .world-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .world {
+    border: var(--card-border-width) solid var(--color-gold-dark);
+    /* outline: 1px solid rgba(130, 103, 40, 0.5); */
+    outline-offset: 4px;
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 0 4px var(--color-gold-dark),
+      0 0 24px 2px rgba(130, 103, 40, 0.35),
+      inset 0 1px 0 rgba(220, 195, 120, 0.1);
+    border-radius: 2px;
+    overflow: visible;
+    transition: all var(--transition-fast);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .world::before,
+  .world::after {
+    content: "";
+    position: absolute;
+    width: var(--card-corner-size);
+    height: var(--card-corner-size);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .world::before {
+    top: var(--card-corner-offset);
+    left: var(--card-corner-offset);
+    border-top: var(--card-border-width) solid var(--color-gold);
+    border-left: var(--card-border-width) solid var(--color-gold);
+    border-radius: 0;
+    box-shadow:
+      -2px -2px 8px var(--color-gold-glow),
+      inset 1px 1px 4px rgba(220, 195, 120, 0.2);
+  }
+
+  .world::after {
+    bottom: var(--card-corner-offset);
+    right: var(--card-corner-offset);
+    border-bottom: var(--card-border-width) solid var(--color-gold);
+    border-right: var(--card-border-width) solid var(--color-gold);
+    box-shadow:
+      2px 2px 8px var(--color-gold-glow),
+      inset -1px -1px 4px rgba(220, 195, 120, 0.2);
+  }
+
+  .corner-tr,
+  .corner-bl {
+    position: absolute;
+    width: var(--card-corner-size);
+    height: var(--card-corner-size);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .corner-tr {
+    top: var(--card-corner-offset);
+    right: var(--card-corner-offset);
+    border-top: var(--card-border-width) solid var(--color-gold);
+    border-right: var(--card-border-width) solid var(--color-gold);
+    box-shadow: 2px -2px 8px var(--color-gold-glow);
+  }
+
+  .corner-bl {
+    bottom: var(--card-corner-offset);
+    left: var(--card-corner-offset);
+    border-bottom: var(--card-border-width) solid var(--color-gold);
+    border-left: var(--card-border-width) solid var(--color-gold);
+    box-shadow: -2px 2px 8px var(--color-gold-glow);
+  }
+
+  /* ── Modal ── */
+  .island-modal {
+    position: absolute;
+    left: calc(100% + 2rem);
+    top: 50%;
+    transform: translateY(-50%) translateX(12px);
+    width: 500px;
+    background: linear-gradient(
+      160deg,
+      rgba(18, 14, 8, 0.97) 0%,
+      rgba(10, 8, 4, 0.99) 100%
+    );
+    border: 1px solid var(--color-gold-dark, #6b4f1a);
+    outline: 1px solid rgba(130, 103, 40, 0.3);
+    outline-offset: 3px;
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.9),
+      0 0 40px rgba(130, 103, 40, 0.25),
+      inset 0 1px 0 rgba(220, 195, 120, 0.08);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+    overflow: hidden;
+    text-wrap: pretty;
+  }
+
+  .island-modal.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .modal-rune-bar {
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-gold-dark, #6b4f1a) 20%,
+      var(--color-gold, #c9a84c) 50%,
+      var(--color-gold-dark, #6b4f1a) 80%,
+      transparent
+    );
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: rgba(180, 140, 60, 0.5);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 2px 4px;
+    transition: color 0.2s;
+    z-index: 10;
+  }
+
+  .modal-close:hover {
+    color: var(--color-gold, #c9a84c);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 20px 14px;
+  }
+
+  .modal-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.4));
+    flex-shrink: 0;
+  }
+
+  .modal-biome {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(180, 140, 60, 0.65);
+    margin: 0 0 4px;
+    font-family: "Cinzel", serif;
+  }
+
+  .modal-name {
+    font-size: 1.15rem;
+    margin: 0;
+    color: var(--color-gold, #c9a84c);
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 0 0 20px rgba(201, 168, 76, 0.3);
+  }
+
+  .modal-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+    margin: 2px 0;
+  }
+
+  .modal-divider::before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(130, 103, 40, 0.6));
+  }
+
+  .modal-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(130, 103, 40, 0.6), transparent);
+  }
+
+  .modal-divider-rune {
+    color: rgba(180, 140, 60, 0.4);
+    font-size: 0.7rem;
+  }
+
+  .modal-lore {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    text-wrap: pretty;
+    line-height: 1.7;
+    color: rgba(210, 185, 130, 0.85);
+    font-style: italic;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    position: relative;
+  }
+
+  .modal-lore::before {
+    content: '"';
+    font-size: 3rem;
+    color: rgba(130, 103, 40, 0.15);
+    position: absolute;
+    top: 4px;
+    left: 14px;
+    line-height: 1;
+    font-family: Georgia, serif;
+  }
+
+  .modal-description {
+    padding: 12px 20px 6px;
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: rgba(180, 160, 110, 0.7);
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    margin: 0;
+  }
+
+  .modal-footer {
+    padding: 14px 20px 16px;
+    text-align: center;
+  }
+
+  .modal-footer-rune {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: rgba(130, 103, 40, 0.3);
+  }
+
+  @media (max-width: 600px) {
+    .world {
+      width: 90vw !important;
+      height: 90vw !important;
+    }
+    .island-modal {
+      left: 50%;
+      top: 100%;
+      transform: translateY(0) translateX(-50%);
+      width: 90vw;
+    }
+    .island-modal.visible {
+      transform: translateY(0) translateX(-50%);
+    }
+  }
+</style>
