@@ -657,7 +657,7 @@ const { width = "500px", height = "500px" } = Astro.props;
 
   .modal-lore {
     padding: 12px 20px;
-    font-size: 1.2rem;
+    font-size: clamp(.8rem, .8864vw + .5352rem, 1.2rem);
     text-wrap: pretty;
     line-height: 1.7;
     color: rgba(210, 185, 130, 0.85);
