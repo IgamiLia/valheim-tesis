@@ -1,0 +1,215 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <main>
+    <img class="logo" src="/images/logos/Logo_valheim.webp" alt="imagen" />
+
+    <div class="text-wrap">
+      <div class="vignette"></div>
+      <h1 class="parallax-text">
+        Bienvenidos a la wiki de Valheim: Larga vida a la Reina
+      </h1>
+    </div>
+
+    <p>
+      <span>Valheim: Larga vida a la Reina</span> es una webserie dirigida por <span
+        >Ailen Braga</span
+      > y <span>Matías Aguirre</span>, dos jugadores casuales del videojuego
+      <span><a href="valheim-pag">Valheim</a></span>, el cual trata de
+      sobrevivir en un mundo vasto lleno de criaturas de la mitología nórdica.
+      Hicieron uso del modo multijugador para realizar el rodaje de una
+      miniserie de fantasía principalmente para un proyecto con fines
+      académicos. Los capítulos son cortos, menos de un minuto de duración y
+      están disponibles en la plataforma de <span><a href="#tk">TikTok</a></span
+      > e <span><a href="#ig">Instagram</a></span>, aunque el último es
+      utilizado con fines publicitarios.
+    </p>
+
+    <nav class="contenido">
+      <h2>Contenido</h2>
+      <ol>
+        <li><a href="#sinopsis">Sinopsis</a></li>
+        <li>
+          <details open>
+            <summary>Personajes</summary>
+            <ol>
+              <li><a href="#einar">Einar</a></li>
+              <li><a href="#runa">Runa</a></li>
+              <li><a href="#hel">Hel</a></li>
+              <li><a href="#stalker">Stalker</a></li>
+              <li><a href="#moder">Moder</a></li>
+              <li><a href="#fader">Fader</a></li>
+            </ol>
+          </details>
+        </li>
+        <li><a href="#mapa">Mapa de Midgard</a></li>
+        <li>
+          <details open>
+            <summary>Biografías</summary>
+            <ol>
+              <li><a href="#runa-bio">La hechicera de runas</a></li>
+              <li><a href="#einar-bio">El luchador más leal</a></li>
+              <li><a href="#hel-bio">La diosa de los muertos</a></li>
+              <li><a href="#stalker-bio">El acechador silencioso</a></li>
+              <li><a href="#moder-bio">Madre de dragones</a></li>
+              <li><a href="#fader-bio">El padre desterrado</a></li>
+            </ol>
+          </details>
+        </li>
+        <li><a href="#banda">Banda sonora</a></li>
+        <li><a href="#musica">Música utilizada en la webserie</a></li>
+      </ol>
+    </nav>
+  </main>
+</Layout>
+
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo {
+    margin-top: 3rem;
+    align-self: center;
+    width: 55vw;
+  }
+
+  .text-wrap {
+    padding: 1rem;
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  h1 {
+    z-index: 2;
+    position: relative;
+  }
+
+  .vignette {
+    position: absolute;
+    inset: -10% -3%;
+    z-index: 0;
+    background: radial-gradient(
+      ellipse at 45% 50%,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.72) 35%,
+      rgba(0, 0, 0, 0.38) 60%,
+      transparent 100%
+    );
+    filter: url(#roughen);
+    pointer-events: none;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.85;
+    color: rgb(225, 210, 178);
+    letter-spacing: 0.03em;
+    margin: 0 auto;
+  }
+
+  span,
+  span a {
+    font-weight: bold;
+    color: rgb(233, 200, 101);
+  }
+
+  .contenido {
+    background-color: rgba(0, 0, 0, 0.438);
+    width: fit-content;
+    padding: 1.5rem 2rem;
+    border: var(--card-border-width) solid var(--color-gold-dark);
+    outline-offset: 4px;
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 0 4px var(--color-gold-dark),
+      0 0 24px 2px rgba(130, 103, 40, 0.35),
+      inset 0 1px 0 rgba(220, 195, 120, 0.1);
+    border-radius: 2px;
+    overflow: visible;
+    transition: all var(--transition-fast);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .contenido h2 {
+    text-shadow: var(--color-gold) 0px 0px 24px;
+    -webkit-text-stroke: 0.9px var(--color-gold-light);
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: transparent;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .contenido ol {
+    list-style: none;
+    counter-reset: item;
+  }
+
+  .contenido > ol > li {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0.5rem;
+  }
+
+  .contenido summary {
+    list-style: none;
+    color: var(--color-gold-light);
+    font-weight: bold;
+    margin: 0.5rem;
+  }
+
+  .contenido summary::after {
+    margin: 0.2rem;
+    display: inline-block;
+    content: " ►";
+    font-size: 0.8rem;
+    transition: transform var(--transition-fast);
+  }
+
+  .contenido details[open] summary::after {
+    transform: rotate(90deg);
+  }
+
+  .contenido details > ol > li {
+    font-weight: normal;
+    font-size: 1rem;
+    margin: 0.4rem;
+  }
+
+  .contenido ol li {
+    counter-increment: item;
+  }
+
+  .contenido ol li::before {
+    content: counters(item, ".") " - ";
+    font-weight: bold;
+    color: var(--color-gold-light);
+  }
+
+  .contenido ol ol {
+    margin-left: 1.5rem;
+  }
+
+  .contenido > ol > li:has(details)::before {
+    content: none;
+  }
+
+  .contenido > ol > li:has(details) > details > summary::before {
+    content: counters(item, ".") " - ";
+    font-weight: bold;
+    color: var(--color-gold-light);
+  }
+
+  a {
+    color: var(--color-gold-light);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+</style>

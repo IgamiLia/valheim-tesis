@@ -56,10 +56,12 @@ html {
 }
 
 body {
+  color: rgb(225, 210, 178);
   font-family: "Book Antiqua", "Palatino Linotype", Palatino, Georgia, serif;
   display: grid;
   place-items: center;
   width: 100svw;
+  max-width: 1900px;
   min-height: 100svh;
   cursor:
     url("/cursor/cursor_fixed.cur") 0 0,
@@ -72,6 +74,7 @@ input,
 select,
 textarea,
 canvas,
+summary,
 [role="button"],
 .char-container,
 .pointer {
