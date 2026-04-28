@@ -56,22 +56,24 @@ const { width = "500px", height = "500px" } = Astro.props;
   import { getFresnelMat } from "../scripts/getFresnelMat.js";
 
   // ─── Datos de las islas ───────────────────────────────────────────────────
-  const islandsData = [
+ const islandsData = [
     {
       id: "meadows",
       name: "Praderas",
       biome: "Prados del inicio",
       icon: "🌿",
       maskFile: "/images/world/masks/meadows_mask.png",
-      lore: `Se extienden en suaves colinas cubiertas de hierba verde y flores silvestres, meciéndose con el viento como si el mundo aún no conociera la guerra. Robles y hayas se alzan dispersos, firmes y antiguos, mientras arroyos claros serpentean la tierra fértil, trazando caminos silenciosos entre la vida. La luz del día cae abierta, sin resistencia, como si nada tuviera que ocultarse.
-A simple vista, las praderas inspiran una calma engañosa. Los cuervos observan desde la distancia, inmóviles, y los animales salvajes recorren el paisaje con una paz que parece intacta. Entre la vegetación, ruinas de piedra y madera emergen cubiertas por el tiempo, recordando que incluso este paraíso fue habitado… y abandonado.`,
+      lore: `Se extienden en suaves colinas cubiertas de hierba verde y flores silvestres, meciéndose con el viento, <em>ajenas a la guerra</em>.<br><br>
+Robles y hayas se alzan dispersos, firmes y antiguos, mientras arroyos claros serpentean la tierra fértil, trazando silenciosos caminos entre la vida. La luz del día cae abierta, sin resistencia, como si nada tuviera que ocultarse.<br><br>
+A simple vista, las praderas inspiran una <strong>calma engañosa</strong>. Los cuervos observan desde la distancia, inmóviles, y los animales salvajes recorren el paisaje con una paz intacta.<br><br>
+Entre la vegetación, ruinas de piedra y madera emergen cubiertas por el tiempo, recordando que incluso este paraíso fue habitado… <em>y luego abandonado</em>.`,
       description:
         "Extensas praderas de aparente calma, hogar de los hermanos Runa y Einar, donde la vida prospera sobre los restos de un pasado olvidado.",
     },
     {
       id: "nidafjoll",
       name: "Nidafjöll",
-      biome: "montaña del norte",
+      biome: "La cima eterna",
       icon: "🗻",
       maskFile: "/images/world/masks/nidafjoll_mask.png",
       lore: `<em>La luz aquí es cruel</em>. Cuando las nubes cubren el cielo, la montaña se vuelve <strong>gris e interminable</strong>.<br><br> La visibilidad engaña: la niebla puede envolverlo todo en segundos y borrar el mundo más allá de unos pasos.<br><br> La vida existe, pero es <strong>hostil</strong>. Criaturas del hielo observan desde las alturas, y en las cavernas resuenan ecos que no siempre son del viento.<br> Las ruinas entre la nieve hablan de intentos fallidos por dominar un lugar que nunca quiso ser <strong>conquistado</strong>.`,
@@ -84,18 +86,24 @@ A simple vista, las praderas inspiran una calma engañosa. Los cuervos observan 
       biome: "Pantano",
       icon: "🍄",
       maskFile: "/images/world/masks/swamp_mask.png",
-      lore: `El pantano se extiende como una herida abierta en la tierra, donde el agua estancada ahoga todo rastro de vida. La niebla no se disipa; se aferra al suelo, espesa, ocultando formas que se mueven sin sonido. Los árboles, retorcidos y sin hojas, se alzan como restos de algo que alguna vez estuvo vivo… y no terminó de morir.
-Criaturas corrompidas emergen del barro y las aguas oscuras, arrastrando consigo el hedor de la descomposición. Cada paso es incierto, cada sombra puede moverse. Aquí, la muerte no llega de golpe: se filtra lentamente.`,
+      lore: `El pantano se extiende como una <strong>herida abierta</strong> en la tierra, donde el agua estancada ahoga todo rastro de vida.<br><br>
+La niebla no se disipa; se aferra al suelo, espesa, ocultando formas que se mueven sin sonido. Los árboles, retorcidos y sin hojas, se alzan como restos de algo que alguna vez estuvo vivo… <em>y no terminó de morir</em>.<br><br>
+Criaturas corrompidas emergen del barro y las aguas oscuras, arrastrando consigo el hedor de la descomposición. Cada paso es incierto, cada sombra puede moverse.<br><br>
+Aquí, la muerte no llega de golpe: <em>se filtra lentamente</em>.`,
       description:
         "Aguas estancadas y niebla perpetua donde la tierra se pudre sin descanso; en lo profundo, Bonemass reposa, latiendo entre la corrupción.",
     },
     {
       id: "mountains",
-      name: "Las Cimas Eternas",
-      biome: "Montañas",
+      name: "Montañas",
+      biome: "Montañas del norte",
       icon: "🏔️",
       maskFile: "/images/world/masks/mountains_mask.png",
-      lore: "Las montañas son el puente entre el mundo de los hombres y el de los dioses. Solo los más fuertes sobreviven.",
+      lore: `Las montañas se alzan por encima de todo lo conocido, donde el aire se vuelve escaso y el frío no perdona. La nieve cubre cada superficie, ocultando grietas y huellas que desaparecen en cuestión de instantes. Aquí, el mundo parece detenido, como si hubiera sido abandonado a su propia desolación.  
+<br><br>
+El viento no cesa; corta la piel y arrastra consigo un silencio que no es natural. Entre los picos y acantilados, sombras se desplazan con una familiaridad inquietante, criaturas que no sobreviven al frío… <strong>pertenecen a él</strong>. Algunas observan desde la distancia, otras acechan en la oscuridad, esperando el momento exacto.  
+<br><br>
+Se dice que estas tierras no están vacías, sino heredadas. Los descendientes de <strong><em>Moder</em></strong> recorren los cielos y las cumbres, marcando el territorio como propio, como si el frío mismo respondiera a su linaje.`,
       description:
         "Bioma extremo. Picos nevados donde la visibilidad es casi nula. Lobos, Dragones y el Golem de Piedra defienden las reservas de Plata.",
     },
@@ -105,20 +113,28 @@ Criaturas corrompidas emergen del barro y las aguas oscuras, arrastrando consigo
       biome: "Llanura",
       icon: "🌾",
       maskFile: "/images/world/masks/plains_mask.png",
-      lore: `Las llanuras se extienden sin refugio, abiertas y silenciosas, donde el horizonte parece no tener fin. La hierba dorada oculta amenazas que apenas dejan tiempo para reaccionar, y el viento arrastra ecos de una violencia constante. Criaturas salvajes recorren el territorio con dominio absoluto, mientras figuras hostiles emergen en la distancia, vigilando cada intruso. Aquí no hay cobijo, solo exposición.
-En el corazón de este vasto páramo, el poder toma forma en Yagluth, cuya presencia convierte la tierra en un escenario de destrucción implacable.`,
+      lore: `Las llanuras se extienden sin refugio, <strong>abiertas y silenciosas</strong>, donde el horizonte parece no tener fin.<br><br>
+La hierba dorada oculta amenazas que apenas dejan tiempo para reaccionar, y el viento arrastra ecos de una violencia constante. Criaturas salvajes recorren el territorio con dominio absoluto, mientras figuras hostiles emergen en la distancia, vigilando cada intruso.<br><br>
+Aquí no hay cobijo, <em>solo exposición</em>.<br><br>
+En el corazón de este vasto páramo, el poder toma forma en <strong>Yagluth</strong>, cuya presencia convierte la tierra en un escenario de destrucción implacable.`,
       description:
         "Llanuras abiertas y hostiles donde no existe refugio, dominadas por la presencia de Yagluth.",
     },
     {
       id: "mistlands",
-      name: "Las Tierras de la Niebla",
-      biome: "Tierras de Niebla",
+      name: "Mistlands",
+      biome: "Tierras de la Niebla",
       icon: "🕸️",
       maskFile: "/images/world/masks/mistlands_mask.png",
-      lore: "Una niebla mágica y densa que no puede ser disipada por ningún viento natural cubre estas tierras.",
+      lore: `Las <em>Tierras de la Niebla</em> no solo ocultan el camino: <strong>ocultan a quienes lo habitan</strong>. Entre la bruma, figuras de ojos brillantes observan desde estructuras antiguas, silenciosas, midiendo cada movimiento antes de decidir si intervenir.<br> No todos atacan de inmediato; algunos esperan, otros reaccionan… como si aún conservaran una voluntad propia.  
+<br><br>
+Más allá, en lo alto, algo se desplaza entre la niebla con un sonido grave y distante. Cuando aparece, el aire se tensa y la calma se rompe en un instante. Su presencia no pasa desapercibida: <strong>anuncia destrucción antes de mostrarse</strong>, como un presagio imposible de ignorar.  
+<br><br>
+En tierra firme, la amenaza es constante y más cercana. Criaturas quitinosas emergen de estructuras infestadas, moviéndose en enjambres que parecen no tener fin. Algunas son rápidas y numerosas, otras avanzan con una resistencia impenetrable, y hay aquellas que no atacan de frente… sino que se aferran, consumiendo lentamente a su presa sin ser vistas.  
+<br><br>
+Aquí, la niebla no es un obstáculo: <em>es una ventaja</em> para todo lo que habita en ella. Y cada paso que das, algo ya lo ha anticipado.`,
       description:
-        "Bioma endgame. Estructuras de los Dvergr y telarañas gigantes cubren un paisaje de roca negra. Los Seekers son criaturas insectoides mortales.",
+        "Un territorio cubierto por niebla densa, donde criaturas ocultas cazan en silencio y cada sonido anuncia una amenaza que ya está cerca.",
     },
     {
       id: "ashlands",
@@ -126,13 +142,10 @@ En el corazón de este vasto páramo, el poder toma forma en Yagluth, cuya prese
       biome: "Tierras de Ceniza",
       icon: "🔥",
       maskFile: "/images/world/masks/ashlands_mask.png",
-      lore: `El suelo está cubierto de ceniza caliente y roca quebradiza, que cruje bajo cada paso 
-como si ocultara brasas vivas. Grietas incandescentes atraviesan la tierra, exhalando calor y un resplandor que tiñe el paisaje incluso de día.
- Aquí no crece nada; la vida fue 
-reemplazada por restos carbonizados y estructuras derretidas que alguna vez tuvieron forma. 
-El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pulmones, 
-y la visibilidad se distorsiona entre columnas de ceniza que ascienden lentamente hacia 
-un cielo perpetuamente cubierto.`,
+      lore: `El suelo está cubierto de <strong>ceniza caliente</strong> y roca quebradiza, que cruje bajo cada paso como si ocultara brasas vivas.<br><br>
+Grietas incandescentes atraviesan la tierra, exhalando calor y un resplandor que tiñe el paisaje incluso de día.<br><br>
+Aquí no crece nada; la vida fue reemplazada por restos carbonizados y estructuras derretidas que alguna vez tuvieron forma.<br><br>
+El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pulmones, y la visibilidad se distorsiona entre columnas de ceniza que ascienden lentamente hacia un cielo <em>perpetuamente cubierto</em>.`,
       description:
         "Hel, soberana de los caídos, extendió su dominio más allá de Helheim, reclamando estas tierras como un reflejo ardiente de su reino.",
     },
