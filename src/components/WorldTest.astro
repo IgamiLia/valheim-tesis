@@ -67,7 +67,7 @@ A simple vista, las praderas inspiran una calma engañosa. Los cuervos observan 
       biome: "montaña del norte",
       icon: "🗻",
       maskFile: "/images/world/masks/nidafjoll_mask.png",
-      lore: `La luz aquí es cruel. Cuando las nubes cubren el cielo, la montaña se vuelve gris e interminable. La visibilidad engaña: la niebla puede envolverlo todo en segundos y borrar el mundo más allá de unos pasos. La vida existe, pero es hostil. Criaturas del hielo observan desde las alturas, y en las cavernas resuenan ecos que no siempre son del viento. Las ruinas entre la nieve hablan de intentos fallidos por dominar un lugar que nunca quiso ser conquistado.`,
+      lore: `<em>La luz aquí es cruel</em>. Cuando las nubes cubren el cielo, la montaña se vuelve <strong>gris e interminable</strong>.<br><br> La visibilidad engaña: la niebla puede envolverlo todo en segundos y borrar el mundo más allá de unos pasos.<br><br> La vida existe, pero es <strong>hostil</strong>. Criaturas del hielo observan desde las alturas, y en las cavernas resuenan ecos que no siempre son del viento.<br> Las ruinas entre la nieve hablan de intentos fallidos por dominar un lugar que nunca quiso ser <strong>conquistado</strong>.`,
       description:
         "Montaña sagrada al norte de Ashlands donde yace Moder, madre de los dragones",
     },
@@ -371,7 +371,7 @@ un cielo perpetuamente cubierto.`,
     modalName.textContent = island.name;
     modalBiome.textContent = island.biome;
     modalIcon.textContent = island.icon;
-    modalLore.textContent = island.lore;
+    modalLore.innerHTML = island.lore;
     modalDescription.textContent = island.description;
     modal.classList.add("visible");
   }
@@ -670,7 +670,7 @@ un cielo perpetuamente cubierto.`,
     text-wrap: pretty;
     line-height: 1.7;
     color: rgba(210, 185, 130, 0.85);
-    font-style: italic;
+    /* font-style: italic; */
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     position: relative;
   }

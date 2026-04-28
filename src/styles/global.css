@@ -93,3 +93,16 @@ body::before {
   z-index: -1;
   filter: brightness(0.6);
 }
+
+.gold {
+  color: transparent !important;
+  background: linear-gradient(
+      90deg,
+      var(--color-gold-light),
+      var(--color-gold-dark),
+      var(--color-gold-light)
+    )
+    repeat !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+}

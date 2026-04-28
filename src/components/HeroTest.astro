@@ -3,6 +3,39 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
+  <svg
+    style="position:absolute;width:0;height:0;overflow:hidden"
+    aria-hidden="true"
+  >
+    <defs>
+      <filter
+        id="grain"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.85"
+          numOctaves="4"
+          seed="2"
+          stitchTiles="stitch"
+          result="noise"></feTurbulence>
+        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"
+        ></feColorMatrix>
+        <feBlend
+          in="SourceGraphic"
+          in2="grayNoise"
+          mode="overlay"
+          result="blended"></feBlend>
+        <feComposite in="blended" in2="SourceGraphic" operator="in"
+        ></feComposite>
+      </filter>
+    </defs>
+  </svg>
+
   <main>
     <img class="logo" src="/images/logos/Logo_valheim.webp" alt="imagen" />
 
@@ -162,6 +195,7 @@ import Layout from "../layouts/Layout.astro";
     list-style: none;
     color: var(--color-gold-light);
     font-weight: bold;
+    cursor: pointer;
   }
 
   .contenido summary::after {
@@ -188,8 +222,17 @@ import Layout from "../layouts/Layout.astro";
 
   .contenido ol li::before {
     content: counters(item, ".") " - ";
-    font-weight: bold;
-    color: var(--color-gold-light);
+    font-weight: 900;
+    font-family: "Georgia", serif;
+    letter-spacing: 0.05em;
+    vertical-align: baseline;
+    color: #9b7c16;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.95),
+      0 -1px 0 rgba(255, 210, 80, 0.18),
+      -1px 0 0 rgba(0, 0, 0, 0.7);
+    -webkit-text-stroke: 0.4px #3d2600;
+    filter: url(#grain);
   }
 
   .contenido ol ol {
@@ -202,13 +245,25 @@ import Layout from "../layouts/Layout.astro";
 
   .contenido > ol > li:has(details) > details > summary::before {
     content: counters(item, ".") " - ";
-    font-weight: bold;
-    color: var(--color-gold-light);
+    font-weight: 900;
+    font-family: "Georgia", serif;
+    letter-spacing: 0.05em;
+    color: #9b7c16;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.95),
+      0 -1px 0 rgba(255, 210, 80, 0.18),
+      -1px 0 0 rgba(0, 0, 0, 0.7);
+    -webkit-text-stroke: 0.4px #3d2600;
+    filter: url(#grain);
   }
 
   a {
     color: var(--color-gold-light);
     text-decoration: none;
     transition: all var(--transition-fast);
+  }
+
+  a:hover {
+    color: var(--color-gold);
   }
 </style>
