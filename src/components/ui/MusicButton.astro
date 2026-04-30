@@ -2,11 +2,7 @@
 
 ---
 
-<div id="soundtrack">
-  <audio src="/ost/characters.mp3" autoplay loop></audio>
-</div>
-
-<button id="music-toggle" class="music-btn" aria-label="Toggle music">
+<button class="music-btn" aria-label="Toggle music">
   <svg
     class="icon-pause"
     viewBox="0 0 24 24"
@@ -28,7 +24,21 @@
   </svg>
 </button>
 
-<script src="../scripts/music.js"></script>
+<script type="module">
+  import { audioManager } from "@lib/audioManager";
+
+  const btn = document.currentScript.previousElementSibling;
+
+  btn.addEventListener("click", () => {
+    if (audioManager.isPlaying) {
+      audioManager.pause();
+      btn.setAttribute("aria-pressed", "false");
+    } else {
+      audioManager.audio.play();
+      btn.setAttribute("aria-pressed", "true");
+    }
+  });
+</script>
 
 <style>
   .music-btn {

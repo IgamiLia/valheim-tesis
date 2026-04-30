@@ -43,6 +43,7 @@
   --card-corner-size: 36px;
   --card-corner-offset: -6px;
   --card-border-width: 2px;
+  --world-size: clamp(500px, 50vw, 800px);
 }
 
 html {
@@ -61,8 +62,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100svw;
-  max-width: 1900px;
+  width: 100%;
+  max-width: 100%;
   min-height: 100svh;
   cursor:
     url("/cursor/cursor_fixed.cur") 0 0,
@@ -89,7 +90,6 @@ body::before {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 100svw;
   height: 100%;
   z-index: -1;
   filter: brightness(0.6);

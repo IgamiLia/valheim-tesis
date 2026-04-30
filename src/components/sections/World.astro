@@ -1,16 +1,15 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "@layouts/Layout.astro";
 interface Props {
   width?: string;
   height?: string;
 }
 
-const { width = "500px", height = "500px" } = Astro.props;
 ---
 
 <Layout>
   <div class="world-wrapper">
-    <div class="world" style={`width: ${width}; height: ${height};`}>
+    <div class="world">
       <div class="corner-tr"></div>
       <div class="corner-bl"></div>
       <!-- Modal -->
@@ -52,8 +51,8 @@ const { width = "500px", height = "500px" } = Astro.props;
 <script>
   import * as THREE from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-  import getStarfield from "../scripts/getStarfield.js";
-  import { getFresnelMat } from "../scripts/getFresnelMat.js";
+  import getStarfield from "../../scripts/getStarfield.js";
+  import { getFresnelMat } from "../../scripts/getFresnelMat.js";
 
   // ─── Datos de las islas ───────────────────────────────────────────────────
  const islandsData = [
@@ -499,13 +498,13 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 2rem;
     width: 100%;
+    height: 100vh;
   }
 
   .world {
     border: var(--card-border-width) solid var(--color-gold-dark);
-    /* outline: 1px solid rgba(130, 103, 40, 0.5); */
     outline-offset: 4px;
     box-shadow:
       0 0 0 1px rgba(10, 9, 6, 0.8),
@@ -517,6 +516,8 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     transition: all var(--transition-fast);
     position: relative;
     flex-shrink: 0;
+    width: var(--world-size);
+    height: var(--world-size);
   }
 
   .world::before,
@@ -581,7 +582,9 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     left: calc(100% + 2rem);
     top: 50%;
     transform: translateY(-50%) translateX(12px);
-    width: 500px;
+    width: max-content;
+    max-width: var(--world-size);
+    height: var(--world-size);
     background: linear-gradient(
       160deg,
       rgba(18, 14, 8, 0.97) 0%,
@@ -723,7 +726,7 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
 
   .modal-description {
     padding: 12px 20px 6px;
-    font-size: 0.78rem;
+    font-size: clamp(.78rem, .4vw + .7rem, 1rem);
     line-height: 1.65;
     color: rgba(180, 160, 110, 0.7);
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
@@ -758,7 +761,8 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
       left: 50%;
       top: calc(100% + 2rem);
       transform: translateY(0) translateX(-50%);
-      width: 90vw;
+      width: 90vw !important;
+      height: auto;
     }
     .island-modal.visible {
       transform: translateY(0) translateX(-50%);

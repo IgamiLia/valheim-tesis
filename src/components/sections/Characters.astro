@@ -1,48 +1,43 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import CharacterCard from "../components/CharacterCard.astro";
-import MusicButton from "../components/MusicButton.astro";
-import SmokeEffect from "../components/SmokeEffect.astro";
-import Parallax from "../components/Parallax.astro";
-import "../styles/global.css";
-import World from "../components/World.astro";
-import WorldTest from "../components/WorldTest.astro";
+import Layout from "@layouts/Layout.astro";
+import CharacterCard from "@components/ui/CharacterCard.astro";
+import "@styles/global.css";
 const characters = [
   {
     name: "Einar",
     img: "/images/EinarVsModer.webp",
-    portrait: "/images/Einar-removebg-preview.png",
+    portrait: "/images/einar_character.png",
   },
   {
     name: "Runa",
     img: "/images/EinarVsModer.webp",
-    portrait: "/images/upscalemedia-transformed.png",
+    portrait: "/images/einar_character.png",
   },
   {
     name: "Hel",
     img: "/images/EinarVsModer.webp",
-    portrait: "/images/Einar-removebg-preview.png",
+    portrait: "/images/einar_character.png",
   },
   {
     name: "Sombra",
     img: "/images/EinarVsModer.webp",
-    portrait: "/images/Einar-removebg-preview.png",
+    portrait: "/images/einar_character.png",
   },
   {
     name: "Moder",
     img: "/images/EinarVsModer.webp",
-    portrait: "/images/Einar-removebg-preview.png",
+    portrait: "/images/einar_character.png",
   },
   {
     name: "Fader",
     img: "/images/EinarVsModer.webp",
-    portrait: "/images/Einar-removebg-preview.png",
+    portrait: "/images/einar_character.png",
   },
 ];
 ---
 
 <Layout title="Valheim: Larga vida a La Reina | Personajes">
-  <div class="background"></div>
+  <!-- <div class="background"></div> -->
 
   <div class="logo-container">
     <img
@@ -80,8 +75,5 @@ const characters = [
     <div class="overlay hidden"></div>
   </section>
 
-  <SmokeEffect />
-  <MusicButton />
-
-  <script src="../scripts/characters.js"></script>
+  <script src="@scripts/characters.js"></script>
 </Layout>
