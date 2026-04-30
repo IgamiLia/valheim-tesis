@@ -7,9 +7,16 @@ import HeroTest1 from "../components/HeroTest1.astro";
 import HeroTest2 from "../components/HeroTest2.astro";
 import HeroTest3 from "../components/HeroTest3.astro";
 import Characters from "./characters.astro";
+import WorldTest from "../components/WorldTest.astro";
+import Parallax from "../components/Parallax.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<Layout />
-<Hero />
-<Characters />
+<Layout>
+  <HeroTest3 />
+  <Characters />
+  <WorldTest width="50vw" height="50vw" />
+  <Parallax />
+  <Footer />
+</Layout>
 <!-- <World width="100vw" height="100vh" /> -->

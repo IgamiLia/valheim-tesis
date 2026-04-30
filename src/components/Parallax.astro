@@ -118,24 +118,47 @@ que el mundo aún no termina de pagar.`,
     justify-content: center;
     align-items: center;
     scroll-snap-align: start;
+    position: relative;
   }
-  .parallax:nth-of-type(1) {
-    background-image: url("/images/parallax/bg1.jpg");
+
+  .parallax::before,
+  .parallax::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .parallax::before {
+    top: 0;
+    height: 15%;
+    background: linear-gradient(to bottom, rgb(0, 0, 0), transparent);
+  }
+
+  .parallax::after {
+    bottom: 0;
+    height: 15%;
+    background: linear-gradient(to top, rgb(0, 0, 0), transparent);
   }
   .parallax:nth-of-type(2) {
-    background-image: url("/images/parallax/bg2.jpg");
+    background-image: url("/images/parallax/parallax_einar.png");
   }
   .parallax:nth-of-type(3) {
-    background-image: url("/images/parallax/bg3.jpg");
-  }
-  .parallax:nth-of-type(4) {
-    background-image: url("/images/parallax/bg1.jpg");
-  }
-  .parallax:nth-of-type(5) {
     background-image: url("/images/parallax/bg2.jpg");
   }
-  .parallax:nth-of-type(6) {
+  .parallax:nth-of-type(4) {
     background-image: url("/images/parallax/bg3.jpg");
+  }
+  .parallax:nth-of-type(5) {
+    background-image: url("/images/parallax/bg1.jpg");
+  }
+  .parallax:nth-of-type(6) {
+    background-image: url("/images/parallax/parallax_moder.png");
+  }
+  .parallax:nth-of-type(7) {
+    background-image: url("/images/parallax/parallax_fader.png");
   }
 
   .content {

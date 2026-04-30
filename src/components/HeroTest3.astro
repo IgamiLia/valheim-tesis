@@ -26,49 +26,85 @@ import Layout from "../layouts/Layout.astro";
       > e <span><a href="#ig">Instagram</a></span>, aunque el último es
       utilizado con fines publicitarios.
     </p>
+    <div class="index-aside">
+      <nav class="contenido">
+        <h2>Contenido</h2>
+        <ol>
+          <li><a href="#sinopsis">Sinopsis</a></li>
+          <li>
+            <details open>
+              <summary>Personajes</summary>
+              <ol>
+                <li><a href="#einar">Einar</a></li>
+                <li><a href="#runa">Runa</a></li>
+                <li><a href="#hel">Hel</a></li>
+                <li><a href="#stalker">Stalker</a></li>
+                <li><a href="#moder">Moder</a></li>
+                <li><a href="#fader">Fader</a></li>
+              </ol>
+            </details>
+          </li>
+          <li><a href="#mapa">Mapa de Midgard</a></li>
+          <li>
+            <details open>
+              <summary>Biografías</summary>
+              <ol>
+                <li><a href="#runa-bio">La hechicera de runas</a></li>
+                <li><a href="#einar-bio">El luchador más leal</a></li>
+                <li><a href="#hel-bio">La diosa de los muertos</a></li>
+                <li><a href="#stalker-bio">El acechador silencioso</a></li>
+                <li><a href="#moder-bio">Madre de dragones</a></li>
+                <li><a href="#fader-bio">El padre desterrado</a></li>
+              </ol>
+            </details>
+          </li>
+          <li><a href="#banda">Banda sonora</a></li>
+          <li><a href="#musica">Música utilizada en la webserie</a></li>
+        </ol>
+      </nav>
+      <aside>
+        <h2>Podés ver la webserie en</h2>
+        <a
+          class="tiktok"
+          href="https://www.tiktok.com/@valheimwebserie?_t=ZM-8xM7SS8YEYY&_r=1"
+          ><img src="/images/tiktok-icon-dark.svg" alt="TikTok" /><span
+            >TikTok</span
+          ></a
+        >
 
-    <nav class="contenido">
-      <h2>Contenido</h2>
-      <ol>
-        <li><a href="#sinopsis">Sinopsis</a></li>
-        <li>
-          <details open>
-            <summary>Personajes</summary>
-            <ol>
-              <li><a href="#einar">Einar</a></li>
-              <li><a href="#runa">Runa</a></li>
-              <li><a href="#hel">Hel</a></li>
-              <li><a href="#stalker">Stalker</a></li>
-              <li><a href="#moder">Moder</a></li>
-              <li><a href="#fader">Fader</a></li>
-            </ol>
-          </details>
-        </li>
-        <li><a href="#mapa">Mapa de Midgard</a></li>
-        <li>
-          <details open>
-            <summary>Biografías</summary>
-            <ol>
-              <li><a href="#runa-bio">La hechicera de runas</a></li>
-              <li><a href="#einar-bio">El luchador más leal</a></li>
-              <li><a href="#hel-bio">La diosa de los muertos</a></li>
-              <li><a href="#stalker-bio">El acechador silencioso</a></li>
-              <li><a href="#moder-bio">Madre de dragones</a></li>
-              <li><a href="#fader-bio">El padre desterrado</a></li>
-            </ol>
-          </details>
-        </li>
-        <li><a href="#banda">Banda sonora</a></li>
-        <li><a href="#musica">Música utilizada en la webserie</a></li>
-      </ol>
-    </nav>
+        <a
+          class="ig"
+          href="https://www.instagram.com/valheimwebserie?igsh=Njk4Zzdic2luZzZk"
+        >
+          <img src="/images/instagram-icon.svg" alt="Instagram" /><span
+            >Instagram</span
+          >
+        </a>
+      </aside>
+    </div>
   </main>
 </Layout>
 
 <style>
+  section {
+    position: relative;
+    width: 100dvw;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .background {
+    position: fixed;
+    inset: 0;
+    background-image: url("backgrounds/00_background.png");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+  }
   main {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   .logo {
@@ -85,6 +121,7 @@ import Layout from "../layouts/Layout.astro";
   }
 
   h1 {
+    font-size: clamp(1.25rem, calc(0.614rem + 3.182vw), 3rem);
     z-index: 2;
     position: relative;
   }
@@ -105,7 +142,7 @@ import Layout from "../layouts/Layout.astro";
   }
 
   p {
-    font-size: 1.2rem;
+    font-size: clamp(0.875rem, calc(0.557rem + 1.591vw), 1.75rem);
     line-height: 1.85;
     color: rgb(225, 210, 178);
     letter-spacing: 0.03em;
@@ -139,7 +176,7 @@ import Layout from "../layouts/Layout.astro";
   .contenido h2 {
     text-shadow: var(--color-gold) 0px 0px 24px;
     -webkit-text-stroke: 0.9px var(--color-gold-light);
-    font-size: 1.8rem;
+    font-size: clamp(1rem, calc(0.455rem + 2.727vw), 2.5rem);
     letter-spacing: 2px;
     color: transparent;
     font-weight: bold;
@@ -153,15 +190,17 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .contenido > ol > li {
-    font-size: 1.1rem;
+    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
     font-weight: bold;
     margin: 0.5rem;
   }
 
   .contenido summary {
+    /*size de las listas desplegables*/
     list-style: none;
     color: var(--color-gold-light);
     font-weight: bold;
+    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
   }
   .contenido summary::after {
     margin: 0.2rem;
@@ -176,18 +215,22 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .contenido details > ol > li {
+    /*size de los subíndices del índice*/
     font-weight: normal;
-    font-size: 1rem;
+    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
     margin: 0.4rem;
   }
 
   .contenido ol li {
+    /*size de los subíndices del índice*/
     counter-increment: item;
   }
 
   .contenido ol li::before {
+    /*números principales del índice*/
     content: counters(item, ".") " - ";
     font-weight: 900;
+    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
     color: #9b7c16;
     opacity: 0.85;
     text-shadow:
@@ -198,7 +241,6 @@ import Layout from "../layouts/Layout.astro";
     letter-spacing: 0.05em;
     font-family: "Georgia", serif;
     filter: contrast(1.15) brightness(1.1) saturate(1.2) sepia(0.5);
-    vertical-align: baseline;
   }
 
   .contenido ol ol {
@@ -209,9 +251,11 @@ import Layout from "../layouts/Layout.astro";
     content: none;
   }
 
+  /*números principales del índice*/
   .contenido > ol > li:has(details) > details > summary::before {
     content: counters(item, ".") " - ";
     font-weight: 900;
+    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
     color: #9b7c16;
     opacity: 0.85;
     text-shadow:
@@ -228,5 +272,69 @@ import Layout from "../layouts/Layout.astro";
     color: var(--color-gold-light);
     text-decoration: none;
     transition: all var(--transition-fast);
+  }
+
+  .index-aside {
+    display: flex;
+    gap: 13rem;
+    width: 100%;
+  }
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6rem;
+    background-color: rgba(0, 0, 0, 0.438);
+    width: fit-content;
+    min-width: 330px;
+    height: calc(fit-content + 1rem);
+    padding: 1.5rem 2rem;
+    border: var(--card-border-width) solid var(--color-gold-dark);
+    outline-offset: 4px;
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 0 4px var(--color-gold-dark),
+      0 0 24px 2px rgba(130, 103, 40, 0.35),
+      inset 0 1px 0 rgba(220, 195, 120, 0.1);
+    border-radius: 2px;
+  }
+
+  aside h2 {
+    text-shadow: var(--color-gold) 0px 0px 24px;
+    -webkit-text-stroke: 0.9px var(--color-gold-light);
+    font-size: clamp(1rem, calc(0.455rem + 2.727vw), 2.5rem);
+    letter-spacing: 1.5px;
+    color: transparent;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  aside span {
+    font-weight: bold;
+    color: rgb(233, 200, 101);
+    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
+  }
+
+  aside a {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 5rem;
+    height: auto;
+    align-items: center;
+    margin: 1rem;
+    filter: drop-shadow(0 0 5px var(--color-gold-light));
+  }
+
+  aside a:hover {
+    filter: drop-shadow(0 0 15px var(--color-gold-light));
+    transform: scale(1.05);
+  }
+  @media (max-width: 900px) {
+    .index-aside {
+      flex-direction: column;
+      gap: 3rem;
+    }
   }
 </style>
