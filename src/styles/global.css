@@ -1,3 +1,14 @@
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 /* ─── CSS Custom Properties ───────────────────────────────────────────────── */
 :root {
   /* Colors - Gold Palette */
@@ -44,6 +55,22 @@
   --card-corner-offset: -6px;
   --card-border-width: 2px;
   --world-size: clamp(500px, 50vw, 800px);
+
+  /* Serie / Surface Colors */
+  --gold-dim: rgba(180, 151, 76, 0.2);
+  --gold-glow: rgba(180, 151, 76, 0.08);
+  --gold-bright: rgba(180, 151, 76, 0.6);
+  --dark: #080706;
+  --surface: #100f0d;
+  --surface-2: #181610;
+  --text: #ede5d0;
+  --text-muted: rgba(237, 229, 208, 0.45);
+
+  /* Border Radius */
+  --radius: 4px;
+
+  /* Transition (Short) */
+  --transition: 0.25s ease;
 }
 
 html {
