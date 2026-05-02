@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@datocms/cda-client':
+        specifier: ^0.2.10
+        version: 0.2.10(graphql@16.13.2)
       astro:
         specifier: ^6.1.9
         version: 6.1.9(rollup@4.60.2)
+      graphql-request:
+        specifier: ^7.4.0
+        version: 7.4.0(graphql@16.13.2)
       three:
         specifier: ^0.184.0
         version: 0.184.0
@@ -20,6 +26,14 @@ importers:
         version: 0.184.0
 
 packages:
+
+  '@0no-co/graphql.web@1.2.0':
+    resolution: {integrity: sha512-/1iHy9TTr63gE1YcR5idjx8UREz1s0kFhydf3bBLCXyqjhkIc6igAzTOx3zPifCwFR87tsh/4Pa9cNts6d2otw==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
 
   '@astrojs/compiler@3.0.1':
     resolution: {integrity: sha512-z97oYbdebO5aoWzuJ/8q5hLK232+17KcLZ7cJ8BCWk6+qNzVxn/gftC0KzMBUTD8WAaBkPpNSQK6PXLnNrZ0CA==}
@@ -64,6 +78,9 @@ packages:
 
   '@clack/prompts@1.2.0':
     resolution: {integrity: sha512-4jmztR9fMqPMjz6H/UZXj0zEmE43ha1euENwkckKKel4XpSfokExPo5AiVStdHSAlHekz4d0CA/r45Ok1E4D3w==}
+
+  '@datocms/cda-client@0.2.10':
+    resolution: {integrity: sha512-uj5M4t0ifwlxBRFdgqnt1Sb4A8RNkv1e6sYa6gP6Bh+oGQwhtnGnvyNazA4KpLhqrO2UAw3dbKB5WltcB5JeAg==}
 
   '@dimforge/rapier3d-compat@0.12.0':
     resolution: {integrity: sha512-uekIGetywIgopfD97oDL5PfeezkFpNhwlzlaEYNOA0N6ghdsOvh/HYjSMek5Q2O1PYvRSDFcqFVJl4r4ZBwOow==}
@@ -226,6 +243,11 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@graphql-typed-document-node/core@3.2.0':
+    resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -788,6 +810,15 @@ packages:
 
   github-slugger@2.0.0:
     resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
+
+  graphql-request@7.4.0:
+    resolution: {integrity: sha512-xfr+zFb/QYbs4l4ty0dltqiXIp07U6sl+tOKAb0t50/EnQek6CVVBLjETXi+FghElytvgaAWtIOt3EV7zLzIAQ==}
+    peerDependencies:
+      graphql: 14 - 16
+
+  graphql@16.13.2:
+    resolution: {integrity: sha512-5bJ+nf/UCpAjHM8i06fl7eLyVC9iuNAjm9qzkiu2ZGhM0VscSvS6WDPfAwkdkBuoXGM9FJSbKl6wylMwP9Ktig==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   h3@1.15.11:
     resolution: {integrity: sha512-L3THSe2MPeBwgIZVSH5zLdBBU90TOxarvhK9d04IDY2AmVS8j2Jz2LIWtwsGOU3lu2I5jCN7FNvVfY2+XyF+mg==}
@@ -1426,6 +1457,10 @@ packages:
 
 snapshots:
 
+  '@0no-co/graphql.web@1.2.0(graphql@16.13.2)':
+    optionalDependencies:
+      graphql: 16.13.2
+
   '@astrojs/compiler@3.0.1': {}
 
   '@astrojs/internal-helpers@0.9.0':
@@ -1499,6 +1534,12 @@ snapshots:
       fast-string-width: 1.1.0
       fast-wrap-ansi: 0.1.6
       sisteransi: 1.0.5
+
+  '@datocms/cda-client@0.2.10(graphql@16.13.2)':
+    dependencies:
+      '@0no-co/graphql.web': 1.2.0(graphql@16.13.2)
+    transitivePeerDependencies:
+      - graphql
 
   '@dimforge/rapier3d-compat@0.12.0': {}
 
@@ -1584,6 +1625,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.27.7':
     optional: true
+
+  '@graphql-typed-document-node/core@3.2.0(graphql@16.13.2)':
+    dependencies:
+      graphql: 16.13.2
 
   '@img/colour@1.1.0':
     optional: true
@@ -2132,6 +2177,13 @@ snapshots:
     optional: true
 
   github-slugger@2.0.0: {}
+
+  graphql-request@7.4.0(graphql@16.13.2):
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.13.2)
+      graphql: 16.13.2
+
+  graphql@16.13.2: {}
 
   h3@1.15.11:
     dependencies:
