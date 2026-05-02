@@ -1,0 +1,985 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { queryDatoCMS } from "@lib/datocms";
+
+interface DatoCover {
+  url: string;
+  alt: string | null;
+}
+
+interface Episode {
+  id: string;
+  number: number;
+  title: string;
+  description: string;
+  behindTheScenes: string;
+  releaseDate: string;
+  tiktokUrl: string;
+  cover: DatoCover | null;
+}
+
+const EPISODES_QUERY = `
+    query AllEpisodes {
+        allEpisodes(orderBy: number_ASC) {
+            id
+            number
+            title
+            description
+            behindTheScenes
+            releaseDate
+            tiktokUrl
+            cover {
+                url
+                alt
+            }
+        }
+    }
+`;
+
+const data = (await queryDatoCMS(EPISODES_QUERY)) as { allEpisodes: Episode[] };
+const episodes = data.allEpisodes;
+
+if (!episodes.length) {
+  throw new Error("[Serie.astro] No se encontraron episodios en DatoCMS.");
+}
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("es-AR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+---
+
+<Layout>
+  <div class="serie-wrapper">
+    <div class="cinematic-bg" aria-hidden="true">
+      <div class="bg-orb bg-orb--1"></div>
+      <div class="bg-orb bg-orb--2"></div>
+      <div class="bg-grain"></div>
+    </div>
+
+    <header class="serie-header">
+      <div class="header-inner">
+        <p class="serie-label">
+          <span class="label-line"></span>
+          Web Serie
+          <span class="label-line"></span>
+        </p>
+        <h1 class="serie-title">Valheim: Larga vida a La Reina</h1>
+        <p class="serie-count">{episodes.length} episodios</p>
+      </div>
+    </header>
+
+    <div class="serie-stage">
+      <!-- Episodio destacado -->
+      <div class="featured">
+        {
+          episodes.map((ep, i) => (
+            <article
+              class={`featured-episode ${i === 0 ? "active" : ""}`}
+              data-ep={ep.number}
+              data-title={ep.title}
+              data-description={ep.description}
+              data-bts={ep.behindTheScenes}
+              data-date={formatDate(ep.releaseDate)}
+              data-tiktok={ep.tiktokUrl}
+              data-cover={ep.cover?.url ?? ""}
+            />
+          ))
+        }
+
+        <!-- Contenido del episodio activo (actualizado por JS) -->
+        <div class="featured-inner">
+          <div class="featured-cover-wrap">
+            <div class="cover-frame">
+              <img
+                id="featured-cover"
+                src={episodes[0].cover?.url ?? ""}
+                alt={episodes[0].cover?.alt ?? episodes[0].title}
+                class="featured-cover-img"
+              />
+              <div class="cover-shine" aria-hidden="true"></div>
+            </div>
+            <div class="cover-shadow" aria-hidden="true"></div>
+          </div>
+
+          <div class="featured-info">
+            <div class="info-top">
+              <span class="ep-badge" id="ep-badge">
+                Episodio {episodes[0].number}
+              </span>
+              <h2 class="ep-title" id="ep-title">
+                {episodes[0].title}
+              </h2>
+              <p class="ep-date" id="ep-date">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                {formatDate(episodes[0].releaseDate)}
+              </p>
+            </div>
+
+            <div class="info-mid">
+              <div class="info-block">
+                <p class="info-label">Sinopsis</p>
+                <p class="ep-description" id="ep-description">
+                  {episodes[0].description}
+                </p>
+              </div>
+
+              <div class="info-block">
+                <p class="info-label">Detrás de cámara</p>
+                <p class="ep-bts" id="ep-bts">
+                  {episodes[0].behindTheScenes}
+                </p>
+              </div>
+            </div>
+
+            <div class="info-bottom">
+              <a
+                id="ep-tiktok-link"
+                href={episodes[0].tiktokUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tiktok-btn"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.95a8.28 8.28 0 004.84 1.55V7.05a4.85 4.85 0 01-1.07-.36z"
+                  ></path>
+                </svg>
+                Ver en TikTok
+                <svg
+                  class="arrow"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+
+              <nav class="ep-nav">
+                <button
+                  id="btn-prev"
+                  class="nav-btn"
+                  disabled
+                  aria-label="Anterior"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+
+                <div class="ep-input-wrap">
+                  <input
+                    type="number"
+                    id="ep-input"
+                    class="ep-input"
+                    min="1"
+                    max={episodes.length}
+                    value={1}
+                    aria-label="Número de episodio"
+                  />
+                  <span class="ep-total">/ {episodes.length}</span>
+                </div>
+
+                <button
+                  id="btn-next"
+                  class="nav-btn"
+                  disabled={episodes.length === 1}
+                  aria-label="Siguiente"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Catálogo -->
+      <section class="catalogue" aria-label="Lista de episodios">
+        <div class="catalogue-header">
+          <h3 class="catalogue-title">Todos los episodios</h3>
+          <div class="catalogue-line"></div>
+        </div>
+        <div class="catalogue-grid" id="catalogue-grid">
+          {
+            episodes.map((ep, i) => (
+              <button
+                class={`catalogue-card ${i === 0 ? "active" : ""}`}
+                data-index={i}
+                aria-label={`Ver episodio ${ep.number}: ${ep.title}`}
+                style={`animation-delay: ${i * 0.04}s`}
+              >
+                <div class="card-thumb">
+                  {ep.cover ? (
+                    <img
+                      src={ep.cover.url}
+                      alt={ep.cover.alt ?? ep.title}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="card-thumb-placeholder">
+                      <span>{ep.number}</span>
+                    </div>
+                  )}
+                  <div class="card-overlay">
+                    <span class="card-ep-num">Ep. {ep.number}</span>
+                  </div>
+                  <div class="card-active-bar" />
+                </div>
+                <div class="card-info">
+                  <span class="card-title">{ep.title}</span>
+                  {ep.releaseDate && (
+                    <span class="card-date">{formatDate(ep.releaseDate)}</span>
+                  )}
+                </div>
+              </button>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  type EpisodeData = {
+    number: string;
+    title: string;
+    description: string;
+    bts: string;
+    date: string;
+    tiktok: string;
+    cover: string;
+  };
+
+  const cards = document.querySelectorAll<HTMLButtonElement>(".catalogue-card");
+  const articles = document.querySelectorAll<HTMLElement>(".featured-episode");
+
+  const coverImg = document.getElementById(
+    "featured-cover",
+  ) as HTMLImageElement;
+  const epBadge = document.getElementById("ep-badge")!;
+  const epTitle = document.getElementById("ep-title")!;
+  const epDate = document.getElementById("ep-date")!;
+  const epDesc = document.getElementById("ep-description")!;
+  const epBts = document.getElementById("ep-bts")!;
+  const tiktokBtn = document.getElementById(
+    "ep-tiktok-link",
+  ) as HTMLAnchorElement;
+  const btnPrev = document.getElementById("btn-prev") as HTMLButtonElement;
+  const btnNext = document.getElementById("btn-next") as HTMLButtonElement;
+  const epInput = document.getElementById("ep-input") as HTMLInputElement;
+
+  let current = 0;
+
+  function getEpisodeData(index: number): EpisodeData {
+    const el = articles[index];
+    return {
+      number: el.dataset.ep ?? "",
+      title: el.dataset.title ?? "",
+      description: el.dataset.description ?? "",
+      bts: el.dataset.bts ?? "",
+      date: el.dataset.date ?? "",
+      tiktok: el.dataset.tiktok ?? "",
+      cover: el.dataset.cover ?? "",
+    };
+  }
+
+  function loadEpisode(index: number) {
+    if (index < 0 || index >= articles.length) return;
+    current = index;
+
+    const ep = getEpisodeData(index);
+
+    // Fade de la portada
+    coverImg.style.opacity = "0";
+    setTimeout(() => {
+      coverImg.src = ep.cover;
+      coverImg.alt = ep.title;
+      coverImg.style.opacity = "1";
+    }, 180);
+
+    epBadge.textContent = `Episodio ${ep.number}`;
+    epTitle.textContent = ep.title;
+    epDesc.textContent = ep.description;
+    epBts.textContent = ep.bts;
+    tiktokBtn.href = ep.tiktok;
+
+    // Fecha (preserva el ícono SVG)
+    const dateIcon = epDate.querySelector("svg")!.outerHTML;
+    epDate.innerHTML = dateIcon + " " + ep.date;
+
+    epInput.value = ep.number;
+    btnPrev.disabled = index === 0;
+    btnNext.disabled = index === articles.length - 1;
+
+    cards.forEach((c, i) => c.classList.toggle("active", i === index));
+
+    // Scroll suave al featured en móvil
+    if (window.innerWidth < 900) {
+      document
+        .querySelector(".featured-inner")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  btnPrev.addEventListener("click", () => loadEpisode(current - 1));
+  btnNext.addEventListener("click", () => loadEpisode(current + 1));
+
+  epInput.addEventListener("change", () => {
+    const num = parseInt(epInput.value, 10);
+    const idx = Array.from(articles).findIndex(
+      (a) => Number(a.dataset.ep) === num,
+    );
+    if (idx !== -1) loadEpisode(idx);
+    else epInput.value = articles[current].dataset.ep ?? "1";
+  });
+
+  cards.forEach((card, i) =>
+    card.addEventListener("click", () => loadEpisode(i)),
+  );
+</script>
+
+<style>
+  :root {
+    --gold: rgb(180, 151, 76);
+    --gold-dim: rgba(180, 151, 76, 0.2);
+    --gold-glow: rgba(180, 151, 76, 0.08);
+    --gold-bright: rgba(180, 151, 76, 0.6);
+    --dark: #080706;
+    --surface: #100f0d;
+    --surface-2: #181610;
+    --text: #ede5d0;
+    --text-muted: rgba(237, 229, 208, 0.45);
+    --radius: 4px;
+    --transition: 0.25s ease;
+  }
+
+  /* ── Wrapper ── */
+  .serie-wrapper {
+    position: relative;
+    min-height: 100vh;
+    background: var(--dark);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── Fondo ── */
+  .cinematic-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+  }
+
+  .bg-orb--1 {
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(
+      circle,
+      rgba(180, 151, 76, 0.06) 0%,
+      transparent 70%
+    );
+  }
+
+  .bg-orb--2 {
+    width: 400px;
+    height: 400px;
+    bottom: 10%;
+    right: -100px;
+    background: radial-gradient(
+      circle,
+      rgba(180, 151, 76, 0.04) 0%,
+      transparent 70%
+    );
+  }
+
+  .bg-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── Header ── */
+  .serie-header {
+    position: relative;
+    z-index: 1;
+    padding: 2.5rem 5rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  .header-inner {
+    max-width: 900px;
+  }
+
+  .serie-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 1rem;
+  }
+
+  .label-line {
+    flex: 0 0 2rem;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+
+  .serie-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+
+    font-weight: 400;
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+  }
+
+  .serie-count {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  /* ── Stage ── */
+  .serie-stage {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 5rem 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  /* ── Featured ── */
+  .featured {
+    position: relative;
+  }
+
+  .featured-episode {
+    display: none;
+  }
+
+  .featured-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* ── Cover ── */
+  .featured-cover-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .cover-frame {
+    position: relative;
+    width: min(280px, 30vw);
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px var(--gold-dim),
+      0 30px 80px rgba(0, 0, 0, 0.8);
+  }
+
+  .featured-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.18s ease;
+  }
+
+  .cover-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+    pointer-events: none;
+  }
+
+  .cover-shadow {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 30px;
+    background: radial-gradient(
+      ellipse,
+      rgba(0, 0, 0, 0.5) 0%,
+      transparent 70%
+    );
+    filter: blur(10px);
+  }
+
+  /* ── Info ── */
+  .featured-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding-top: 0.5rem;
+    min-height: min(448px, 53vw); /* misma altura que la portada */
+    justify-content: space-between;
+  }
+
+  .info-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .ep-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 0.25rem 0.7rem;
+    border-radius: 2px;
+    width: fit-content;
+  }
+
+  .ep-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+  }
+
+  .ep-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+
+  .ep-date svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    color: var(--gold);
+  }
+
+  .info-mid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-block {
+    padding-left: 1rem;
+    border-left: 1px solid var(--gold-dim);
+  }
+
+  .info-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 0.5rem;
+  }
+
+  .ep-description,
+  .ep-bts {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  /* ── Bottom (botón + nav) ── */
+  .info-bottom {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tiktok-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: inherit;
+    transition:
+      background var(--transition),
+      color var(--transition),
+      box-shadow var(--transition);
+    cursor: pointer;
+  }
+
+  .tiktok-btn:hover {
+    background: var(--gold);
+    color: var(--dark);
+    box-shadow: 0 0 20px var(--gold-glow);
+  }
+
+  .tiktok-btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .tiktok-btn .arrow {
+    width: 13px;
+    height: 13px;
+    transition: transform var(--transition);
+  }
+
+  .tiktok-btn:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* ── Nav ── */
+  .ep-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-left: auto;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--text);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition:
+      border-color var(--transition),
+      color var(--transition),
+      background var(--transition);
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-glow);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+
+  .nav-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .ep-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .ep-input {
+    width: 2.8rem;
+    text-align: center;
+    background: var(--surface-2);
+    border: 1px solid var(--gold-dim);
+    color: var(--text);
+    padding: 0.4rem 0.2rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-family: inherit;
+    -moz-appearance: textfield;
+    transition: border-color var(--transition);
+  }
+
+  .ep-input::-webkit-inner-spin-button,
+  .ep-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+
+  .ep-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  .ep-total {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Catálogo ── */
+  .catalogue {
+    border-top: 1px solid var(--gold-dim);
+    padding-top: 2.5rem;
+  }
+
+  .catalogue-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .catalogue-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .catalogue-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+
+  .catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+  }
+
+  .catalogue-card {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    font-family: inherit;
+    color: inherit;
+    transition:
+      border-color var(--transition),
+      transform var(--transition),
+      box-shadow var(--transition);
+    animation: fadeInUp 0.4s both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .catalogue-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .catalogue-card.active {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px var(--gold-glow);
+  }
+
+  .card-thumb {
+    position: relative;
+    aspect-ratio: 9 / 14;
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+
+  .card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .catalogue-card:hover .card-thumb img {
+    transform: scale(1.06);
+  }
+
+  .card-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--surface-2), var(--dark));
+  }
+
+  .card-thumb-placeholder span {
+    font-size: 2rem;
+    color: var(--gold-dim);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
+    display: flex;
+    align-items: flex-end;
+    padding: 0.5rem;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .catalogue-card:hover .card-overlay,
+  .catalogue-card.active .card-overlay {
+    opacity: 1;
+  }
+
+  .card-ep-num {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .card-active-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform var(--transition);
+  }
+
+  .catalogue-card.active .card-active-bar {
+    transform: scaleX(1);
+  }
+
+  .card-info {
+    padding: 0.55rem 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    background: var(--surface);
+  }
+
+  .card-title {
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text);
+  }
+
+  .card-date {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .serie-header,
+    .serie-stage {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .serie-header {
+      padding-top: 2.5rem;
+    }
+
+    .featured-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .cover-frame {
+      width: min(240px, 65vw);
+      margin: 0 auto;
+    }
+
+    .featured-info {
+      min-height: unset;
+    }
+
+    .ep-nav {
+      margin-left: 0;
+    }
+
+    .info-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  .info-label {
+    /* max-width: 50vw; */
+  }
+  .ep-description,
+  .ep-bts {
+    max-width: 100%;
+  }
+</style>
