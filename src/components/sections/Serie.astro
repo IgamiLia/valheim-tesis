@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import MusicButton from "@components/ui/MusicButton.astro";
 import { queryDatoCMS } from "@lib/datocms";
 
 interface DatoCover {
@@ -10,6 +11,7 @@ interface DatoCover {
 interface Episode {
   id: string;
   number: number;
+  episode: string;
   title: string;
   description: string;
   behindTheScenes: string;
@@ -23,6 +25,7 @@ const EPISODES_QUERY = `
         allEpisodes(orderBy: number_ASC) {
             id
             number
+            episode
             title
             description
             behindTheScenes
@@ -69,7 +72,9 @@ function formatDate(dateStr: string): string {
           Web Serie
           <span class="label-line"></span>
         </p>
-        <h1 class="serie-title">Valheim: Larga vida a La Reina</h1>
+        <h1 class="serie-title" transition:name="serie">
+          Valheim: Larga vida a La Reina
+        </h1>
         <p class="serie-count">{episodes.length} episodios</p>
       </div>
     </header>
@@ -257,6 +262,7 @@ function formatDate(dateStr: string): string {
                   <div class="card-active-bar" />
                 </div>
                 <div class="card-info">
+                  <span class="card-episode">{ep.episode}</span>
                   <span class="card-title">{ep.title}</span>
                   {ep.releaseDate && (
                     <span class="card-date">{formatDate(ep.releaseDate)}</span>
@@ -270,7 +276,7 @@ function formatDate(dateStr: string): string {
     </div>
   </div>
 </Layout>
-
+<MusicButton />
 <script>
   type EpisodeData = {
     number: string;
@@ -505,12 +511,12 @@ function formatDate(dateStr: string): string {
 
   .cover-frame {
     position: relative;
-    width: min(280px, 30vw);
+    width: clamp(280px, calc(236.364px + 13.636vw), 400px);
     aspect-ratio: 9 / 16;
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow:
-      0 0 0 1px var(--gold-dim),
+      0 0 0 2px var(--gold-dim),
       0 30px 80px rgba(0, 0, 0, 0.8);
   }
 
@@ -518,6 +524,7 @@ function formatDate(dateStr: string): string {
     width: 100%;
     height: 100%;
     aspect-ratio: 9 / 16;
+    object-fit: cover;
     display: block;
     transition: opacity 0.18s ease;
   }
@@ -555,7 +562,7 @@ function formatDate(dateStr: string): string {
     flex-direction: column;
     gap: 2.5rem;
     padding-top: 0.5rem;
-    min-height: min(448px, 53vw); /* misma altura que la portada */
+    min-height: min(448px, 53vw);
     justify-content: space-between;
   }
 
@@ -614,7 +621,7 @@ function formatDate(dateStr: string): string {
   }
 
   .info-label {
-    font-size: clamp(0.7rem, 0.5455vw + 0.5909rem, 1rem);
+    font-size: clamp(0.75rem, 0.6364vw + 0.6227rem, 1.1rem);
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--color-gold);
@@ -624,7 +631,7 @@ function formatDate(dateStr: string): string {
   .ep-description,
   .ep-bts {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: clamp(0.9rem, 0.7273vw + 0.7545rem, 1.3rem);
     line-height: 1.8;
     color: var(--text-muted);
   }
@@ -655,7 +662,6 @@ function formatDate(dateStr: string): string {
       background var(--transition),
       color var(--transition),
       box-shadow var(--transition);
-    cursor: pointer;
   }
 
   .tiktok-btn:hover {
@@ -789,7 +795,7 @@ function formatDate(dateStr: string): string {
 
   .catalogue-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
     gap: 1rem;
   }
 
@@ -807,20 +813,7 @@ function formatDate(dateStr: string): string {
       border-color var(--transition),
       transform var(--transition),
       box-shadow var(--transition);
-    animation: fadeInUp 0.4s both;
   }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   .catalogue-card:hover {
     border-color: var(--gold-dim);
     transform: translateY(-4px);
@@ -842,7 +835,6 @@ function formatDate(dateStr: string): string {
   .card-thumb img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
     display: block;
     transition: transform 0.4s ease;
   }
@@ -907,13 +899,17 @@ function formatDate(dateStr: string): string {
     padding: 0.55rem 0.65rem;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    justify-content: space-between;
+    gap: 0.3rem;
     background: var(--surface);
+    height: 115px;
   }
 
   .card-title {
-    font-size: 0.78rem;
-    white-space: nowrap;
+    flex-grow: 1;
+    font-size: clamp(0.75rem, 0.5455vw + 0.6409rem, 1.05rem);
+    white-space: wrap;
+    text-wrap: pretty;
     overflow: hidden;
     text-overflow: ellipsis;
     color: var(--text);
@@ -964,6 +960,9 @@ function formatDate(dateStr: string): string {
     }
     .ep-date svg {
       width: 13px;
+    }
+    .catalogue-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
   }
 </style>
