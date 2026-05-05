@@ -177,6 +177,18 @@
         </aside>
       </div>
     </div>
+    <div class="sinopsis">
+      <h2>SINOPSIS</h2>
+      <p>
+        Dos hermanos, Runa y Einar, se encuentran viviendo tranquilos en un
+        pueblo aislado de Midgard, hasta que un hecho cambió sus vidas: la Reina
+        del Inframundo, Hel, secuestra a Runa para desencadenar sus poderes
+        ocultos. Einar, con ojos llenos de furia, no se da por vencido y decide
+        hacerse más fuerte para acabar con ella. Sin embargo, al llegar a sus
+        tierras se encuentra con una sorpresa: deberá luchar contra su propia
+        hermana para salvarla.
+      </p>
+    </div>
   </main>
 </section>
 
@@ -243,6 +255,7 @@
   p {
     font-size: clamp(0.875rem, calc(0.557rem + 1.591vw), 1.75rem);
     line-height: 1.85;
+    padding: 0.5rem;
     color: rgb(225, 210, 178);
     letter-spacing: 0.03em;
     width: 90%;
@@ -576,6 +589,34 @@
     font-style: italic;
   }
 
+  /*SINOPSIS*/
+
+  .sinopsis {
+    width: fit-content;
+    text-wrap: pretty;
+  }
+
+  .sinopsis > h2 {
+    text-shadow: var(--color-gold) 0px 0px 24px;
+    -webkit-text-stroke: 0.9px var(--color-gold-light);
+    font-size: clamp(1.25rem, calc(0.614rem + 3.182vw), 3rem);
+    letter-spacing: 1.5px;
+    color: transparent;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--color-gold-dark);
+    margin-bottom: 0rem;
+  }
+
+  .sinopsis p {
+    font-size: clamp(0.875rem, calc(0.557rem + 1.591vw), 1.75rem);
+    line-height: 1.85;
+    padding: 0.5rem;
+    color: rgb(225, 210, 178);
+    letter-spacing: 0.03em;
+    width: 90%;
+    text-wrap: pretty;
+  }
   /* =============================================
      RESPONSIVE
      ============================================= */
