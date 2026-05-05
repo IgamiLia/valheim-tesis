@@ -1,0 +1,179 @@
+<section>
+  <div>
+    <h2>BANDA SONORA</h2>
+    <p>
+      La banda sonora de Valheim fue compuesta por <a href="#patrik"
+        ><span>Patrik Jarlestam</span></a
+      >, un compositor sueco-australiano que creó la mayor parte de la música
+      original del juego, desde los temas ambientales hasta los de combate y
+      exploración. Además de Jarlestam, el dúo <a href="#ghostwood"
+        ><span>Ghostwood Empire</span></a
+      > (Dennis Filatov e Inez Kontio) contribuyó con un par de pistas extra incluidas
+      en la banda sonora oficial. La música mezcla elementos ambientales, folk y momentos
+      más épicos para acompañar la exploración, los biomas y las batallas del juego,
+      y está disponible para comprar o escuchar en plataformas como <a
+        href="#spotify"><span>Spotify</span></a
+      > o <a href="#steam"><span>Steam</span></a>
+    </p>
+  </div>
+  <nav>
+    <aside class="ficha-tec">
+      <table class="ficha-table">
+        <tbody>
+          <!-- Encabezado principal -->
+          <tr class="ficha-titulo"
+            ><!--TR ES FILA, TD ES CELDA-->
+            <td>Música utilizada en la webserie</td>
+          </tr>
+
+          <tr>
+            <td class="ficha-label">Home - A Place to Enjoy</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">The Plains - Farmstead</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">The Mountains - High Territory</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">Mistlands - Kneel to the Seeker Queen</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">The Dangers of Sailing to Ashlands</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">Elder Awakens</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">Moder Protects</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">Black Forest - The Darkness</td>
+          </tr>
+          <tr>
+            <td class="ficha-label">Bonemass Defiles</td>
+          </tr>
+          <tr>
+            <td class="ficha-label"
+              >Ashland's Ruins 2 - Soaring High, Come Laying Low</td
+            >
+          </tr>
+        </tbody>
+      </table>
+    </aside>
+  </nav>
+</section>
+
+<style>
+  section {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url(/images/Banner.webp);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    scroll-snap-align: start;
+    position: relative;
+    gap: 2rem;
+    filter: brightness(0.8);
+  }
+  div {
+    height: 100%;
+    filter: brightness(1.2);
+  }
+  div > h2 {
+    text-shadow: var(--color-gold) 0px 0px 24px;
+    -webkit-text-stroke: 0.9px var(--color-gold-light);
+    font-size: clamp(0.85rem, calc(0.455rem + 1.5vw), 1.6rem);
+    letter-spacing: 1.5px;
+    color: transparent;
+    font-weight: bold;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    border-bottom: 2px solid var(--color-gold);
+    padding: 0.5rem;
+  }
+  div > p {
+    font-size: clamp(0.875rem, calc(0.557rem + 1.591vw), 1.75rem);
+    line-height: 1.85;
+    padding: 0.5rem;
+    color: rgb(225, 210, 178);
+    letter-spacing: 0.03em;
+    width: 100%;
+    text-wrap: pretty;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--color-gold-light);
+    font-weight: bold;
+  }
+  a:hover {
+    color: var(--color-gold-dark);
+  }
+
+  /*TABLA DE MÚSICA*/
+  .ficha-tec {
+    /*estilos de la tabla*/
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-gold-dark);
+    background-color: rgba(0, 0, 0, 0.438);
+    border: var(--card-border-width) solid var(--color-gold-dark);
+    outline-offset: 4px;
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 0 4px var(--color-gold-dark),
+      0 0 24px 2px rgba(130, 103, 40, 0.35),
+      inset 0 1px 0 rgba(220, 195, 120, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .ficha-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Georgia", serif;
+  }
+
+  .ficha-titulo td {
+    /*estilos del encabezado de la tabla*/
+    /* text-align: center; */
+    padding: 0.6rem 1rem;
+    font-size: clamp(0.85rem, calc(0.455rem + 1.5vw), 1.6rem);
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: transparent;
+    -webkit-text-stroke: 0.8px var(--color-gold-light);
+    text-shadow: var(--color-gold) 0px 0px 20px;
+    background: linear-gradient(
+      180deg,
+      rgba(100, 78, 15, 0.45) 0%,
+      rgba(50, 36, 5, 0.65) 100%
+    );
+    border-bottom: 1px solid var(--color-gold-dark);
+  }
+
+  .ficha-table tr:not(.ficha-titulo) td {
+    padding: 0.4rem 0.9rem;
+    border-bottom: 1px solid rgba(138, 106, 26, 0.18);
+    vertical-align: top;
+    line-height: 1.55;
+    font-size: clamp(0.85rem, calc(0.455rem + 1.5vw), 1.5rem);
+  }
+
+  .ficha-label {
+    /*estilos de las celdas de la tabla*/
+    color: rgb(233, 200, 101);
+    font-weight: bold;
+    width: 100%;
+    white-space: nowrap;
+  }
+</style>
