@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Remove-Item \"c:\\\\Users\\\\aleja\\\\Desktop\\\\WebProject\\\\astro-tesis\\\\valheim-tesis\\\\src\\\\lib\\\\audioManager.ts\")",
+      "Bash(Remove-Item \"c:\\\\Users\\\\aleja\\\\Desktop\\\\WebProject\\\\astro-tesis\\\\valheim-tesis\\\\src\\\\lib\\\\sectionObserver.ts\")"
+    ]
+  }
+}

@@ -165,7 +165,7 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
         const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
-        const ctx = canvas.getContext("2d")!;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
         ctx.drawImage(img, 0, 0);
         // También creamos una THREE.CanvasTexture para el shader
         const texture = new THREE.CanvasTexture(canvas);
@@ -284,7 +284,7 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   worldContainer?.appendChild(renderer.domElement);
 
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -445,11 +445,11 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
   });
 
   // ─── Animate ──────────────────────────────────────────────────────────────
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function animate() {
     requestAnimationFrame(animate);
-    const elapsed = clock.getElapsedTime();
+    const elapsed = clock.getElapsed();
 
     earthGroup.rotation.y += 0.002;
     controls.update();

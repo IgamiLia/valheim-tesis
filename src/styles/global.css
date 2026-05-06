@@ -92,6 +92,7 @@ body {
   width: 100%;
   max-width: 100%;
   min-height: 100svh;
+  overflow-x: hidden;
   cursor:
     url("/cursor/cursor_fixed.cur") 0 0,
     auto;

@@ -1,8 +1,13 @@
 ---
-
+interface Props {
+  src?: string;
+}
+const { src = "/ost/characters.mp3" } = Astro.props;
 ---
 
-<button class="music-btn" aria-label="Toggle music">
+<audio id="bg-audio" src={src} loop preload="auto"></audio>
+
+<button class="music-btn paused" aria-label="Toggle music" aria-pressed="false">
   <svg
     class="icon-pause"
     viewBox="0 0 24 24"
@@ -24,19 +29,31 @@
   </svg>
 </button>
 
-<script type="module">
-  import { audioManager } from "@lib/audioManager";
+<script>
+  const audio = document.getElementById("bg-audio") as HTMLAudioElement;
+  const btn = document.querySelector(".music-btn")!;
 
-  const btn = document.currentScript.previousElementSibling;
+  let isPlaying = false;
 
-  btn.addEventListener("click", () => {
-    if (audioManager.isPlaying) {
-      audioManager.pause();
-      btn.setAttribute("aria-pressed", "false");
-    } else {
-      audioManager.audio.play();
-      btn.setAttribute("aria-pressed", "true");
-    }
+  function play() {
+    audio.play();
+    isPlaying = true;
+    btn.classList.remove("paused");
+    btn.setAttribute("aria-pressed", "true");
+  }
+
+  function pause() {
+    audio.pause();
+    isPlaying = false;
+    btn.classList.add("paused");
+    btn.setAttribute("aria-pressed", "false");
+  }
+
+  document.addEventListener("click", () => { if (!isPlaying) play(); }, { once: true });
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    isPlaying ? pause() : play();
   });
 </script>
 
@@ -60,7 +77,6 @@
     border: 2px solid var(--color-gold-dark);
     border-radius: 50%;
     color: var(--color-gold);
-
     box-shadow:
       0 0 0 1px rgba(10, 9, 6, 0.8),
       0 0 15px 3px rgba(130, 103, 40, 0.3),
@@ -83,25 +99,22 @@
     transition: all 0.3s ease;
   }
 
-  /* Por defecto muestra pause (música sonando) */
   .music-btn .icon-pause {
-    display: block;
+    display: none;
   }
 
   .music-btn .icon-play {
-    display: none;
-  }
-
-  /* Cuando está pausado, muestra play */
-  .music-btn.paused .icon-pause {
-    display: none;
-  }
-
-  .music-btn.paused .icon-play {
     display: block;
   }
 
-  /* Responsive botón música */
+  .music-btn:not(.paused) .icon-pause {
+    display: block;
+  }
+
+  .music-btn:not(.paused) .icon-play {
+    display: none;
+  }
+
   @media (max-width: 600px) {
     .music-btn {
       bottom: 1rem;
