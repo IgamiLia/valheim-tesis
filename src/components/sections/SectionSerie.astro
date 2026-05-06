@@ -245,9 +245,9 @@ import Layout from "@layouts/Layout.astro";
 
     // Carga en paralelo
     const [texBase, texActive, texMask] = await Promise.all([
-      loader.loadAsync("/images/portal.png"),
-      loader.loadAsync("/images/active_portal.png"),
-      loader.loadAsync("/images/portal_mask.png"),
+      loader.loadAsync("/images/portal/portal.png"),
+      loader.loadAsync("/images/portal/active_portal.png"),
+      loader.loadAsync("/images/portal/portal_mask.png"),
     ]);
 
     // ─── Material con shaders ────────────────────────────────────────────────────
@@ -314,8 +314,9 @@ import Layout from "@layouts/Layout.astro";
         isOverPortal = sampleMask(uvX, uvY);
         hoverTarget = isOverPortal ? 1.0 : 0.0;
 
-        canvas.style.cursor = isOverPortal ? "pointer" : "default";
-        section.style.backgroundColor = isOverPortal ? "#ff0000" : "#000000";
+        canvas.style.cursor = isOverPortal
+          ? 'url("/cursor/pointer_fixed.cur") 16 2, pointer'
+          : 'url("/cursor/cursor_fixed.cur") 0 0, auto';
         if (isOverPortal) {
           hint.classList.add("hidden");
         } else {

@@ -98,12 +98,17 @@ body {
     auto;
 }
 
+canvas {
+  cursor:
+    url("/cursor/cursor_fixed.cur") 0 0,
+    auto;
+}
+
 a,
 button,
 input,
 select,
 textarea,
-canvas,
 summary,
 [role="button"],
 .char-container,
