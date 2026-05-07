@@ -379,7 +379,8 @@ function formatDuration(raw: string): string {
 
     // Duración (preserva el ícono SVG)
     const durationIcon = epDuration.querySelector("svg")!.outerHTML;
-    epDuration.innerHTML = durationIcon + " Duración: " + formatDuration(ep.duration);
+    epDuration.innerHTML =
+      durationIcon + " Duración: " + formatDuration(ep.duration);
 
     epInput.value = ep.number;
     btnPrev.disabled = index === 0;
