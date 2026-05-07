@@ -313,6 +313,8 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     const section = document.getElementById("portal-section") as HTMLElement;
     const hint = document.getElementById("portal-hint") as HTMLElement;
 
+    if (!canvas || !section || !hint) return;
+
     section.classList.remove("portal-zoom");
 
     renderer = new THREE.WebGLRenderer({

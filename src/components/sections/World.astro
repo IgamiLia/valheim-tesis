@@ -437,13 +437,13 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
   });
 
   // ─── Resize ───────────────────────────────────────────────────────────────
-  window.addEventListener("resize", () => {
-    w = worldContainer?.clientWidth || window.innerWidth;
-    h = worldContainer?.clientHeight || window.innerHeight;
+  new ResizeObserver(() => {
+    w = worldContainer.clientWidth || window.innerWidth;
+    h = worldContainer.clientHeight || window.innerHeight;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
-  });
+  }).observe(worldContainer);
 
   // ─── Animate ──────────────────────────────────────────────────────────────
   const clock = new THREE.Timer();
