@@ -13,6 +13,7 @@
     pointer-events: none;
     z-index: 1; /* debajo de runas (z-index: 3) y canvas portal (z-index: 2) */
     overflow: hidden;
+    opacity: 0.3;
   }
 
   #smoke canvas {
@@ -41,7 +42,7 @@
   renderer.setClearColor(0x000000, 0);
   $bkg?.appendChild(renderer.domElement);
 
-  const light = new THREE.DirectionalLight(0xc63637, 0.2);
+  const light = new THREE.DirectionalLight(0xc63637, 1);
   light.position.set(0, -4, 3);
   scene.add(light);
 
