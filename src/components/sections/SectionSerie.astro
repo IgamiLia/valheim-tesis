@@ -4,20 +4,110 @@ import Layout from "@layouts/Layout.astro";
 
 <Layout>
   <section id="portal-section" aria-label="Portal hacia la serie">
+    <span class="runes">ᚱᚨᛁᛞᛟ</span>
+    <span class="runes">ᚨᚾᛊᚢᛉ</span>
+    <span class="runes">ᚲᛖᚾᚨᛉ</span>
+    <div class="info">
+      <p>
+        Cruza la senda de piedra donde los antiguos caminos conducen hacia los
+        salones de los dioses y los cuervos de Odín custodian la memoria del
+        norte.
+        <br /><br />
+        Allí, bajo las ramas eternas de Yggdrasil, las voces olvidadas aún susurran
+        entre la niebla y anuncian el destino de <span class="title"
+          >Valheim: Larga vida a La Reina.</span
+        >
+      </p>
+    </div>
     <canvas id="portal-canvas"></canvas>
     <div id="portal-hint">
       <span class="hint-rune">ᛈ</span>
       <span class="hint-text">Pasa el cursor por el portal</span>
-      <span class="hint-rune">ᛈ</span>
+      <span class="hint-rune" style="transform: scaleX(-1)">ᛈ</span>
     </div>
   </section>
 </Layout>
 
 <style>
+  .info {
+    position: absolute;
+    top: 50%;
+    left: 8rem;
+    transform: translateY(-50%);
+    max-width: 45vw;
+    text-wrap: pretty;
+    font-size: clamp(1rem, 2.7273vw + 0.4545rem, 2.8rem);
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info > p {
+    color: var(--color-gold-light);
+    text-shadow:
+      0 0 2px #000,
+      0 0 4px #000,
+      0 1px 16px #080300,
+      0 1px 24px #000;
+    z-index: 10;
+  }
+
+  .title {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: clamp(1.2rem, 3.2727vw + 0.5455rem, 3.5rem);
+    text-wrap: nowrap;
+    font-weight: bold;
+    color: #bf6515;
+    opacity: 0.85;
+    text-shadow:
+      0 0 2px #000,
+      0 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 8px rgba(212, 175, 55, 0.6),
+      2px 2px 8px rgba(101, 82, 40, 0.5),
+      -1px -1px 2px rgba(0, 0, 0, 0.4);
+    font-family: "Cinzel", serif;
+    filter: contrast(1.15) brightness(1.1) saturate(1.2) sepia(0.5);
+  }
+
+  .runes {
+    display: block;
+    position: absolute;
+    font-family: "Runes", "Cinzel", "Palatino Linotype", serif;
+    letter-spacing: 1rem;
+    font-weight: bold;
+    color: #573c2a;
+    text-shadow: 0px 0px 2px #3d3020;
+    filter:
+      drop-shadow(0 0 8px #00000088) drop-shadow(0 0 16px #0000004d)
+        drop-shadow(0 0 24px #8b5a0044),
+      drop-shadow(0 0 32px #573c2a);
+    opacity: 0.5;
+  }
+
+  .runes:first-child {
+    top: 4.5rem;
+    left: 0;
+    font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
+  }
+
+  .runes:nth-child(2) {
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    font-size: clamp(2rem, 10.9091vw + -0.1818rem, 8rem);
+  }
+
+  .runes:nth-child(3) {
+    bottom: 4.5rem;
+    left: 0;
+    font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
+  }
+
   #portal-section {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 110vh;
     overflow: hidden;
     cursor: default;
     background-color: #000000;
@@ -33,12 +123,14 @@ import Layout from "@layouts/Layout.astro";
 
   #portal-hint {
     position: absolute;
-    bottom: 2rem;
+    bottom: 5rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
     color: rgba(255, 200, 100, 0.75);
     font-family: "Cinzel", "Palatino Linotype", serif;
     font-size: clamp(0.75rem, 1.5vw, 1rem);
@@ -46,6 +138,8 @@ import Layout from "@layouts/Layout.astro";
     text-shadow: 0 0 12px rgba(255, 120, 0, 0.5);
     pointer-events: none;
     transition: opacity 0.6s ease;
+    background-color: #000000aa;
+    animation: textGlow 3s ease-in-out infinite alternate;
   }
 
   #portal-hint.hidden {
@@ -61,6 +155,18 @@ import Layout from "@layouts/Layout.astro";
     animation-delay: 1.25s;
   }
 
+  @keyframes textGlow {
+    0% {
+      box-shadow: 0 0 6px rgba(136, 54, 0, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 18px rgba(139, 88, 0, 0.5);
+    }
+    100% {
+      box-shadow: 0 0 6px rgba(116, 47, 1, 0.2);
+    }
+  }
+
   @keyframes runeFlicker {
     0% {
       opacity: 0.4;
@@ -73,7 +179,7 @@ import Layout from "@layouts/Layout.astro";
   }
 
   #portal-section.portal-zoom {
-    animation: portalZoom 0.8s ease-in forwards;
+    animation: portalZoom 2s ease-in forwards;
     transform-origin: 75% 55%;
   }
 
@@ -81,8 +187,6 @@ import Layout from "@layouts/Layout.astro";
     0% {
       transform: scale(1);
       opacity: 1;
-    }
-    1% {
     }
     100% {
       transform: scale(15);
@@ -94,128 +198,79 @@ import Layout from "@layouts/Layout.astro";
   import * as THREE from "three";
   import { navigate } from "astro:transitions/client";
 
-  // ─── Shaders ────────────────────────────────────────────────────────────────
+  // ─── Shaders ─────────────────────────────────────────────────────────────────
 
   const vertexShader = /* glsl */ `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
 
   const fragmentShader = /* glsl */ `
-  uniform sampler2D uTexBase;
-  uniform sampler2D uTexActive;
-  uniform sampler2D uMask;
-  uniform float     uTime;
-  uniform float     uHover;
+    uniform sampler2D uTexBase;
+    uniform sampler2D uTexActive;
+    uniform sampler2D uMask;
+    uniform float     uTime;
+    uniform float     uHover;
 
-  varying vec2 vUv;
+    varying vec2 vUv;
 
-  // ── Hash & Noise ──────────────────────────────────────────────────────────
-  float hash(vec2 p) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-  }
-
-  float noise(vec2 p) {
-    vec2 i = floor(p);
-    vec2 f = fract(p);
-    f = f * f * (3.0 - 2.0 * f);
-    return mix(
-      mix(hash(i),               hash(i + vec2(1.0, 0.0)), f.x),
-      mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
-      f.y
-    );
-  }
-
-  float fbm(vec2 p) {
-    float value = 0.0;
-    float amp   = 0.5;
-    for (int i = 0; i < 5; i++) {
-      value += amp * noise(p);
-      p     *= 2.1;
-      amp   *= 0.5;
+    float hash(vec2 p) {
+      return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
     }
-    return value;
-  }
 
-  // ── Rotación 2D ──────────────────────────────────────────────────────────
-  vec2 rotate(vec2 uv, float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
-    return vec2(uv.x * c - uv.y * s, uv.x * s + uv.y * c);
-  }
+    float noise(vec2 p) {
+      vec2 i = floor(p);
+      vec2 f = fract(p);
+      f = f * f * (3.0 - 2.0 * f);
+      return mix(
+        mix(hash(i),                  hash(i + vec2(1.0, 0.0)), f.x),
+        mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
+        f.y
+      );
+    }
 
-  void main() {
-    // Leer máscara (blanco = interior del portal)
-    float mask = texture2D(uMask, vUv).r;
+    float fbm(vec2 p) {
+      float value = 0.0;
+      float amp   = 0.5;
+      for (int i = 0; i < 5; i++) {
+        value += amp * noise(p);
+        p     *= 2.1;
+        amp   *= 0.5;
+      }
+      return value;
+    }
 
-    // ── Imagen base (versión normal del portal) ──────────────────────────
-    vec4 base = texture2D(uTexBase, vUv);
+    void main() {
+      float mask      = texture2D(uMask,      vUv).r;
+      vec4  base      = texture2D(uTexBase,   vUv);
+      vec4  texActive = texture2D(uTexActive, vUv);
 
-    // ── Imagen activa (sin distorsión, solo blend) ───────────────────────
-    vec4 texPortalActive = texture2D(uTexActive, vUv);
+      // Crossfade con noise animado — la transición no es un corte seco
+      float noiseVal  = fbm(vUv * 4.0 + uTime * 0.3);
+      float threshold = uHover + noiseVal * 0.15 - 0.075;
+      float blend     = smoothstep(0.0, 1.0, threshold) * mask;
 
-    // ── Efecto de anillo de fuego procedural (refuerza el glow) ──────────
-    // Centro del portal en UV — ajustar según la imagen
-    vec2 portalCenter = vec2(0.73, 0.48);
-    vec2 centeredUv   = vUv - portalCenter;
+      vec4 color = mix(base, texActive, blend);
 
-    // Coordenadas polares para el swirl
-    float portalAngle = atan(centeredUv.y, centeredUv.x);
-    float radius      = length(centeredUv);
+      gl_FragColor = color;
+    }
+  `;
 
-    vec2 swirlUv = rotate(centeredUv, uTime * 0.8) + portalCenter;
-    float swirlNoise = fbm(swirlUv * 6.0 + uTime * 0.3);
+  // ─── Variables globales ───────────────────────────────────────────────────────
 
-    // Anillo de fuego: pico en radio ~0.12 (ajustar al tamaño del portal en UV)
-    float ringRadius  = 0.09; // radio ideal del anillo
-    float ringWidth   = 0.5;          // grosor del anillo
-    float verticalRadius   = 0.16;
-    float ellipticalDist = length(vec2(centeredUv.x / ringRadius, centeredUv.y / verticalRadius));
-    float ring = 1.0 - smoothstep(0.0, ringWidth, abs(ellipticalDist - 1.0));
-    ring *= swirlNoise;
-
-    // Color del fuego: naranja → amarillo según noise
-    vec3 fireColor = mix(
-      vec3(1.0, 0.15, 0.0),   // naranja profundo
-      vec3(1.0, 0.85, 0.1),   // amarillo dorado
-      swirlNoise
-    );
-
-    // ── Composición final ─────────────────────────────────────────────────
-    // Blend entre base y texPortalActive dentro de la máscara
-    vec4 color = mix(base, texPortalActive, mask * uHover);
-
-    // Sumar glow del anillo de fuego sobre la máscara
-    color.rgb += fireColor * ring * mask * uHover * 2.0;
-
-    // Glow ambiental suave alrededor del portal cuando hover > 0
-    float ambientGlow = fbm(vUv * 3.0 - uTime * 0.2) * mask * uHover * 0.08;
-    color.rgb += vec3(1.0, 0.4, 0.05) * ambientGlow;
-
-    gl_FragColor = color;
-  }
-`;
-
-  // ─── Variables globales para limpiar animations ───────────────────────────────
   let animationId: number | null = null;
   let renderer: THREE.WebGLRenderer | null = null;
   let resizeObserver: ResizeObserver | null = null;
 
-  // ─── Función para inicializar el portal ───────────────────────────────────────
+  // ─── Inicialización ───────────────────────────────────────────────────────────
+
   async function initPortal() {
-    // Limpiar animación anterior si existe
-    if (animationId) {
-      cancelAnimationFrame(animationId);
-    }
-    if (resizeObserver) {
-      resizeObserver.disconnect();
-    }
-    if (renderer) {
-      renderer.dispose();
-    }
+    if (animationId) cancelAnimationFrame(animationId);
+    if (resizeObserver) resizeObserver.disconnect();
+    if (renderer) renderer.dispose();
 
     const canvas = document.getElementById(
       "portal-canvas",
@@ -223,7 +278,6 @@ import Layout from "@layouts/Layout.astro";
     const section = document.getElementById("portal-section") as HTMLElement;
     const hint = document.getElementById("portal-hint") as HTMLElement;
 
-    // Remover clase de zoom si existe
     section.classList.remove("portal-zoom");
 
     renderer = new THREE.WebGLRenderer({
@@ -235,22 +289,19 @@ import Layout from "@layouts/Layout.astro";
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
-    // Plane que cubre todo el viewport del renderer
     const geometry = new THREE.PlaneGeometry(2, 2);
 
-    // ─── Carga de texturas ───────────────────────────────────────────────────────
+    // ─── Carga de texturas ────────────────────────────────────────────────────
 
     const loader = new THREE.TextureLoader();
 
-    // Carga en paralelo
     const [texBase, texActive, texMask] = await Promise.all([
       loader.loadAsync("/images/portal/portal.png"),
       loader.loadAsync("/images/portal/active_portal.png"),
       loader.loadAsync("/images/portal/portal_mask.png"),
     ]);
 
-    // ─── Material con shaders ────────────────────────────────────────────────────
+    // ─── Uniforms y material ──────────────────────────────────────────────────
 
     const uniforms = {
       uTexBase: { value: texBase },
@@ -265,9 +316,10 @@ import Layout from "@layouts/Layout.astro";
       vertexShader,
       fragmentShader,
     });
-
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
+
+    // ─── Mask sampling ────────────────────────────────────────────────────────
 
     const maskCanvas = document.createElement("canvas");
     const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true })!;
@@ -277,19 +329,15 @@ import Layout from "@layouts/Layout.astro";
     maskCtx.drawImage(maskImage, 0, 0, maskCanvas.width, maskCanvas.height);
 
     function sampleMask(uvX: number, uvY: number): boolean {
-      // Aseguramos que los valores no se salgan del índice del canvas
       const clampedX = Math.max(0, Math.min(0.999, uvX));
       const clampedY = Math.max(0, Math.min(0.999, uvY));
-
       const px = Math.floor(clampedX * maskCanvas.width);
-      const py = Math.floor(clampedY * maskCanvas.height); // 👈 Eliminado el "1 -"
-
+      const py = Math.floor(clampedY * maskCanvas.height);
       const data = maskCtx.getImageData(px, py, 1, 1).data;
-
-      // Solo devolvemos true si el canal rojo es brillante (la forma del portal)
       return data[0] > 128;
     }
-    // ─── Resize handler ──────────────────────────────────────────────────────────
+
+    // ─── Resize ───────────────────────────────────────────────────────────────
 
     function resize() {
       const w = section.clientWidth;
@@ -300,7 +348,7 @@ import Layout from "@layouts/Layout.astro";
     resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(section);
 
-    // ─── Mouse tracking ──────────────────────────────────────────────────────────
+    // ─── Mouse tracking ───────────────────────────────────────────────────────
 
     let hoverTarget = 0.0;
     let isOverPortal = false;
@@ -317,6 +365,7 @@ import Layout from "@layouts/Layout.astro";
         canvas.style.cursor = isOverPortal
           ? 'url("/cursor/pointer_fixed.cur") 16 2, pointer'
           : 'url("/cursor/cursor_fixed.cur") 0 0, auto';
+
         if (isOverPortal) {
           hint.classList.add("hidden");
         } else {
@@ -324,6 +373,7 @@ import Layout from "@layouts/Layout.astro";
         }
       }
     });
+
     section.addEventListener("mouseleave", () => {
       hoverTarget = 0.0;
       isOverPortal = false;
@@ -332,24 +382,20 @@ import Layout from "@layouts/Layout.astro";
       hint.classList.remove("hidden");
     });
 
-    // ─── Click → Zoom in y navegar a la página serie ──────────────────────────────
+    // ─── Click → zoom + navegación ────────────────────────────────────────────
 
     canvas.addEventListener("click", (e) => {
       const rect = canvas.getBoundingClientRect();
       const clickX = (e.clientX - rect.left) / rect.width;
       const clickY = (e.clientY - rect.top) / rect.height;
 
-      // Validación final en el momento del click
       if (sampleMask(clickX, clickY)) {
         section.classList.add("portal-zoom");
-
-        setTimeout(() => {
-          navigate("/serie");
-        }, 800);
+        setTimeout(() => navigate("/serie"), 1500);
       }
-      document.body.appendChild(maskCanvas);
     });
-    // ─── Loop de animación ───────────────────────────────────────────────────────
+
+    // ─── Loop de animación ────────────────────────────────────────────────────
 
     const clock = new THREE.Timer();
 
@@ -365,12 +411,9 @@ import Layout from "@layouts/Layout.astro";
 
       renderer!.render(scene, camera);
     }
-    console.log(isOverPortal);
     animate();
   }
 
   initPortal();
-
-  // ─── Reinicializar portal cuando vuelva con view transitions ────────────
   document.addEventListener("astro:page-load", initPortal);
 </script>
