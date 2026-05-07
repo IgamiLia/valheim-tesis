@@ -7,6 +7,7 @@
           href="https://www.instagram.com/valheimwebserie?igsh=Njk4Zzdic2luZzZk"
           target="_blank"
           rel="noopener noreferrer"
+          role="link"
         >
           <img src="/images/icons/instagram-icon.svg" alt="Instagram" />
         </a>
@@ -14,6 +15,7 @@
           href="https://www.tiktok.com/@valheimwebserie?_t=ZM-8xM7SS8YEYY&_r=1"
           target="_blank"
           rel="noopener noreferrer"
+          role="link"
         >
           <img src="/images/icons/tiktok-icon-dark.svg" alt="TikTok" />
         </a>
@@ -26,14 +28,16 @@
         >Matías Aguirre <a
           href="#ig-celu"
           target="_blank"
-          rel="noopener noreferrer">Poner-contacto</a
+          rel="noopener noreferrer"
+          role="link">Poner-contacto</a
         ></span
       >
       <span
         >Ailen Braga <a
           href="#ig-celu"
           target="_blank"
-          rel="noopener noreferrer">Poner-contacto</a
+          rel="noopener noreferrer"
+          role="link">Poner-contacto</a
         ></span
       >
     </div>
@@ -44,13 +48,33 @@
         >Visitá la <a
           href="https://www.valheimgame.com/es/"
           target="_blank"
-          rel="noopener noreferrer">página oficial de Valheim</a
+          rel="noopener noreferrer"
+          role="link">página oficial de Valheim</a
         ></span
       >
     </div>
-    <div class="creditos">
-      <p>© 2026 Valheim: Larga vida a la Reina. Derechos reservados.</p>
-      <p>Diseñado y desarrollado por Ailen Braga y Matías Aguirre.</p>
+    <div class="creditos" aria-label="Derechos de autor y créditos">
+      <p>
+        © 2026 <a
+          href="https://www.tiktok.com/@valheimwebserie"
+          target="_blank"
+          rel="noopener noreferrer"
+          role="link">Valheim: Larga vida a la Reina</a
+        >. Derechos reservados.
+      </p>
+      <p>
+        Diseñado y desarrollado por <a
+          href="https://www.ailenbraga.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          role="link">Ailen Braga</a
+        > y <a
+          href="https://matt-s-portfolio-steel.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          role="link">Matías Aguirre</a
+        >.
+      </p>
     </div>
   </footer>
 </section>
@@ -89,22 +113,37 @@
   }
 
   div a {
+    position: relative;
+    display: inline-block;
     color: var(--color-gold-light);
     text-decoration: none;
     font-weight: bold;
+    transition: all 0.2s ease;
   }
 
   div a:hover {
-    text-decoration: underline;
+    color: var(--color-gold-dark);
   }
-
+  div a::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-gold-dark);
+    transition: width 0.3s ease;
+  }
+  div a:hover::after {
+    width: 100%;
+  }
   h3 {
-    font-size: 1.3rem;
+    font-size: clamp(1.2rem, 3.2727vw + 0.5455rem, 2rem);
   }
 
   span {
     text-align: left;
-    font-size: 1rem;
+    font-size: clamp(1.1rem, 0.7273vw + 0.9545rem, 1.5rem);
   }
 
   .iconos-footer {
@@ -141,6 +180,9 @@
     /*cuadro de iconos*/
     display: flex;
   }
+  .redes-footer a::after {
+    display: none;
+  }
 
   .contactos-footer {
     /*cuadro de contactos*/
@@ -167,5 +209,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .creditos a {
+    /* margin: 0 0.5rem; */
   }
 </style>

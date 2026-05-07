@@ -1,9 +1,11 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import Smoke from "@components/effects/SmokeEffect.astro";
 ---
 
 <Layout>
   <section id="portal-section" aria-label="Portal hacia la serie">
+    <Smoke />
     <span class="runes">ᚱᚨᛁᛞᛟ</span>
     <span class="runes">ᚨᚾᛊᚢᛉ</span>
     <span class="runes">ᚲᛖᚾᚨᛉ</span>
@@ -40,6 +42,7 @@ import Layout from "@layouts/Layout.astro";
     line-height: 1.2;
     display: flex;
     flex-direction: column;
+    z-index: 10;
   }
 
   .info > p {
@@ -49,7 +52,7 @@ import Layout from "@layouts/Layout.astro";
       0 0 4px #000,
       0 1px 16px #080300,
       0 1px 24px #000;
-    z-index: 10;
+    z-index: 20;
   }
 
   .title {
@@ -73,6 +76,7 @@ import Layout from "@layouts/Layout.astro";
   .runes {
     display: block;
     position: absolute;
+    z-index: 10;
     font-family: "Runes", "Cinzel", "Palatino Linotype", serif;
     letter-spacing: 1rem;
     font-weight: bold;
@@ -85,20 +89,20 @@ import Layout from "@layouts/Layout.astro";
     opacity: 0.5;
   }
 
-  .runes:first-child {
+  .runes:nth-child(3) {
     top: 4.5rem;
     left: 0;
     font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
   }
 
-  .runes:nth-child(2) {
+  .runes:nth-child(4) {
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
     font-size: clamp(2rem, 10.9091vw + -0.1818rem, 8rem);
   }
 
-  .runes:nth-child(3) {
+  .runes:nth-child(5) {
     bottom: 4.5rem;
     left: 0;
     font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
@@ -123,6 +127,7 @@ import Layout from "@layouts/Layout.astro";
 
   #portal-hint {
     position: absolute;
+    z-index: 10;
     bottom: 5rem;
     left: 50%;
     transform: translateX(-50%);
@@ -256,6 +261,36 @@ import Layout from "@layouts/Layout.astro";
       vec4 color = mix(base, texActive, blend);
 
       gl_FragColor = color;
+    }
+  `;
+
+  // ─── Fire ring shaders ───────────────────────────────────────────────────────
+
+  const fireVertexShader = /* glsl */ `
+    uniform float uTime;
+    attribute float aTimeOffset;
+    varying float vT;
+
+    void main() {
+      float t = fract(uTime * 0.6 + aTimeOffset);
+
+      vec2 center = vec2(0.5, -0.1);
+      vec2 dir    = normalize(position.xy - center);
+      float a     = atan(dir.y, dir.x);
+
+      float shrink = 1.0 - t * 0.6;
+      float turbX  = sin(a * 7.0 + uTime * 3.5) * 0.010;
+      float turbY  = cos(a * 5.0 + uTime * 2.8) * 0.008;
+
+      vec2 pos;
+      pos.x = center.x + dir.x * 0.12 * shrink + turbX;
+      pos.y = center.y + dir.y * 0.18 * shrink + t * 0.5 + turbY;
+
+      vT = t;
+
+      vec4 mvPos = modelViewMatrix * vec4(pos, 0.0, 1.0);
+      gl_PointSize = mix(8.0, 1.0, t * t);
+      gl_Position  = projectionMatrix * mvPos;
     }
   `;
 

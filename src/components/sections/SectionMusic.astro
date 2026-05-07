@@ -149,7 +149,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 3rem;
+    padding: 5rem;
     scroll-snap-align: start;
     position: relative;
     gap: 2rem;
@@ -183,9 +183,13 @@
   }
 
   a {
+    display: inline-block;
     text-decoration: none;
     color: var(--color-gold-light);
     font-weight: bold;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease;
   }
   a:hover {
     color: var(--color-gold-dark);
@@ -236,7 +240,6 @@
   }
 
   .ficha-table tr:not(.ficha-titulo) td {
-    padding: 0.4rem 0.9rem;
     border-bottom: 1px solid rgba(138, 106, 26, 0.18);
     vertical-align: top;
     line-height: 1.55;
@@ -249,5 +252,14 @@
     font-weight: bold;
     width: 100%;
     white-space: nowrap;
+  }
+  .ficha-label a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 0.4rem 0.9rem;
+  }
+  .ficha-label a:hover {
+    background-color: rgba(0, 0, 0, 0.5);
   }
 </style>

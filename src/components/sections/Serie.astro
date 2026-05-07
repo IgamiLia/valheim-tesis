@@ -305,7 +305,6 @@ function formatDate(dateStr: string): string {
   const epTitle = document.getElementById("ep-title")!;
   const epDate = document.getElementById("ep-date")!;
   const epDesc = document.getElementById("ep-description")!;
-  const epBts = document.getElementById("ep-bts")!;
   const tiktokBtn = document.getElementById(
     "ep-tiktok-link",
   ) as HTMLAnchorElement;
@@ -345,7 +344,6 @@ function formatDate(dateStr: string): string {
     epBadge.textContent = `Episodio ${ep.number}`;
     epTitle.textContent = ep.title;
     epDesc.textContent = ep.description;
-    epBts.textContent = ep.bts;
     tiktokBtn.href = ep.tiktok;
 
     // Fecha (preserva el ícono SVG)
@@ -358,12 +356,9 @@ function formatDate(dateStr: string): string {
 
     cards.forEach((c, i) => c.classList.toggle("active", i === index));
 
-    // Scroll suave al featured en móvil
-    if (window.innerWidth < 900) {
-      document
-        .querySelector(".featured-inner")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document
+      .querySelector(".featured-inner")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   btnPrev.addEventListener("click", () => loadEpisode(current - 1));
