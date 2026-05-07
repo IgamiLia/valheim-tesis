@@ -1,0 +1,171 @@
+<section>
+  <footer>
+    <div class="redes-footer">
+      <h3>Seguí la serie en nuestras redes sociales</h3>
+      <div class="iconos-footer">
+        <a
+          href="https://www.instagram.com/valheimwebserie?igsh=Njk4Zzdic2luZzZk"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/images/icons/instagram-icon.svg" alt="Instagram" />
+        </a>
+        <a
+          href="https://www.tiktok.com/@valheimwebserie?_t=ZM-8xM7SS8YEYY&_r=1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/images/icons/tiktok-icon-dark.svg" alt="TikTok" />
+        </a>
+      </div>
+    </div>
+
+    <div class="contactos-footer">
+      <h3>Contactos</h3>
+      <span
+        >Matías Aguirre <a
+          href="#ig-celu"
+          target="_blank"
+          rel="noopener noreferrer">Poner-contacto</a
+        ></span
+      >
+      <span
+        >Ailen Braga <a
+          href="#ig-celu"
+          target="_blank"
+          rel="noopener noreferrer">Poner-contacto</a
+        ></span
+      >
+    </div>
+
+    <div class="valheim-page-footer">
+      <h3>Acerca de Valheim</h3>
+      <span
+        >Visitá la <a
+          href="https://www.valheimgame.com/es/"
+          target="_blank"
+          rel="noopener noreferrer">página oficial de Valheim</a
+        ></span
+      >
+    </div>
+    <div class="creditos">
+      <p>© 2026 Valheim: Larga vida a la Reina. Derechos reservados.</p>
+      <p>Diseñado y desarrollado por Ailen Braga y Matías Aguirre.</p>
+    </div>
+  </footer>
+</section>
+
+<style>
+  section {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("/images/backgrounds/image_footer.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  footer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    justify-items: center;
+  }
+
+  footer div {
+    padding: 0;
+    gap: 1rem;
+  }
+
+  div p {
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+
+  div a {
+    color: var(--color-gold-light);
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  div a:hover {
+    text-decoration: underline;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  span {
+    text-align: left;
+    font-size: 1rem;
+  }
+
+  .iconos-footer {
+    padding: 0;
+    display: flex;
+    width: 100%;
+  }
+
+  .redes-footer {
+    /*cuadro de redes*/
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: fit-content;
+  }
+
+  .redes-footer h3 {
+    grid-column: 1 / -1;
+  }
+
+  .redes-footer img {
+    width: 30px;
+    height: 30px;
+    margin-right: 1rem;
+    transition: transform 0.3s ease;
+  }
+  .redes-footer img:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 5px var(--color-gold-light));
+  }
+
+  .redes-footer a {
+    /*cuadro de iconos*/
+    display: flex;
+  }
+
+  .contactos-footer {
+    /*cuadro de contactos*/
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: fit-content;
+  }
+
+  .valheim-page-footer {
+    /*cuadro de página de Valheim*/
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .creditos {
+    margin-top: 2rem;
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
