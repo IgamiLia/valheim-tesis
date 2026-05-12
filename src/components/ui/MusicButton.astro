@@ -1,76 +1,83 @@
 ---
-
+interface Props {
+  audioSrc: string;
+}
+const { audioSrc } = Astro.props;
 ---
 
-<audio id="bg-audio" src="/ost/characters.mp3" loop preload="auto"></audio>
+<audio id="bg-audio" src={audioSrc} loop preload="auto"></audio>
 
-<button class="music-btn paused" aria-label="Toggle music" aria-pressed="false">
+<button
+  id="music-btn"
+  class="music-btn paused"
+  aria-label="Toggle music"
+  aria-pressed="false"
+>
   <svg
+    width="24"
+    height="24"
+    fill="currentColor"
     class="icon-pause"
     viewBox="0 0 24 24"
-    fill="currentColor"
-    width="24"
-    height="24"
   >
-    <rect x="6" y="4" width="4" height="16" rx="1"></rect>
-    <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+    <rect width="4" height="16" x="6" y="4" rx="1"></rect>
+    <rect width="4" height="16" x="14" y="4" rx="1"></rect>
   </svg>
   <svg
-    class="icon-play"
-    viewBox="0 0 24 24"
-    fill="currentColor"
     width="24"
     height="24"
+    fill="currentColor"
+    class="icon-play"
+    viewBox="0 0 24 24"
   >
     <path d="M8 5v14l11-7z"></path>
   </svg>
 </button>
 
 <script>
-  const AUDIO_KEY = "bg-audio-playing";
+  const audio = document.getElementById("bg-audio") as HTMLAudioElement;
+  const btn = document.getElementById("music-btn") as HTMLButtonElement;
 
-  function initMusicPlayer() {
-    const audio = document.getElementById("bg-audio") as HTMLAudioElement;
-    const btn = document.querySelector(".music-btn") as HTMLElement;
-    if (!audio || !btn) return;
-
-    function syncBtn() {
-      const playing = !audio.paused;
-      btn.classList.toggle("paused", !playing);
-      btn.setAttribute("aria-pressed", String(playing));
-    }
-
-    if (!btn.dataset.initialized) {
-      btn.dataset.initialized = "1";
-
-      btn.addEventListener("click", async () => {
-        if (audio.paused) {
-          await audio.play().catch(() => {});
-          localStorage.setItem(AUDIO_KEY, "true");
-        } else {
-          audio.pause();
-          localStorage.setItem(AUDIO_KEY, "false");
-        }
-        syncBtn();
-      });
-
-      audio.addEventListener("play", () => {
-        localStorage.setItem(AUDIO_KEY, "true");
-        syncBtn();
-      });
-      audio.addEventListener("pause", () => {
-        localStorage.setItem(AUDIO_KEY, "false");
-        syncBtn();
-      });
-    }
-
-    if (localStorage.getItem(AUDIO_KEY) === "true" && audio.paused) {
-      audio.play().catch(() => {});
-    }
-    syncBtn();
+  function setPlayingState(playing: boolean): void {
+    btn.classList.toggle("paused", !playing);
+    btn.setAttribute("aria-pressed", String(playing));
   }
 
-  document.addEventListener("astro:page-load", initMusicPlayer);
+  function fade(from: number, to: number, duration = 300): Promise<void> {
+    return new Promise((resolve) => {
+      const startTime = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min((now - startTime) / duration, 1);
+        audio.volume = Math.max(0, Math.min(1, from + (to - from) * t));
+        t < 1 ? requestAnimationFrame(tick) : resolve();
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  // Autoplay con fade in
+  audio.volume = 0;
+  audio
+    .play()
+    .then(() => fade(0, 1).then(() => setPlayingState(true)))
+    .catch(() => {
+      audio.volume = 1;
+      setPlayingState(false);
+    });
+
+  // Toggle play / pause
+  btn.addEventListener("click", async () => {
+    if (audio.paused) {
+      audio.volume = 0;
+      await audio.play();
+      await fade(0, 1);
+      setPlayingState(true);
+    } else {
+      await fade(audio.volume, 0);
+      audio.pause();
+      setPlayingState(false);
+    }
+  });
 </script>
 
 <style>
@@ -98,6 +105,7 @@
       0 0 15px 3px rgba(130, 103, 40, 0.3),
       inset 0 1px 0 rgba(220, 195, 120, 0.1);
     transition: all 0.3s ease;
+    cursor: pointer;
   }
 
   .music-btn:hover {
@@ -118,7 +126,6 @@
   .music-btn .icon-pause {
     display: none;
   }
-
   .music-btn .icon-play {
     display: block;
   }
@@ -126,7 +133,6 @@
   .music-btn:not(.paused) .icon-pause {
     display: block;
   }
-
   .music-btn:not(.paused) .icon-play {
     display: none;
   }

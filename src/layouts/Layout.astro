@@ -1,8 +1,8 @@
 ---
 import "@styles/global.css";
 import "@styles/characters.css";
-import MusicButton from "@components/ui/MusicButton.astro";
 import { ClientRouter } from "astro:transitions";
+
 interface Props {
   title?: string;
   description?: string;
@@ -30,6 +30,5 @@ const {
   </head>
   <body>
     <slot />
-    <MusicButton transition:persist transition:name="media-player" />
   </body>
 </html>

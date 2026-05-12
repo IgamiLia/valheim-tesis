@@ -5,10 +5,17 @@ import Smoke from "@components/effects/SmokeEffect.astro";
 
 <Layout>
   <section id="portal-section" aria-label="Portal hacia la serie">
+    <div class="portal-background"></div>
     <Smoke />
+
+    <div id="fire-ring-wrapper" aria-hidden="true">
+      <div id="fire-ring"></div>
+    </div>
+
     <span class="runes">ᚱᚨᛁᛞᛟ</span>
     <span class="runes">ᚨᚾᛊᚢᛉ</span>
     <span class="runes">ᚲᛖᚾᚨᛉ</span>
+
     <div class="info">
       <p>
         Cruza la senda de piedra donde los antiguos caminos conducen hacia los
@@ -21,7 +28,9 @@ import Smoke from "@components/effects/SmokeEffect.astro";
         >
       </p>
     </div>
+
     <canvas id="portal-canvas"></canvas>
+
     <div id="portal-hint">
       <span class="hint-rune">ᛈ</span>
       <span class="hint-text">Pasa el cursor por el portal</span>
@@ -31,6 +40,47 @@ import Smoke from "@components/effects/SmokeEffect.astro";
 </Layout>
 
 <style>
+  /* ─── Layout base ──────────────────────────────────────────────────────── */
+
+  #portal-section {
+    position: relative;
+    width: 100%;
+    height: 110vh;
+    overflow: hidden;
+    cursor: default;
+    background-color: #000000;
+  }
+
+  /* Capas apiladas (de fondo a frente):
+     0  .portal-background   imagen estática
+     1  #smoke                humo (definido en SmokeEffect.astro)
+     2  #portal-canvas        portal WebGL (transparente fuera de la máscara)
+     5  .info / .runes / #portal-hint
+  */
+
+  .portal-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("/images/backgrounds/portal_background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+
+  #portal-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }
+
+  /* ─── Texto narrativo ──────────────────────────────────────────────────── */
+
   .info {
     position: absolute;
     top: 50%;
@@ -43,7 +93,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     line-height: 1.2;
     display: flex;
     flex-direction: column;
-    z-index: 10;
+    z-index: 5;
   }
 
   .info > p {
@@ -53,7 +103,6 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       0 0 4px #000,
       0 1px 16px #080300,
       0 1px 24px #000;
-    z-index: 20;
   }
 
   .title {
@@ -74,10 +123,12 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     filter: contrast(1.15) brightness(1.1) saturate(1.2) sepia(0.5);
   }
 
+  /* ─── Runas decorativas ───────────────────────────────────────────────── */
+
   .runes {
     display: block;
     position: absolute;
-    z-index: 10;
+    z-index: 5;
     font-family: "Runes", "Cinzel", "Palatino Linotype", serif;
     letter-spacing: 1rem;
     font-weight: bold;
@@ -90,45 +141,30 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     opacity: 0.5;
   }
 
-  .runes:nth-child(3) {
+  .runes:nth-child(4) {
     top: 4.5rem;
     left: 0;
     font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
   }
 
-  .runes:nth-child(4) {
+  .runes:nth-child(5) {
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
     font-size: clamp(2rem, 10.9091vw + -0.1818rem, 8rem);
   }
 
-  .runes:nth-child(5) {
+  .runes:nth-child(6) {
     bottom: 4.5rem;
     left: 0;
     font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
   }
 
-  #portal-section {
-    position: relative;
-    width: 100%;
-    height: 110vh;
-    overflow: hidden;
-    cursor: default;
-    background-color: #000000;
-  }
-
-  #portal-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000000;
-  }
+  /* ─── Hint de interacción ─────────────────────────────────────────────── */
 
   #portal-hint {
     position: absolute;
-    z-index: 10;
+    z-index: 5;
     bottom: 5rem;
     left: 50%;
     transform: translateX(-50%);
@@ -160,6 +196,8 @@ import Smoke from "@components/effects/SmokeEffect.astro";
   .hint-rune:last-child {
     animation-delay: 1.25s;
   }
+
+  /* ─── Animaciones ─────────────────────────────────────────────────────── */
 
   @keyframes textGlow {
     0% {
@@ -204,7 +242,22 @@ import Smoke from "@components/effects/SmokeEffect.astro";
   import * as THREE from "three";
   import { navigate } from "astro:transitions/client";
 
-  // ─── Shaders ─────────────────────────────────────────────────────────────────
+  // ─── Configuración ───────────────────────────────────────────────────────
+
+  const TEXTURES = {
+    base: "/images/portal/portal.png",
+    active: "/images/portal/portal_active.png",
+    mask: "/images/portal/portal_mask.png",
+  } as const;
+
+  const NAVIGATION_TARGET = "/serie";
+  const ZOOM_DELAY_MS = 1500;
+  const HOVER_LERP = 0.04;
+
+  const CURSOR_OVER = 'url("/cursor/pointer_fixed.cur") 16 2, pointer';
+  const CURSOR_OUT = 'url("/cursor/cursor_fixed.cur") 0 0, auto';
+
+  // ─── Shaders ─────────────────────────────────────────────────────────────
 
   const vertexShader = /* glsl */ `
     varying vec2 vUv;
@@ -254,92 +307,96 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       vec4  base      = texture2D(uTexBase,   vUv);
       vec4  texActive = texture2D(uTexActive, vUv);
 
-      // Crossfade con noise animado — la transición no es un corte seco
       float noiseVal  = fbm(vUv * 4.0 + uTime * 0.3);
       float threshold = uHover + noiseVal * 0.15 - 0.075;
       float blend     = smoothstep(0.0, 1.0, threshold) * mask;
 
-      vec4 color = mix(base, texActive, blend);
-
-      gl_FragColor = color;
+      gl_FragColor = mix(base, texActive, blend);
     }
   `;
 
-  // ─── Fire ring shaders ───────────────────────────────────────────────────────
-
-  const fireVertexShader = /* glsl */ `
-    uniform float uTime;
-    attribute float aTimeOffset;
-    varying float vT;
-
-    void main() {
-      float t = fract(uTime * 0.6 + aTimeOffset);
-
-      vec2 center = vec2(0.5, -0.1);
-      vec2 dir    = normalize(position.xy - center);
-      float a     = atan(dir.y, dir.x);
-
-      float shrink = 1.0 - t * 0.6;
-      float turbX  = sin(a * 7.0 + uTime * 3.5) * 0.010;
-      float turbY  = cos(a * 5.0 + uTime * 2.8) * 0.008;
-
-      vec2 pos;
-      pos.x = center.x + dir.x * 0.12 * shrink + turbX;
-      pos.y = center.y + dir.y * 0.18 * shrink + t * 0.5 + turbY;
-
-      vT = t;
-
-      vec4 mvPos = modelViewMatrix * vec4(pos, 0.0, 1.0);
-      gl_PointSize = mix(8.0, 1.0, t * t);
-      gl_Position  = projectionMatrix * mvPos;
-    }
-  `;
-
-  // ─── Variables globales ───────────────────────────────────────────────────────
+  // ─── Estado de módulo (cleanup entre navegaciones SPA) ──────────────────
 
   let animationId: number | null = null;
   let renderer: THREE.WebGLRenderer | null = null;
   let resizeObserver: ResizeObserver | null = null;
+  let cleanupListeners: (() => void) | null = null;
 
-  // ─── Inicialización ───────────────────────────────────────────────────────────
+  function dispose() {
+    if (animationId !== null) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+    resizeObserver?.disconnect();
+    resizeObserver = null;
+    cleanupListeners?.();
+    cleanupListeners = null;
+    renderer?.dispose();
+    renderer = null;
+  }
+
+  // ─── Helpers ─────────────────────────────────────────────────────────────
+
+  function createMaskSampler(image: HTMLImageElement) {
+    const c = document.createElement("canvas");
+    const ctx = c.getContext("2d", { willReadFrequently: true })!;
+    c.width = image.naturalWidth || 256;
+    c.height = image.naturalHeight || 144;
+    ctx.drawImage(image, 0, 0, c.width, c.height);
+
+    return (uvX: number, uvY: number): boolean => {
+      const x = Math.floor(Math.max(0, Math.min(0.999, uvX)) * c.width);
+      const y = Math.floor(Math.max(0, Math.min(0.999, uvY)) * c.height);
+      return ctx.getImageData(x, y, 1, 1).data[0] > 128;
+    };
+  }
+
+  function uvFromEvent(canvas: HTMLCanvasElement, e: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    };
+  }
+
+  // ─── Inicialización ──────────────────────────────────────────────────────
 
   async function initPortal() {
-    if (animationId) cancelAnimationFrame(animationId);
-    if (resizeObserver) resizeObserver.disconnect();
-    if (renderer) renderer.dispose();
+    dispose();
 
     const canvas = document.getElementById(
       "portal-canvas",
-    ) as HTMLCanvasElement;
-    const section = document.getElementById("portal-section") as HTMLElement;
-    const hint = document.getElementById("portal-hint") as HTMLElement;
+    ) as HTMLCanvasElement | null;
+    const section = document.getElementById(
+      "portal-section",
+    ) as HTMLElement | null;
+    const hint = document.getElementById("portal-hint") as HTMLElement | null;
 
     if (!canvas || !section || !hint) return;
 
     section.classList.remove("portal-zoom");
 
+    // ─── Renderer transparente (deja ver el fondo + smoke) ────────────────
+
     renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
-      alpha: false,
+      alpha: true,
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const geometry = new THREE.PlaneGeometry(2, 2);
 
-    // ─── Carga de texturas ────────────────────────────────────────────────────
+    // ─── Texturas ─────────────────────────────────────────────────────────
 
     const loader = new THREE.TextureLoader();
-
     const [texBase, texActive, texMask] = await Promise.all([
-      loader.loadAsync("/images/portal/portal.png"),
-      loader.loadAsync("/images/portal/active_portal.png"),
-      loader.loadAsync("/images/portal/portal_mask.png"),
+      loader.loadAsync(TEXTURES.base),
+      loader.loadAsync(TEXTURES.active),
+      loader.loadAsync(TEXTURES.mask),
     ]);
-
-    // ─── Uniforms y material ──────────────────────────────────────────────────
 
     const uniforms = {
       uTexBase: { value: texBase },
@@ -353,102 +410,74 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       uniforms,
       vertexShader,
       fragmentShader,
+      transparent: true,
     });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
 
-    // ─── Mask sampling ────────────────────────────────────────────────────────
+    scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
 
-    const maskCanvas = document.createElement("canvas");
-    const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true })!;
-    const maskImage = texMask.image as HTMLImageElement;
-    maskCanvas.width = maskImage.naturalWidth || 256;
-    maskCanvas.height = maskImage.naturalHeight || 144;
-    maskCtx.drawImage(maskImage, 0, 0, maskCanvas.width, maskCanvas.height);
+    const sampleMask = createMaskSampler(texMask.image as HTMLImageElement);
 
-    function sampleMask(uvX: number, uvY: number): boolean {
-      const clampedX = Math.max(0, Math.min(0.999, uvX));
-      const clampedY = Math.max(0, Math.min(0.999, uvY));
-      const px = Math.floor(clampedX * maskCanvas.width);
-      const py = Math.floor(clampedY * maskCanvas.height);
-      const data = maskCtx.getImageData(px, py, 1, 1).data;
-      return data[0] > 128;
-    }
+    // ─── Resize ───────────────────────────────────────────────────────────
 
-    // ─── Resize ───────────────────────────────────────────────────────────────
-
-    function resize() {
-      const w = section.clientWidth;
-      const h = section.clientHeight;
-      renderer!.setSize(w, h, false);
-    }
+    const resize = () => {
+      renderer!.setSize(section.clientWidth, section.clientHeight, false);
+    };
     resize();
     resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(section);
 
-    // ─── Mouse tracking ───────────────────────────────────────────────────────
+    // ─── Hover (lerp suave hacia hoverTarget) ─────────────────────────────
 
     let hoverTarget = 0.0;
-    let isOverPortal = false;
 
-    section.addEventListener("mousemove", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const uvX = (e.clientX - rect.left) / rect.width;
-      const uvY = (e.clientY - rect.top) / rect.height;
+    const onMouseMove = (e: MouseEvent) => {
+      const { x, y } = uvFromEvent(canvas, e);
+      if (x < 0 || x > 1 || y < 0 || y > 1) return;
 
-      if (uvX >= 0 && uvX <= 1 && uvY >= 0 && uvY <= 1) {
-        isOverPortal = sampleMask(uvX, uvY);
-        hoverTarget = isOverPortal ? 1.0 : 0.0;
+      const overPortal = sampleMask(x, y);
+      hoverTarget = overPortal ? 1.0 : 0.0;
+      canvas.style.cursor = overPortal ? CURSOR_OVER : CURSOR_OUT;
+      hint.classList.toggle("hidden", overPortal);
+    };
 
-        canvas.style.cursor = isOverPortal
-          ? 'url("/cursor/pointer_fixed.cur") 16 2, pointer'
-          : 'url("/cursor/cursor_fixed.cur") 0 0, auto';
-
-        if (isOverPortal) {
-          hint.classList.add("hidden");
-        } else {
-          hint.classList.remove("hidden");
-        }
-      }
-    });
-
-    section.addEventListener("mouseleave", () => {
+    const onMouseLeave = () => {
       hoverTarget = 0.0;
-      isOverPortal = false;
-      section.style.cursor = "default";
       canvas.style.cursor = "default";
       hint.classList.remove("hidden");
-    });
+    };
 
-    // ─── Click → zoom + navegación ────────────────────────────────────────────
+    const onClick = (e: MouseEvent) => {
+      const { x, y } = uvFromEvent(canvas, e);
+      if (!sampleMask(x, y)) return;
 
-    canvas.addEventListener("click", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const clickX = (e.clientX - rect.left) / rect.width;
-      const clickY = (e.clientY - rect.top) / rect.height;
+      section.classList.add("portal-zoom");
+      setTimeout(() => navigate(NAVIGATION_TARGET), ZOOM_DELAY_MS);
+    };
 
-      if (sampleMask(clickX, clickY)) {
-        section.classList.add("portal-zoom");
-        setTimeout(() => navigate("/serie"), 1500);
-      }
-    });
+    section.addEventListener("mousemove", onMouseMove);
+    section.addEventListener("mouseleave", onMouseLeave);
+    canvas.addEventListener("click", onClick);
 
-    // ─── Loop de animación ────────────────────────────────────────────────────
+    cleanupListeners = () => {
+      section.removeEventListener("mousemove", onMouseMove);
+      section.removeEventListener("mouseleave", onMouseLeave);
+      canvas.removeEventListener("click", onClick);
+    };
+
+    // ─── Loop ─────────────────────────────────────────────────────────────
 
     const clock = new THREE.Timer();
 
-    function animate() {
+    const animate = () => {
       animationId = requestAnimationFrame(animate);
-
       uniforms.uTime.value = clock.getElapsed();
       uniforms.uHover.value = THREE.MathUtils.lerp(
         uniforms.uHover.value,
         hoverTarget,
-        0.04,
+        HOVER_LERP,
       );
-
       renderer!.render(scene, camera);
-    }
+    };
     animate();
   }
 

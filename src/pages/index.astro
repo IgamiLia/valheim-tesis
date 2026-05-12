@@ -8,7 +8,7 @@ import Footer from "@components/sections/Footer.astro";
 import Parallax from "@components/effects/Parallax.astro";
 import SectionDivider from "@components/ui/SectionDivider.astro";
 import SectionMusic from "@components/sections/SectionMusic.astro";
-// import PortalSerie from "@components/sections/PortalSerie.astro";
+import MusicButton from "@components/ui/MusicButton.astro";
 ---
 
 <Layout>
@@ -25,4 +25,5 @@ import SectionMusic from "@components/sections/SectionMusic.astro";
   <SectionSerie />
   <SectionDivider />
   <Footer />
+  <MusicButton audioSrc="/ost/home.mp3" />
 </Layout>
