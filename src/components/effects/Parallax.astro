@@ -48,13 +48,6 @@ const biografias = [
 ];
 ---
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
-  rel="stylesheet"
-/>
-
 <svg width="0" height="0" style="position:absolute; pointer-events:none;">
   <defs>
     <filter id="roughen" x="-20%" y="-20%" width="140%" height="140%">
@@ -173,6 +166,7 @@ const biografias = [
 
   /* ── H2 base ── */
   .card h2 {
+    height: fit-content;
     grid-column: span 2 / span 2;
     grid-row-start: 1;
     display: grid;
@@ -180,7 +174,9 @@ const biografias = [
     font-family: "Cinzel", Georgia, serif;
     font-size: clamp(5rem, 11.0803vw + 1.6898rem, 8rem);
     font-weight: 700;
-    font-feature-settings: "liga" 1, "kern" 1;
+    font-feature-settings:
+      "liga" 1,
+      "kern" 1;
     position: relative;
     z-index: 2;
     letter-spacing: 8px;
@@ -188,10 +184,10 @@ const biografias = [
       to bottom,
       rgb(255, 252, 220) 0%,
       rgb(242, 214, 116) 18%,
-      rgb(205, 170, 80)  38%,
-      rgb(180, 151, 76)  58%,
-      rgb(145, 114, 46)  78%,
-      rgb(95,  72,  22) 100%
+      rgb(205, 170, 80) 68%,
+      rgb(180, 151, 76) 78%,
+      rgb(145, 114, 46) 88%,
+      rgb(95, 72, 22) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -206,14 +202,13 @@ const biografias = [
   .parallax:nth-of-type(4) .card h2,
   .parallax:nth-of-type(5) .card h2,
   .parallax:nth-of-type(6) .card h2 {
-    margin-top: 5rem;
+    margin-top: 6rem;
   }
 
   /* Einar, Runa: drop-shadow para fondos claros */
   .parallax:nth-of-type(4) .card h2,
   .parallax:nth-of-type(5) .card h2 {
-    filter:
-      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95))
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95))
       drop-shadow(0 4px 16px rgba(0, 0, 0, 0.75))
       drop-shadow(0 8px 32px rgba(0, 0, 0, 0.5));
   }
@@ -278,7 +273,7 @@ const biografias = [
   }
 
   .card p.first-p::first-letter {
-    font-family: "Cinzel", Georgia, serif;
+    font-family: "Cinzel Variable", Georgia, serif;
     font-size: 3.5em;
     font-weight: 700;
     line-height: 0.75;

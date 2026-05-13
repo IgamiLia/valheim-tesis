@@ -9,24 +9,39 @@
       </h1>
     </div>
 
-    <p>
-      <span>Valheim: Larga vida a la Reina</span> es una webserie dirigida por
-      <span>Ailen Braga</span> y <span>Matías Aguirre</span>, dos jugadores
-      casuales del videojuego
-      <span><a href="valheim-pag">Valheim</a></span>, centrado en la
-      supervivencia dentro de un mundo abierto inspirado en la mitología
-      nórdica. La propuesta toma ese universo como base para contar una historia
-      propia, combinando aventura, exploración y suspenso.
-      <br />El proyecto fue realizado utilizando el modo multijugador del juego
-      como herramienta de rodaje, con el objetivo principal de desarrollar una
-      miniserie de fantasía con fines académicos. Cada capítulo es breve, con
-      una duración de un minuto aproximadamente, pensado para un consumo rápido
-      y dinámico. Los episodios están disponibles en <span
-        ><a href="#tk">TikTok</a></span
-      > y también en
-      <span><a href="#ig">Instagram</a></span>, donde este último funciona más
-      como espacio de difusión y acompañamiento del contenido principal.
-    </p>
+    <div class="intro-wrap">
+      <p class="intro">
+        <strong>Valheim: Larga vida a la Reina</strong> es una webserie dirigida por
+        <strong
+          ><a
+            href="https://ailenbraga.com"
+            role="link"
+            target="_blank"
+            rel="noopener noreferrer">Ailén Braga</a
+          ></strong
+        > y <strong
+          ><a
+            href="https://matt-s-portfolio-steel.vercel.app/"
+            role="link"
+            target="_blank"
+            rel="noopener noreferrer">Matías Aguirre</a
+          ></strong
+        >, dos jugadores casuales del videojuego <a href="#">Valheim</a>,
+        centrado en la supervivencia dentro de un mundo abierto inspirado en la
+        <strong>mitología nórdica</strong>. La propuesta toma ese universo como
+        base para contar una historia propia, combinando aventura, exploración y
+        suspenso.
+      </p>
+      <p class="intro">
+        El proyecto fue realizado utilizando el modo multijugador del juego como
+        <strong>herramienta de rodaje</strong>, con el objetivo de desarrollar
+        una miniserie de fantasía con fines académicos. Cada capítulo dura
+        aproximadamente un minuto, pensado para un consumo rápido y dinámico.
+        Los episodios están disponibles en <a href="#tk">TikTok</a> y en
+        <a href="#ig">Instagram</a>, donde este último funciona como espacio de
+        difusión y acompañamiento del contenido principal.
+      </p>
+    </div>
 
     <div class="index-aside">
       <!-- ÍNDICE -->
@@ -68,7 +83,6 @@
 
       <!-- COLUMNA DE ASIDES -->
       <div class="asides-col">
-        <!-- Aside: Redes sociales -->
         <aside class="aside-redes">
           <h2>Podés ver la webserie en</h2>
           <div class="redes-links">
@@ -89,17 +103,12 @@
           </div>
         </aside>
 
-        <!-- Aside: Ficha técnica estilo Wikipedia -->
         <aside class="ficha-tec">
           <table class="ficha-table">
             <tbody>
-              <!-- Encabezado principal -->
-              <tr class="ficha-titulo"
-                ><!--TR ES FILA, TD ES CELDA-->
+              <tr class="ficha-titulo">
                 <td colspan="2">Valheim: Larga vida a la Reina</td>
               </tr>
-
-              <!-- Sección: Información de lanzamiento -->
               <tr class="ficha-seccion">
                 <td colspan="2">Información de lanzamiento</td>
               </tr>
@@ -131,7 +140,6 @@
                   <a href="#tk">TikTok</a> · <a href="#ig">Instagram</a>
                 </td>
               </tr>
-              <!-- Sección: Información de producción -->
               <tr class="ficha-seccion">
                 <td colspan="2">Información de producción</td>
               </tr>
@@ -157,8 +165,6 @@
                   <span>Matías Aguirre</span>
                 </td>
               </tr>
-
-              <!-- Sección: Información cronológica -->
               <tr class="ficha-seccion">
                 <td colspan="2">Información cronológica</td>
               </tr>
@@ -177,16 +183,17 @@
         </aside>
       </div>
     </div>
+
     <div class="sinopsis">
       <h2>SINOPSIS</h2>
       <p>
-        Dos hermanos, Runa y Einar, se encuentran viviendo tranquilos en un
-        pueblo aislado de Midgard, hasta que un hecho cambió sus vidas: la Reina
-        del Inframundo, Hel, secuestra a Runa para desencadenar sus poderes
-        ocultos. Einar, con ojos llenos de furia, no se da por vencido y decide
-        hacerse más fuerte para acabar con ella. Sin embargo, al llegar a sus
-        tierras se encuentra con una sorpresa: deberá luchar contra su propia
-        hermana para salvarla.
+        Dos hermanos, <strong>Runa</strong> y <strong>Einar</strong>, viven
+        tranquilos en un pueblo aislado de Midgard hasta que un hecho cambia sus
+        vidas: la Reina del Inframundo, <strong>Hel</strong>, secuestra a Runa
+        para desencadenar sus poderes ocultos. Einar, consumido por la furia,
+        decide hacerse más fuerte para enfrentarla. Sin embargo, al llegar a sus
+        tierras descubre que deberá
+        <strong>luchar contra su propia hermana para salvarla</strong>.
       </p>
     </div>
   </main>
@@ -230,7 +237,8 @@
   }
 
   h1 {
-    font-size: clamp(1.25rem, calc(0.614rem + 3.182vw), 3rem);
+    font-family: "Cinzel Variable", Georgia, serif;
+    font-size: clamp(1.1rem, calc(0.5rem + 2.8vw), 2.6rem);
     z-index: 2;
     position: relative;
     text-wrap: pretty;
@@ -252,16 +260,89 @@
     pointer-events: none;
   }
 
-  p {
-    font-size: clamp(0.875rem, calc(0.557rem + 1.591vw), 1.75rem);
-    line-height: 1.85;
-    padding: 0.5rem;
-    color: rgb(225, 210, 178);
-    letter-spacing: 0.03em;
-    width: 90%;
-    text-wrap: pretty;
+  /* ─────────────────────────────────────────────
+     Intro: mismo ancho que .index-aside, sin caja.
+     Legibilidad resuelta con texto + separadores.
+  ───────────────────────────────────────────── */
+  .intro-wrap {
+    width: 75vw;
+    margin: 0 auto;
+    position: relative;
   }
 
+  /* Separador superior: línea dorada que se desvanece en los extremos */
+  .intro-wrap::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(180, 151, 76, 0.6) 15%,
+      rgba(210, 175, 88, 0.9) 50%,
+      rgba(180, 151, 76, 0.6) 85%,
+      transparent 100%
+    );
+  }
+
+  /* Separador inferior */
+  .intro-wrap::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-top: 1.5rem;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(180, 151, 76, 0.6) 15%,
+      rgba(210, 175, 88, 0.9) 50%,
+      rgba(180, 151, 76, 0.6) 85%,
+      transparent 100%
+    );
+  }
+
+  .intro {
+    width: 100%;
+    font-size: clamp(0.85rem, calc(0.4rem + 1.3vw), 1.5rem);
+    line-height: 1.9;
+    color: rgb(232, 218, 190);
+    letter-spacing: 0.028em;
+    word-spacing: 0.06em;
+    text-wrap: pretty;
+    text-shadow:
+      0 0 20px rgba(0, 0, 0, 0.95),
+      0 0 8px rgba(0, 0, 0, 0.95),
+      0 1px 2px rgba(0, 0, 0, 1),
+      2px 0 8px rgba(0, 0, 0, 0.8),
+      -2px 0 8px rgba(0, 0, 0, 0.8);
+  }
+
+  .intro + .intro {
+    margin-top: 1.15em;
+  }
+
+  .intro strong {
+    color: rgb(222, 196, 128);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .intro a {
+    color: var(--color-gold-light);
+    font-weight: bold;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .intro a:hover {
+    color: var(--color-gold);
+    text-decoration: underline;
+  }
+
+  /* spans dentro de asides */
   span,
   span a {
     font-weight: bold;
@@ -274,26 +355,20 @@
     transition: all var(--transition-fast);
   }
 
-  /* =============================================
-     INDEX-ASIDE: layout principal
-     ============================================= */
+  /* ── Index aside ── */
   .index-aside {
     display: flex;
     justify-content: space-around;
-    align-items: stretch; /* ambas columnas crecen a la misma altura */
+    align-items: stretch;
     gap: 2rem;
     width: 100%;
   }
 
-  /* =============================================
-     ÍNDICE (nav.contenido) — sin cambios de estilo
-     ============================================= */
   .contenido {
     background-color: rgba(0, 0, 0, 0.438);
     flex-shrink: 0;
     width: clamp(200px, 22vw, 320px);
     min-width: fit-content;
-    /* padding: 1.5rem 2rem; */
     border: var(--card-border-width) solid var(--color-gold-dark);
     outline-offset: 4px;
     box-shadow:
@@ -322,7 +397,6 @@
       rgba(50, 36, 5, 0.65) 100%
     );
     border-bottom: 1px solid var(--color-gold-dark);
-    margin-bottom: 24p;
   }
 
   .contenido ol {
@@ -406,22 +480,15 @@
     filter: contrast(1.15) brightness(1.1) saturate(1.2) sepia(0.5);
   }
 
-  /* =============================================
-     COLUMNA DERECHA: asides apilados
-     ============================================= */
+  /* ── Asides ── */
   .asides-col {
-    /*tabla*/
     display: flex;
     flex-direction: column;
     gap: 1rem;
     min-width: 0;
   }
 
-  /* =============================================
-     ASIDE BASE: estilos compartidos
-     ============================================= */
   aside {
-    /*estilos de redes y tabla*/
     background-color: rgba(0, 0, 0, 0.438);
     border: var(--card-border-width) solid var(--color-gold-dark);
     outline-offset: 4px;
@@ -436,7 +503,6 @@
   }
 
   aside h2 {
-    /*estilos para títulos de ambos asides*/
     text-shadow: var(--color-gold) 0px 0px 24px;
     -webkit-text-stroke: 0.9px var(--color-gold-light);
     font-size: clamp(0.85rem, calc(0.455rem + 1.5vw), 1.6rem);
@@ -453,9 +519,6 @@
     border-bottom: 1px solid var(--color-gold-dark);
   }
 
-  /* =============================================
-     ASIDE REDES
-     ============================================= */
   .aside-redes .redes-links {
     display: flex;
     justify-content: center;
@@ -489,12 +552,8 @@
     transform: scale(1.05);
   }
 
-  /* ====================
-     ASIDE FICHA TÉCNICA
-     ====================*/
+  /* ── Ficha técnica ── */
   .ficha-tec {
-    /*
-    flex: 1; /* crece para igualar la altura del índice */
     display: flex;
     flex-direction: column;
     max-width: 500px;
@@ -506,7 +565,6 @@
     font-family: "Georgia", serif;
   }
 
-  /* Título principal de la ficha */
   .ficha-titulo td {
     text-align: center;
     padding: 0.6rem 1rem;
@@ -524,9 +582,7 @@
     border-bottom: 1px solid var(--color-gold-dark);
   }
 
-  /* Encabezados de sección (Release info / Production info / etc.) */
   .ficha-seccion td {
-    /*estilos para títulos de columna*/
     text-align: center;
     padding: 0.4rem 1rem;
     font-size: clamp(0.72rem, calc(0.35rem + 1vw), 1rem);
@@ -545,7 +601,6 @@
     text-transform: uppercase;
   }
 
-  /* Filas de datos */
   .ficha-table tr:not(.ficha-titulo):not(.ficha-seccion) td {
     padding: 0.4rem 0.9rem;
     border-bottom: 1px solid rgba(138, 106, 26, 0.18);
@@ -555,7 +610,6 @@
   }
 
   .ficha-label {
-    /*columna izq*/
     color: rgb(233, 200, 101);
     font-weight: bold;
     width: 38%;
@@ -563,7 +617,6 @@
   }
 
   .ficha-valor {
-    /*columna der*/
     color: rgb(210, 188, 145);
   }
 
@@ -578,7 +631,6 @@
     color: var(--color-gold);
   }
 
-  /* Valores apilados verticalmente (actores, directores) */
   .ficha-stack {
     display: flex;
     flex-direction: column;
@@ -589,37 +641,47 @@
     font-style: italic;
   }
 
-  /*SINOPSIS*/
-
+  /* ── Sinopsis ── */
   .sinopsis {
-    width: fit-content;
+    max-width: 75vw;
+    margin: 0 auto;
     text-wrap: pretty;
   }
 
   .sinopsis > h2 {
+    font-family: "Cinzel Variable", Georgia, serif;
     text-shadow: var(--color-gold) 0px 0px 24px;
     -webkit-text-stroke: 0.9px var(--color-gold-light);
-    font-size: clamp(1.25rem, calc(0.614rem + 3.182vw), 3rem);
+    font-size: clamp(1.25rem, calc(0.614rem + 3.182vw), 3.5rem);
     letter-spacing: 1.5px;
     color: transparent;
     font-weight: bold;
     padding: 0.5rem;
     border-bottom: 1px solid var(--color-gold-dark);
-    margin-bottom: 0rem;
+    margin-bottom: 0;
   }
 
   .sinopsis p {
-    font-size: clamp(0.875rem, calc(0.557rem + 1.591vw), 1.75rem);
+    font-size: clamp(0.85rem, calc(0.45rem + 1.4vw), 1.9rem);
     line-height: 1.85;
     padding: 0.5rem;
     color: rgb(225, 210, 178);
     letter-spacing: 0.03em;
-    width: 90%;
     text-wrap: pretty;
+    text-shadow:
+      0 0 20px rgba(0, 0, 0, 0.95),
+      0 0 8px rgba(0, 0, 0, 0.95),
+      0 1px 2px rgba(0, 0, 0, 1),
+      2px 0 8px rgba(0, 0, 0, 0.8),
+      -2px 0 8px rgba(0, 0, 0, 0.8);
   }
-  /* =============================================
-     RESPONSIVE
-     ============================================= */
+
+  .sinopsis p strong {
+    color: rgb(222, 196, 128);
+    font-weight: 600;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 900px) {
     .index-aside {
       flex-direction: column;
