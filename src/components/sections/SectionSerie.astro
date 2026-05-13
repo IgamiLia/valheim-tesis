@@ -12,9 +12,9 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       <div id="fire-ring"></div>
     </div>
 
-    <span class="runes">ᚱᚨᛁᛞᛟ</span>
-    <span class="runes">ᚨᚾᛊᚢᛉ</span>
-    <span class="runes">ᚲᛖᚾᚨᛉ</span>
+    <span class="runes rune-top">ᚱᚨᛁᛞᛟ</span>
+    <span class="runes rune-mid">ᚨᚾᛊᚢᛉ</span>
+    <span class="runes rune-bot">ᚲᛖᚾᚨᛉ</span>
 
     <div class="info">
       <p>
@@ -40,24 +40,16 @@ import Smoke from "@components/effects/SmokeEffect.astro";
 </Layout>
 
 <style>
-  /* ─── Layout base ──────────────────────────────────────────────────────── */
-
   #portal-section {
     position: relative;
     width: 100%;
     height: 110vh;
     overflow: hidden;
-    cursor: default;
+    cursor:
+      url("/cursor/cursor_fixed.cur") 0 0,
+      auto;
     background-color: #000000;
   }
-
-  /* Capas apiladas (de fondo a frente):
-     0  .portal-background   imagen estática
-     1  #smoke                humo (definido en SmokeEffect.astro)
-     2  #portal-canvas        portal WebGL (transparente fuera de la máscara)
-     5  .info / .runes / #portal-hint
-  */
-
   .portal-background {
     position: absolute;
     inset: 0;
@@ -86,7 +78,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     top: 50%;
     left: 8rem;
     transform: translateY(-50%);
-    max-width: 45vw;
+    max-width: 38ch;
     max-height: 550px;
     text-wrap: pretty;
     font-size: clamp(1rem, 2.7273vw + 0.4545rem, 2.8rem);
@@ -94,10 +86,12 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     display: flex;
     flex-direction: column;
     z-index: 5;
+    cursor: inherit;
   }
 
   .info > p {
     color: var(--color-gold-light);
+    cursor: inherit;
     text-shadow:
       0 0 2px #000,
       0 0 4px #000,
@@ -113,6 +107,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     font-weight: bold;
     color: #bf6515;
     opacity: 0.85;
+    cursor: inherit;
     text-shadow:
       0 0 2px #000,
       0 2px 4px rgba(0, 0, 0, 0.8),
@@ -133,6 +128,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     letter-spacing: 1rem;
     font-weight: bold;
     color: #573c2a;
+    cursor: inherit;
     text-shadow: 0px 0px 2px #3d3020;
     filter:
       drop-shadow(0 0 8px #00000088) drop-shadow(0 0 16px #0000004d)
@@ -141,20 +137,20 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     opacity: 0.5;
   }
 
-  .runes:nth-child(4) {
+  .rune-top {
     top: 4.5rem;
     left: 0;
     font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
   }
 
-  .runes:nth-child(5) {
+  .rune-mid {
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
     font-size: clamp(2rem, 10.9091vw + -0.1818rem, 8rem);
   }
 
-  .runes:nth-child(6) {
+  .rune-bot {
     bottom: 4.5rem;
     left: 0;
     font-size: clamp(3rem, 12.7273vw + 0.4545rem, 11rem);
@@ -179,6 +175,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     letter-spacing: 0.15em;
     text-shadow: 0 0 12px rgba(255, 120, 0, 0.5);
     pointer-events: none;
+    cursor: inherit;
     transition: opacity 0.6s ease;
     background-color: #000000aa;
     animation: textGlow 3s ease-in-out infinite alternate;
