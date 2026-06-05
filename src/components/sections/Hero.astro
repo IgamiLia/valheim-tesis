@@ -1,204 +1,211 @@
+---
+import SectionDivider from "@components/ui/SectionDivider.astro";
+---
+
 <section>
-  <main>
-    <img class="logo" src="/images/logos/Logo_valheim.webp" alt="imagen" />
+    <main>
+      <img class="logo" src="/images/logos/Logo_valheim.webp" alt="imagen" />
 
-    <div class="text-wrap">
-      <div class="vignette"></div>
-      <h1 class="parallax-text">
-        Bienvenidos a la wiki de Valheim: Larga vida a la Reina
-      </h1>
-    </div>
-
-    <div class="intro-wrap">
-      <p class="intro">
-        <strong>Valheim: Larga vida a la Reina</strong> es una webserie dirigida por
-        <strong
-          ><a
-            href="https://ailenbraga.com"
-            role="link"
-            target="_blank"
-            rel="noopener noreferrer">Ailén Braga</a
-          ></strong
-        > y <strong
-          ><a
-            href="https://matt-s-portfolio-steel.vercel.app/"
-            role="link"
-            target="_blank"
-            rel="noopener noreferrer">Matías Aguirre</a
-          ></strong
-        >, dos jugadores casuales del videojuego <a href="#">Valheim</a>,
-        centrado en la supervivencia dentro de un mundo abierto inspirado en la
-        <strong>mitología nórdica</strong>. La propuesta toma ese universo como
-        base para contar una historia propia, combinando aventura, exploración y
-        suspenso.
-      </p>
-      <p class="intro">
-        El proyecto fue realizado utilizando el modo multijugador del juego como
-        <strong>herramienta de rodaje</strong>, con el objetivo de desarrollar
-        una miniserie de fantasía con fines académicos. Cada capítulo dura
-        aproximadamente un minuto, pensado para un consumo rápido y dinámico.
-        Los episodios están disponibles en <a href="#tk">TikTok</a> y en
-        <a href="#ig">Instagram</a>, donde este último funciona como espacio de
-        difusión y acompañamiento del contenido principal.
-      </p>
-    </div>
-
-    <div class="index-aside">
-      <!-- ÍNDICE -->
-      <nav class="contenido">
-        <h2>Contenido</h2>
-        <ol>
-          <li><a href="#sinopsis">Sinopsis</a></li>
-          <li>
-            <details open>
-              <summary>Personajes</summary>
-              <ol>
-                <li><a href="#einar">Einar</a></li>
-                <li><a href="#runa">Runa</a></li>
-                <li><a href="#hel">Hel</a></li>
-                <li><a href="#stalker">Stalker</a></li>
-                <li><a href="#moder">Moder</a></li>
-                <li><a href="#fader">Fader</a></li>
-              </ol>
-            </details>
-          </li>
-          <li><a href="#mapa">Mapa de Midgard</a></li>
-          <li>
-            <details open>
-              <summary>Biografías</summary>
-              <ol>
-                <li><a href="#runa-bio">La hechicera de runas</a></li>
-                <li><a href="#einar-bio">El luchador más leal</a></li>
-                <li><a href="#hel-bio">La diosa de los muertos</a></li>
-                <li><a href="#stalker-bio">El acechador silencioso</a></li>
-                <li><a href="#moder-bio">Madre de dragones</a></li>
-                <li><a href="#fader-bio">El padre desterrado</a></li>
-              </ol>
-            </details>
-          </li>
-          <li><a href="#banda">Banda sonora</a></li>
-          <li><a href="#musica">Música utilizada en la webserie</a></li>
-        </ol>
-      </nav>
-
-      <!-- COLUMNA DE ASIDES -->
-      <div class="asides-col">
-        <aside class="aside-redes">
-          <h2>Podés ver la webserie en</h2>
-          <div class="redes-links">
-            <a
-              class="tiktok"
-              href="https://www.tiktok.com/@valheimwebserie?_t=ZM-8xM7SS8YEYY&_r=1"
-            >
-              <img src="/images/icons/tiktok-icon-dark.svg" alt="TikTok" />
-              <span>TikTok</span>
-            </a>
-            <a
-              class="ig"
-              href="https://www.instagram.com/valheimwebserie?igsh=Njk4Zzdic2luZzZk"
-            >
-              <img src="/images/icons/instagram-icon.svg" alt="Instagram" />
-              <span>Instagram</span>
-            </a>
-          </div>
-        </aside>
-
-        <aside class="ficha-tec">
-          <table class="ficha-table">
-            <tbody>
-              <tr class="ficha-titulo">
-                <td colspan="2">Valheim: Larga vida a la Reina</td>
-              </tr>
-              <tr class="ficha-seccion">
-                <td colspan="2">Información de lanzamiento</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Formato</td>
-                <td class="ficha-valor">
-                  <a
-                    href="https://es.wikipedia.org/wiki/Machinima"
-                    target="_blank"
-                    rel="noopener noreferrer">Machinima</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Capítulos</td>
-                <td class="ficha-valor"><a href="">18</a></td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Fecha de inicio</td>
-                <td class="ficha-valor">1 de julio de 2025</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Fecha de finalización</td>
-                <td class="ficha-valor">9 de julio de 2025</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Plataformas</td>
-                <td class="ficha-valor">
-                  <a href="#tk">TikTok</a> · <a href="#ig">Instagram</a>
-                </td>
-              </tr>
-              <tr class="ficha-seccion">
-                <td colspan="2">Información de producción</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Autora</td>
-                <td class="ficha-valor">Braga Ailen</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Editora</td>
-                <td class="ficha-valor">Braga Ailen</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Actores</td>
-                <td class="ficha-valor ficha-stack">
-                  <a href="">Braga Ailen</a>
-                  <a href="">Aguirre Matías</a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Directores</td>
-                <td class="ficha-valor ficha-stack">
-                  <span>Ailen Braga</span>
-                  <span>Matías Aguirre</span>
-                </td>
-              </tr>
-              <tr class="ficha-seccion">
-                <td colspan="2">Información cronológica</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Universo</td>
-                <td class="ficha-valor">Mitología Nórdica (Valheim)</td>
-              </tr>
-              <tr>
-                <td class="ficha-label">Basado en</td>
-                <td class="ficha-valor ficha-italic">
-                  Valheim<br />por Iron Gate Studio
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </aside>
+      <div class="text-wrap">
+        <div class="vignette"></div>
+        <h1 class="parallax-text">
+          Bienvenidos a la wiki de Valheim: Larga vida a la Reina
+        </h1>
       </div>
-    </div>
 
-    <div class="sinopsis">
-      <h2>SINOPSIS</h2>
-      <p>
-        Dos hermanos, <strong>Runa</strong> y <strong>Einar</strong>, viven
-        tranquilos en un pueblo aislado de Midgard hasta que un hecho cambia sus
-        vidas: la Reina del Inframundo, <strong>Hel</strong>, secuestra a Runa
-        para desencadenar sus poderes ocultos. Einar, consumido por la furia,
-        decide hacerse más fuerte para enfrentarla. Sin embargo, al llegar a sus
-        tierras descubre que deberá
-        <strong>luchar contra su propia hermana para salvarla</strong>.
-      </p>
-    </div>
-  </main>
-</section>
+      <div class="intro-wrap">
+        <p class="intro">
+          <strong>Valheim: Larga vida a la Reina</strong> es una webserie dirigida
+          por
+          <strong
+            ><a
+              href="https://ailenbraga.com"
+              role="link"
+              target="_blank"
+              rel="noopener noreferrer">Ailén Braga</a
+            ></strong
+          > y <strong
+            ><a
+              href="https://matt-s-portfolio-steel.vercel.app/"
+              role="link"
+              target="_blank"
+              rel="noopener noreferrer">Matías Aguirre</a
+            ></strong
+          >, dos jugadores casuales del videojuego <a href="#">Valheim</a>,
+          centrado en la supervivencia dentro de un mundo abierto inspirado en
+          la
+          <strong>mitología nórdica</strong>. La propuesta toma ese universo
+          como base para contar una historia propia, combinando aventura,
+          exploración y suspenso.
+        </p>
+        <p class="intro">
+          El proyecto fue realizado utilizando el modo multijugador del juego
+          como
+          <strong>herramienta de rodaje</strong>, con el objetivo de desarrollar
+          una miniserie de fantasía con fines académicos. Cada capítulo dura
+          aproximadamente un minuto, pensado para un consumo rápido y dinámico.
+          Los episodios están disponibles en <a href="#tk">TikTok</a> y en
+          <a href="#ig">Instagram</a>, donde este último funciona como espacio
+          de difusión y acompañamiento del contenido principal.
+        </p>
+      </div>
 
+      <div class="index-aside">
+        <!-- ÍNDICE -->
+        <nav class="contenido">
+          <h2>Contenido</h2>
+          <ol>
+            <li><a href="#sinopsis">Sinopsis</a></li>
+            <li>
+              <details open>
+                <summary>Personajes</summary>
+                <ol>
+                  <li><a href="#einar">Einar</a></li>
+                  <li><a href="#runa">Runa</a></li>
+                  <li><a href="#hel">Hel</a></li>
+                  <li><a href="#stalker">Stalker</a></li>
+                  <li><a href="#moder">Moder</a></li>
+                  <li><a href="#fader">Fader</a></li>
+                </ol>
+              </details>
+            </li>
+            <li><a href="#mapa">Mapa de Midgard</a></li>
+            <li>
+              <details open>
+                <summary>Biografías</summary>
+                <ol>
+                  <li><a href="#runa-bio">La hechicera de runas</a></li>
+                  <li><a href="#einar-bio">El luchador más leal</a></li>
+                  <li><a href="#hel-bio">La diosa de los muertos</a></li>
+                  <li><a href="#stalker-bio">El acechador silencioso</a></li>
+                  <li><a href="#moder-bio">Madre de dragones</a></li>
+                  <li><a href="#fader-bio">El padre desterrado</a></li>
+                </ol>
+              </details>
+            </li>
+            <li><a href="#banda">Banda sonora</a></li>
+            <li><a href="#musica">Música utilizada en la webserie</a></li>
+          </ol>
+        </nav>
+
+        <!-- COLUMNA DE ASIDES -->
+        <div class="asides-col">
+          <aside class="aside-redes">
+            <h2>Podés ver la webserie en</h2>
+            <div class="redes-links">
+              <a
+                class="tiktok"
+                href="https://www.tiktok.com/@valheimwebserie?_t=ZM-8xM7SS8YEYY&_r=1"
+              >
+                <img src="/images/icons/tiktok-icon-dark.svg" alt="TikTok" />
+                <span>TikTok</span>
+              </a>
+              <a
+                class="ig"
+                href="https://www.instagram.com/valheimwebserie?igsh=Njk4Zzdic2luZzZk"
+              >
+                <img src="/images/icons/instagram-icon.svg" alt="Instagram" />
+                <span>Instagram</span>
+              </a>
+            </div>
+          </aside>
+
+          <aside class="ficha-tec">
+            <table class="ficha-table">
+              <tbody>
+                <tr class="ficha-titulo">
+                  <td colspan="2">Valheim: Larga vida a la Reina</td>
+                </tr>
+                <tr class="ficha-seccion">
+                  <td colspan="2">Información de lanzamiento</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Formato</td>
+                  <td class="ficha-valor">
+                    <a
+                      href="https://es.wikipedia.org/wiki/Machinima"
+                      target="_blank"
+                      rel="noopener noreferrer">Machinima</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Capítulos</td>
+                  <td class="ficha-valor"><a href="">18</a></td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Fecha de inicio</td>
+                  <td class="ficha-valor">1 de julio de 2025</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Fecha de finalización</td>
+                  <td class="ficha-valor">9 de julio de 2025</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Plataformas</td>
+                  <td class="ficha-valor">
+                    <a href="#tk">TikTok</a> · <a href="#ig">Instagram</a>
+                  </td>
+                </tr>
+                <tr class="ficha-seccion">
+                  <td colspan="2">Información de producción</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Autora</td>
+                  <td class="ficha-valor">Braga Ailen</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Editora</td>
+                  <td class="ficha-valor">Braga Ailen</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Actores</td>
+                  <td class="ficha-valor ficha-stack">
+                    <a href="">Braga Ailen</a>
+                    <a href="">Aguirre Matías</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Directores</td>
+                  <td class="ficha-valor ficha-stack">
+                    <span>Ailen Braga</span>
+                    <span>Matías Aguirre</span>
+                  </td>
+                </tr>
+                <tr class="ficha-seccion">
+                  <td colspan="2">Información cronológica</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Universo</td>
+                  <td class="ficha-valor">Mitología Nórdica (Valheim)</td>
+                </tr>
+                <tr>
+                  <td class="ficha-label">Basado en</td>
+                  <td class="ficha-valor ficha-italic">
+                    Valheim<br />por Iron Gate Studio
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </aside>
+        </div>
+      </div>
+
+      <div class="sinopsis">
+        <h2>SINOPSIS</h2>
+        <p>
+          Dos hermanos, <strong>Runa</strong> y <strong>Einar</strong>, viven
+          tranquilos en un pueblo aislado de Midgard hasta que un hecho cambia
+          sus vidas: la Reina del Inframundo, <strong>Hel</strong>, secuestra a
+          Runa para desencadenar sus poderes ocultos. Einar, consumido por la
+          furia, decide hacerse más fuerte para enfrentarla. Sin embargo, al
+          llegar a sus tierras descubre que deberá
+          <strong>luchar contra su propia hermana para salvarla</strong>.
+        </p>
+      </div>
+    </main>
+  </section>
+<SectionDivider />
 <style>
   section {
     width: 100%;

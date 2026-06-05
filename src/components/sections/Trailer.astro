@@ -1,0 +1,264 @@
+---
+import SectionDivider from "@components/ui/SectionDivider.astro";
+---
+
+<section>
+  <div class="trailer-bg" aria-hidden="true"></div>
+
+  <div class="trailer-inner">
+    <header class="trailer-header">
+      <span class="rune-deco" aria-hidden="true">ᚠ ✦ ᛟ ✦ ᚢ</span>
+      <h2 class="trailer-title">TRAILER</h2>
+      <div class="title-underline" aria-hidden="true"></div>
+    </header>
+
+    <div class="frame-wrap">
+      <!-- Esquinas decorativas -->
+      <div class="corner corner-tl" aria-hidden="true"></div>
+      <div class="corner corner-tr" aria-hidden="true"></div>
+      <div class="corner corner-bl" aria-hidden="true"></div>
+      <div class="corner corner-br" aria-hidden="true"></div>
+
+      <div class="iframe-shell">
+        <iframe
+          src="https://youtube.com/embed/QCZ85PqcfV4?si=oeTs8xcNWTZ__Ewk"
+          title="Trailer — Valheim: Larga vida a La Reina"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+          loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <p class="trailer-caption">
+      <span class="caption-rune" aria-hidden="true">ᛈ</span>
+      Valheim: Larga vida a La Reina
+      <span class="caption-rune reverse" aria-hidden="true">ᛈ</span>
+    </p>
+  </div>
+</section>
+<SectionDivider />
+
+<style>
+  section {
+    position: relative;
+    width: 100vw;
+    min-height: 100svh;
+    background-image: url("/images/backgrounds/portal_background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+
+  /* Capa oscura encima del fondo */
+  .trailer-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 7, 6, 0.78) 0%,
+      rgba(8, 7, 6, 0.62) 50%,
+      rgba(8, 7, 6, 0.82) 100%
+    );
+    z-index: 0;
+  }
+
+  .trailer-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+    padding: 15rem 0;
+  }
+
+  /* ── Encabezado ─────────────────────────────────────────────────────────── */
+
+  .trailer-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .rune-deco {
+    font-family: "Cinzel Variable", Georgia, serif;
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    letter-spacing: 0.6rem;
+    color: var(--color-gold-dark);
+    opacity: 0.7;
+    text-shadow: 0 0 12px rgba(130, 103, 40, 0.5);
+  }
+
+  .trailer-title {
+    font-family: "Cinzel Variable", Georgia, serif;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1.2px var(--color-gold-light);
+    text-shadow:
+      0 0 32px rgba(180, 151, 76, 0.4),
+      0 0 64px rgba(130, 103, 40, 0.2);
+    letter-spacing: 0.35em;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .title-underline {
+    width: clamp(120px, 20vw, 280px);
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold-dark) 20%,
+      var(--color-gold) 50%,
+      var(--color-gold-dark) 80%,
+      transparent
+    );
+    margin-top: 0.3rem;
+  }
+
+  /* ── Marco del iframe ───────────────────────────────────────────────────── */
+
+  .frame-wrap {
+    position: relative;
+  }
+
+  /* Esquinas doradas */
+  .corner {
+    position: absolute;
+    width: var(--card-corner-size, 36px);
+    height: var(--card-corner-size, 36px);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .corner-tl {
+    top: calc(var(--card-corner-offset, -6px));
+    left: calc(var(--card-corner-offset, -6px));
+    border-top: var(--card-border-width, 2px) solid var(--color-gold);
+    border-left: var(--card-border-width, 2px) solid var(--color-gold);
+    box-shadow: -2px -2px 8px var(--color-gold-glow);
+  }
+
+  .corner-tr {
+    top: calc(var(--card-corner-offset, -6px));
+    right: calc(var(--card-corner-offset, -6px));
+    border-top: var(--card-border-width, 2px) solid var(--color-gold);
+    border-right: var(--card-border-width, 2px) solid var(--color-gold);
+    box-shadow: 2px -2px 8px var(--color-gold-glow);
+  }
+
+  .corner-bl {
+    bottom: calc(var(--card-corner-offset, -6px));
+    left: calc(var(--card-corner-offset, -6px));
+    border-bottom: var(--card-border-width, 2px) solid var(--color-gold);
+    border-left: var(--card-border-width, 2px) solid var(--color-gold);
+    box-shadow: -2px 2px 8px var(--color-gold-glow);
+  }
+
+  .corner-br {
+    bottom: calc(var(--card-corner-offset, -6px));
+    right: calc(var(--card-corner-offset, -6px));
+    border-bottom: var(--card-border-width, 2px) solid var(--color-gold);
+    border-right: var(--card-border-width, 2px) solid var(--color-gold);
+    box-shadow: 2px 2px 8px var(--color-gold-glow);
+  }
+
+  .iframe-shell {
+    border: 2px solid var(--color-gold-dark);
+    box-shadow:
+      0 0 0 1px rgba(10, 9, 6, 0.8),
+      0 0 0 4px var(--color-gold-dark),
+      0 0 40px 4px rgba(130, 103, 40, 0.35),
+      inset 0 1px 0 rgba(220, 195, 120, 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16 / 9;
+    width: 70vw;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none;
+  }
+
+  /* ── Caption ────────────────────────────────────────────────────────────── */
+
+  .trailer-caption {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: "Cinzel Variable", Georgia, serif;
+    font-size: clamp(0.7rem, 1vw, 0.9rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-gold-dark);
+    opacity: 0.75;
+    margin: 0;
+  }
+
+  .caption-rune {
+    font-size: 1.1em;
+    opacity: 0.6;
+  }
+  .reverse {
+    transform: scaleX(-1);
+  }
+
+  /* ── Mobile ─────────────────────────────────────────────────────────────── */
+
+  @media (max-width: 768px) {
+    .trailer-inner {
+      padding: 5rem 0;
+      gap: 3rem;
+    }
+
+    .iframe-shell {
+      width: 90vw;
+    }
+
+    .trailer-title {
+      letter-spacing: 0.2em;
+      -webkit-text-stroke-width: 0.8px;
+    }
+
+    .rune-deco {
+      letter-spacing: 0.35rem;
+    }
+
+    .trailer-caption {
+      letter-spacing: 0.15em;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .trailer-inner {
+      gap: 2rem;
+      padding: 3.5rem 0;
+    }
+
+    .iframe-shell {
+      width: 95vw;
+    }
+
+    .corner {
+      width: 24px;
+      height: 24px;
+    }
+
+    .trailer-caption {
+      font-size: 0.65rem;
+    }
+  }
+</style>

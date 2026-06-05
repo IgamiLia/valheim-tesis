@@ -1,0 +1,199 @@
+/* El overlay opaco se encarga de cubrir la transición, así que las
+   pseudo-clases de la View Transition no necesitan animación propia. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  opacity: 1;
+}
+
+/* ─── Portal overlay ─────────────────────────────────────── */
+
+#vt-portal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  opacity: 0;
+}
+
+#vt-portal-overlay.is-active {
+  animation: vt-overlay-in 0.5s ease forwards;
+}
+
+#vt-portal-overlay.is-fading {
+  animation: vt-overlay-out 1s ease forwards;
+}
+
+@keyframes vt-overlay-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes vt-overlay-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Núcleo morado + chispas ─────────────────────────────── */
+#vt-portal-core {
+  position: absolute;
+  z-index: -1;
+  width: var(--fire-ring-size);
+  height: var(--fire-ring-size);
+  background-image: url("/images/fire-ring/fire-ring-center.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: brightness(0.7);
+  opacity: 0;
+}
+
+#vt-portal-overlay.is-active #vt-portal-core {
+  animation: vt-core-spin 10s linear forwards;
+}
+
+#vt-portal-overlay.is-fading #vt-portal-core {
+  animation: vt-fade-out 1s ease forwards;
+}
+
+@keyframes vt-core-spin {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Variables ───────────────────────────────────────────── */
+:root {
+  --fire-ring-size: 800px;
+  --spin-time: 12s;
+}
+
+/* ── Anillo 1 — más lento ────────────────────────────────── */
+#vt-ring-1 {
+  position: absolute;
+  width: var(--fire-ring-size);
+  height: var(--fire-ring-size);
+  background-image: url("/images/fire-ring/fire-ring-first.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 1;
+}
+
+#vt-portal-overlay.is-active #vt-ring-1 {
+  animation: vt-ring1-spin calc(var(--spin-time) * 2) linear infinite;
+}
+
+#vt-portal-overlay.is-fading #vt-ring-1 {
+  animation: vt-fade-out 1s ease forwards;
+}
+
+@keyframes vt-ring1-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Anillo 2 — velocidad media ──────────────────────────── */
+#vt-ring-2 {
+  position: absolute;
+  width: var(--fire-ring-size);
+  height: var(--fire-ring-size);
+  background-image: url("/images/fire-ring/fire-ring-second.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 1;
+}
+
+#vt-portal-overlay.is-active #vt-ring-2 {
+  animation: vt-ring2-spin calc(var(--spin-time) * 1.5) linear infinite;
+}
+
+#vt-portal-overlay.is-fading #vt-ring-2 {
+  animation: vt-fade-out 1s ease forwards;
+}
+
+@keyframes vt-ring2-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Anillo 3 — más rápido ───────────────────────────────── */
+#vt-ring-3 {
+  position: absolute;
+  width: var(--fire-ring-size);
+  height: var(--fire-ring-size);
+  background-image: url("/images/fire-ring/fire-ring-third.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 1;
+}
+
+#vt-portal-overlay.is-active #vt-ring-3 {
+  animation: vt-ring3-spin var(--spin-time) linear infinite;
+}
+
+#vt-portal-overlay.is-fading #vt-ring-3 {
+  animation: vt-fade-out 1s ease forwards;
+}
+
+@keyframes vt-ring3-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vt-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0s !important;
+  }
+
+  #vt-portal-overlay,
+  #vt-portal-overlay.is-active,
+  #vt-portal-overlay.is-fading,
+  #vt-portal-core,
+  #vt-ring-1,
+  #vt-ring-2,
+  #vt-ring-3 {
+    animation-duration: 0s !important;
+  }
+}

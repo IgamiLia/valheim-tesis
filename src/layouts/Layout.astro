@@ -1,8 +1,8 @@
 ---
 import "@styles/global.css";
 import "@styles/characters.css";
+import "@styles/page-transition.css";
 import { ClientRouter } from "astro:transitions";
-
 interface Props {
   title?: string;
   description?: string;
@@ -30,5 +30,70 @@ const {
   </head>
   <body>
     <slot />
+
+    <!-- Portal de transición entre páginas -->
+    <div id="vt-portal-overlay" style="display:none">
+      <div id="vt-ring-3"></div>
+      <div id="vt-ring-2"></div>
+      <div id="vt-ring-1"></div>
+      <div id="vt-portal-core"></div>
+    </div>
+
+    <script>
+      const PORTAL_DURATION = 4000;
+      const FADE_DURATION = 1000;
+      // Flag global: marca que estamos en medio de una navegación con portal
+      const W = window as any;
+
+      function resetOverlay(overlay: HTMLElement) {
+        overlay.classList.remove("is-active", "is-fading");
+        overlay.style.display = "none";
+        void overlay.offsetWidth;
+      }
+
+      function delay(ms: number) {
+        return new Promise<void>((resolve) => setTimeout(resolve, ms));
+      }
+
+      // 1) Cuando arranca la navegación: mostrar portal y BLOQUEAR el loader
+      //    durante PORTAL_DURATION. Cuando el loader resuelve, Astro hace el swap.
+      document.addEventListener("astro:before-preparation", (e) => {
+        const overlay = document.getElementById("vt-portal-overlay");
+        if (!overlay) return;
+
+        // Mostrar overlay opaco INMEDIATAMENTE (cubre la página vieja)
+        resetOverlay(overlay);
+        overlay.style.display = "flex";
+        void overlay.offsetWidth;
+        overlay.classList.add("is-active");
+        W.__portalActive = true;
+
+        const originalLoader = (e as any).loader;
+        (e as any).loader = async () => {
+          // Esperar a que termine la carga y la animación de los anillos
+          await Promise.all([originalLoader(), delay(PORTAL_DURATION)]);
+          // En este punto Astro hará el swap, pero el overlay sigue opaco encima
+        };
+      });
+
+      // 2) Tras el swap, ya estamos en la nueva página con el overlay todavía opaco.
+      //    Hacemos el fade out para revelarla.
+      document.addEventListener("astro:after-swap", async () => {
+        if (!W.__portalActive) return;
+
+        const overlay = document.getElementById("vt-portal-overlay");
+        if (!overlay) return;
+
+        // Mantener el overlay visible mientras hacemos el fade
+        overlay.style.display = "flex";
+        overlay.classList.remove("is-active");
+        overlay.classList.add("is-fading");
+
+        await delay(FADE_DURATION);
+
+        resetOverlay(overlay);
+        W.__portalActive = false;
+      });
+    </script>
   </body>
 </html>

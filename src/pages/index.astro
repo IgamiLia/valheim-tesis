@@ -6,24 +6,21 @@ import World from "@components/sections/World.astro";
 import SectionSerie from "@components/sections/SectionSerie.astro";
 import Footer from "@components/sections/Footer.astro";
 import Parallax from "@components/effects/Parallax.astro";
-import SectionDivider from "@components/ui/SectionDivider.astro";
+import ParallaxMobile from "@components/effects/ParallaxMobile.astro";
 import SectionMusic from "@components/sections/SectionMusic.astro";
 import MusicButton from "@components/ui/MusicButton.astro";
+import Trailer from "@components/sections/Trailer.astro";
 ---
 
 <Layout>
   <Hero />
-  <SectionDivider />
+  <Trailer />
   <Characters />
-  <SectionDivider />
   <World />
-  <SectionDivider />
   <Parallax />
-  <SectionDivider />
+  <ParallaxMobile />
   <SectionMusic />
-  <SectionDivider />
   <SectionSerie />
-  <SectionDivider />
   <Footer />
   <MusicButton audioSrc="/ost/home.mp3" />
 </Layout>

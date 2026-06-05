@@ -1,10 +1,9 @@
 ---
-import Layout from "@layouts/Layout.astro";
+import SectionDivider from "@components/ui/SectionDivider.astro";
 import Smoke from "@components/effects/SmokeEffect.astro";
 ---
 
-<Layout>
-  <section id="portal-section" aria-label="Portal hacia la serie">
+<section id="portal-section" aria-label="Portal hacia la serie">
     <div class="portal-background"></div>
     <Smoke />
 
@@ -37,7 +36,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       <span class="hint-rune" style="transform: scaleX(-1)">ᛈ</span>
     </div>
   </section>
-</Layout>
+<SectionDivider />
 
 <style>
   #portal-section {
@@ -218,21 +217,6 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       text-shadow: 0 0 18px rgba(255, 160, 0, 0.9);
     }
   }
-
-  #portal-section.portal-zoom {
-    animation: portalZoom 2s ease-in forwards;
-    transform-origin: 75% 55%;
-  }
-
-  @keyframes portalZoom {
-    0% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(15);
-    }
-  }
 </style>
 
 <script>
@@ -371,8 +355,6 @@ import Smoke from "@components/effects/SmokeEffect.astro";
 
     if (!canvas || !section || !hint) return;
 
-    section.classList.remove("portal-zoom");
-
     // ─── Renderer transparente (deja ver el fondo + smoke) ────────────────
 
     renderer = new THREE.WebGLRenderer({
@@ -447,7 +429,6 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       const { x, y } = uvFromEvent(canvas, e);
       if (!sampleMask(x, y)) return;
 
-      section.classList.add("portal-zoom");
       setTimeout(() => navigate(NAVIGATION_TARGET), ZOOM_DELAY_MS);
     };
 

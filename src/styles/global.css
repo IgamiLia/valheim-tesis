@@ -76,6 +76,51 @@
 html {
   scrollbar-gutter: stable;
   font-size: minmax(12px, 16px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold-dark) #140600;
+  cursor:
+    url("/cursor/cursor_fixed.cur") 0 0,
+    auto;
+}
+
+/* ─── Scrollbar (Webkit) ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  background: #000;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+  border-left: 1px solid rgba(77, 61, 24, 0.15);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    rgba(130, 103, 40, 0.4) 0%,
+    rgb(180, 151, 76) 35%,
+    rgb(220, 195, 120) 50%,
+    rgb(180, 151, 76) 65%,
+    rgba(130, 103, 40, 0.4) 100%
+  );
+  border-radius: 0;
+  box-shadow:
+    0 0 6px rgba(180, 151, 76, 0.5),
+    inset 0 1px 0 rgba(220, 195, 120, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(180, 151, 76, 0.6) 0%,
+    rgb(220, 195, 120) 35%,
+    #fff0b0 50%,
+    rgb(220, 195, 120) 65%,
+    rgba(180, 151, 76, 0.6) 100%
+  );
+  box-shadow:
+    0 0 12px rgba(220, 195, 120, 0.7),
+    inset 0 1px 0 rgba(255, 240, 176, 0.4);
 }
 * {
   margin: 0;

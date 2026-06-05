@@ -1,8 +1,8 @@
 ---
-import SectionDivider from "@components/ui/SectionDivider.astro";
 const biografias = [
   {
     name: "Einar",
+    slug: "einar",
     paragraphs: [
       `<strong>Guerrero por vocación y por necesidad</strong>, entiende la disciplina como una forma de fe. Cada combate, cada herida y cada victoria son pasos hacia un mismo propósito: <strong>proteger a su hermana, Runa</strong>. Ella es el centro de su mundo, aunque rara vez lo exprese en palabras. Su lealtad no es ruidosa, pero es absoluta.`,
       `A diferencia de quienes temen el poder que Runa porta, <strong>él no lo cuestiona</strong>. Confía en ella con una certeza inquebrantable, aun cuando sabe que ese poder podría atraer fuerzas capaces de destruirlos a ambos. Si el destino exige un precio, <strong>está dispuesto a pagarlo con su propia vida</strong> antes de permitir que ella cargue sola con ese peso.`,
@@ -11,6 +11,7 @@ const biografias = [
   },
   {
     name: "Runa",
+    slug: "runa",
     paragraphs: [
       `La hechicera rúnica fue <strong>elegida por fuerzas antiguas</strong> que anteceden incluso a la fundación de Midgard. Su cuerpo es el contenedor de un <strong>poder ancestral sellado en runas vivientes</strong>, un legado prohibido que pocos conocen y que ella misma apenas comprende del todo. Este don, tan vasto como peligroso, la obliga a caminar siempre en el delicado equilibrio entre el orden y la destrucción.`,
       `Más allá de su rol como núcleo energético y protectora de Midgard, su vínculo más fuerte es con su hermano, Einar. Él es su <strong>ancla a la humanidad</strong>, la razón por la que reprime el poder que arde en su interior. Cuidarlo no es solo una promesa de sangre, sino el último hilo que la separa de convertirse en aquello que las runas susurran que podría ser.`,
@@ -19,6 +20,7 @@ const biografias = [
   },
   {
     name: "Stalker",
+    slug: "stalker",
     paragraphs: [
       `Camina entre los vivos y los caídos, una <strong>sombra consciente que no pertenece por completo a ningún reino</strong>. Su forma es inestable, como si la muerte nunca hubiera terminado de reclamarlo y la vida lo rechazara por igual. Nadie conoce su verdadero origen ni el propósito que lo guía.`,
       `No deja huellas, no pronuncia juramentos y jamás explica sus actos. Solo una verdad es incuestionable: <strong>sirve a su reina, Hel</strong>. Su voluntad no le pertenece; es una extensión del dominio de la Señora de los Muertos. Quienes han cruzado su mirada aseguran haber sentido cómo sus recuerdos más oscuros eran examinados, como si el propio <strong>umbral de la muerte</strong> los estuviera evaluando.`,
@@ -27,6 +29,7 @@ const biografias = [
   },
   {
     name: "Hel",
+    slug: "hel",
     paragraphs: [
       `<strong>No fue coronada</strong>; el dominio de las almas le pertenece por naturaleza. Gobierna con una <strong>calma aterradora</strong>, sin gritos ni caprichos, sin ceder jamás a las emociones que agitan a los mortales. Cada alma caída es juzgada y confinada bajo reglas que solo ella comprende. En su reino no hay súplicas ni redención fácil: <strong>la muerte no es un final, sino una sentencia</strong> administrada con precisión absoluta.`,
       `Para algunos es una diosa; para otros, una <strong>maldición inevitable</strong>. No reclama adoración ni teme al olvido.`,
@@ -34,6 +37,7 @@ const biografias = [
   },
   {
     name: "Moder",
+    slug: "moder",
     paragraphs: [
       `Antes de que los hombres nombraran a los dioses, su <strong>hielo y su aliento</strong> ya habían dado forma al mundo. De ella descienden los <strong>linajes dracónicos</strong>, portadores de poder, memoria y destrucción.`,
       `Antiguamente reinó en <strong>Nidafjöll</strong>, cuna de los dragones y montaña sagrada donde el tiempo parecía detenido. Sin embargo, su grandeza se volvió motivo de temor. Las mismas fuerzas que alguna vez la veneraron decidieron <strong>desterrarla</strong>, temiendo el alcance de su poder y la libertad que representaba. Su exilio no fue una derrota, sino <strong>una herida que el mundo aún no termina de pagar</strong>.`,
@@ -41,6 +45,7 @@ const biografias = [
   },
   {
     name: "Fader",
+    slug: "fader",
     paragraphs: [
       `Fue llamado <strong>padre antes de ser llamado monstruo</strong>. Su existencia precede a muchos de los pactos que hoy sostienen a Midgard, y su influencia fue tan profunda que incluso los dioses temieron aquello que había creado.`,
       `Por eso, <strong>no lo mataron. Lo borraron.</strong> Su nombre fue arrancado de las runas, de las canciones y de la memoria divina. Condenado al bioma más infernal de Midgard, existe en un lugar donde la tierra quema, el aire corrompe y el tiempo se distorsiona. Allí no hay redención ni muerte verdadera, solo una <strong>eternidad de furia contenida</strong>. Cada latido del mundo resuena como un recordatorio de lo que le fue arrebatado.`,
@@ -49,138 +54,151 @@ const biografias = [
 ];
 ---
 
-<svg width="0" height="0" style="position:absolute; pointer-events:none;">
-  <defs>
-    <filter id="roughen" x="-20%" y="-20%" width="140%" height="140%">
-      <feTurbulence
-        type="turbulence"
-        baseFrequency="0.018"
-        numOctaves="4"
-        seed="8"
-        result="noise"></feTurbulence>
-      <feDisplacementMap
-        in="SourceGraphic"
-        in2="noise"
-        scale="22"
-        xChannelSelector="R"
-        yChannelSelector="G"></feDisplacementMap>
-    </filter>
-  </defs>
-</svg>
+<div class="pm-host">
+  <svg width="0" height="0" style="position:absolute;pointer-events:none">
+    <defs>
+      <filter id="pm-roughen" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence
+          type="turbulence"
+          baseFrequency="0.018"
+          numOctaves="4"
+          seed="8"
+          result="noise"></feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="18"
+          xChannelSelector="R"
+          yChannelSelector="G"></feDisplacementMap>
+      </filter>
+    </defs>
+  </svg>
 
-{
-  biografias.map((bio) => (
-    <section class="parallax">
-      <div class="content">
-        <div class="card">
-          <h2>{bio.name}</h2>
-          <div class="text-wrap">
-            <div class="vignette" />
-            {bio.paragraphs.map((paragraph, i) => (
-              <p
-                class:list={["parallax-text", { "first-p": i === 0 }]}
-                set:html={paragraph}
-              />
-            ))}
-          </div>
+  {
+    biografias.map((bio, i) => (
+      <article class="pm-scene">
+        {/* ── Imagen fija (sticky) ── */}
+        <div class="pm-pin">
+          <img
+            src={`/images/parallax/mobile/parallax-mobile-${bio.slug}.webp`}
+            alt=""
+            class="pm-img"
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+          <div class="pm-fade-top" />
+          <div class="pm-fade-bot" />
+          <h2 class="pm-name">{bio.name}</h2>
         </div>
-      </div>
-    </section>
-  ))
-}
-<SectionDivider />
+
+        {/* ── Texto que sube sobre la imagen ── */}
+        <div class="pm-story">
+          {bio.paragraphs.map((p, j) => (
+            <p
+              class:list={["pm-p", { "pm-p--first": j === 0 }]}
+              set:html={p}
+            />
+          ))}
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<script>
+  // Fade in/out de cada párrafo al entrar/salir del viewport
+  const paragraphs = document.querySelectorAll<HTMLElement>(".pm-p");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        e.target.classList.toggle("pm-p--visible", e.isIntersecting);
+      });
+    },
+    {
+      threshold: 0.05,
+      rootMargin: "-6% 0px -6% 0px",
+    },
+  );
+
+  paragraphs.forEach((p) => observer.observe(p));
+</script>
+
 <style>
-  .parallax {
+  /* ── Host: solo visible en mobile ── */
+  .pm-host {
     width: 100%;
-    height: 100%;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    scroll-snap-align: start;
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .pm-host {
+      display: block;
+    }
+  }
+
+  /* ── Escena: altura determinada por el texto ── */
+  .pm-scene {
     position: relative;
   }
 
-  .parallax::before,
-  .parallax::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  .parallax::before {
+  /* ────────────────────────────────────────────
+     PIN: imagen fija durante todo el scroll de
+     la escena. Se queda en top:0 mientras su
+     padre tenga espacio para contenerla.
+  ──────────────────────────────────────────── */
+  .pm-pin {
+    position: sticky;
     top: 0;
-    height: 15%;
+    height: 100svh;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .pm-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  /* Gradientes del pin (sobre la imagen) */
+  .pm-fade-top {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 18%;
     background: linear-gradient(to bottom, rgb(0, 0, 0), transparent);
+    z-index: 1;
+    pointer-events: none;
   }
 
-  .parallax::after {
-    bottom: 0;
-    height: 15%;
-    background: linear-gradient(to top, rgb(0, 0, 0), transparent);
+  .pm-fade-bot {
+    position: absolute;
+    inset: auto 0 0;
+    height: 52%;
+    background: linear-gradient(
+      to top,
+      rgb(0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.88) 22%,
+      rgba(0, 0, 0, 0.45) 55%,
+      transparent 100%
+    );
+    z-index: 1;
+    pointer-events: none;
   }
 
-  .parallax:nth-of-type(5) {
-    background-image: url("/images/parallax/parallax_einar.png");
-  }
-  .parallax:nth-of-type(6) {
-    background-image: url("/images/parallax/parallax_runa.png");
-  }
-  .parallax:nth-of-type(7) {
-    background-image: url("/images/parallax/parallax_stalker.png");
-  }
-  .parallax:nth-of-type(8) {
-    background-image: url("/images/parallax/parallax_hel.png");
-  }
-  .parallax:nth-of-type(9) {
-    background-image: url("/images/parallax/parallax_moder.png");
-  }
-  .parallax:nth-of-type(10) {
-    background-image: url("/images/parallax/parallax_fader.png");
-  }
-
-  .content {
-    color: #fefefe;
-    text-align: center;
-    padding: 50px;
-    width: 100%;
-    height: 100%;
-  }
-
-  .card {
-    display: grid;
-    width: 100%;
-    height: 100%;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 5rem;
-    text-align: start;
-    text-wrap: balance;
-    padding: 1rem;
-    margin-top: 2rem;
-  }
-
-  /* ── H2 base ── */
-  .card h2 {
-    height: fit-content;
-    grid-column: span 2 / span 2;
-    grid-row-start: 1;
-    display: grid;
-    align-items: center;
-    font-family: "Cinzel", Georgia, serif;
-    font-size: clamp(5rem, 11.0803vw + 1.6898rem, 8rem);
-    font-weight: 700;
-    font-feature-settings:
-      "liga" 1,
-      "kern" 1;
-    position: relative;
+  /* Nombre del personaje (dentro del pin, siempre encima) */
+  .pm-name {
+    position: absolute;
+    top: 2.75rem;
+    left: 1.5rem;
     z-index: 2;
-    letter-spacing: 8px;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: clamp(2.8rem, 13vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    line-height: 1;
     background: linear-gradient(
       to bottom,
       rgb(255, 252, 220) 0%,
@@ -193,130 +211,114 @@ const biografias = [
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow:
-      0 0 20px rgba(200, 165, 70, 0.6),
-      0 0 60px rgba(180, 151, 76, 0.25),
-      0 6px 16px rgba(0, 0, 0, 0.75);
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.95))
+      drop-shadow(0 4px 20px rgba(0, 0, 0, 0.75));
   }
 
-  /* Einar, Runa, Stalker: margin-top */
-  .parallax:nth-of-type(4) .card h2,
-  .parallax:nth-of-type(5) .card h2,
-  .parallax:nth-of-type(6) .card h2 {
-    margin-top: 6rem;
-  }
-
-  /* Einar, Runa: drop-shadow para fondos claros */
-  .parallax:nth-of-type(4) .card h2,
-  .parallax:nth-of-type(5) .card h2 {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95))
-      drop-shadow(0 4px 16px rgba(0, 0, 0, 0.75))
-      drop-shadow(0 8px 32px rgba(0, 0, 0, 0.5));
-  }
-
-  /* Línea decorativa debajo del nombre */
-  .card h2::after {
+  /* Línea decorativa bajo el nombre */
+  .pm-name::after {
     content: "";
     position: absolute;
-    bottom: 0.05em;
+    bottom: -0.25em;
     left: 0;
-    width: 65%;
+    width: 70%;
     height: 1px;
     background: linear-gradient(
       to right,
-      rgba(210, 175, 88, 0.95) 0%,
+      rgba(210, 175, 88, 0.95),
       rgba(180, 151, 76, 0.5) 55%,
-      transparent 100%
+      transparent
     );
   }
 
-  .text-wrap {
+  /* ────────────────────────────────────────────
+     STORY: el contenedor del texto.
+
+     margin-top: -100svh → empieza en el mismo Y
+     que el pin (solapado).
+
+     padding-top: 115svh → el texto queda a 15svh
+     bajo el viewport cuando el sticky empieza,
+     dando un instante de imagen sola antes de
+     que el texto empiece a subir.
+
+     padding-bottom: 65svh → espacio negro después
+     del texto para que la imagen salga de pantalla
+     antes de que entre la siguiente escena.
+
+     El gradiente de fondo pasa de transparent
+     (mientras la imagen está sola) a negro sólido
+     (donde está el texto), cubriendo el pin.
+  ──────────────────────────────────────────── */
+  .pm-story {
     position: relative;
-    grid-column: span 3 / span 3;
-    grid-row: span 3 / span 3;
-    grid-row-start: 2;
-    height: fit-content;
-    max-width: 100ch;
-  }
+    z-index: 1;
+    margin-top: -100svh;
+    padding-top: 115svh;
+    padding-bottom: 65svh;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 
-  .vignette {
-    position: absolute;
-    inset: -10% -10%;
-    z-index: 0;
-    background: radial-gradient(
-      ellipse at 45% 50%,
-      rgba(0, 0, 0, 0.88) 0%,
-      rgba(0, 0, 0, 0.72) 35%,
-      rgba(0, 0, 0, 0.38) 60%,
-      transparent 100%
+    background: linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 75svh,
+      rgba(0, 0, 0, 0.38) 86svh,
+      rgba(0, 0, 0, 0.82) 98svh,
+      rgba(0, 0, 0, 0.96) 108svh,
+      rgb(0, 0, 0) 120svh
     );
-    filter: url(#roughen);
-    pointer-events: none;
   }
 
   /* ── Párrafos ── */
-  .card p {
-    position: relative;
-    z-index: 2;
+  .pm-p {
     font-family: "Book Antiqua", "Palatino Linotype", Palatino, serif;
-    font-size: clamp(0.875rem, 1.2vw + 1rem, 2rem);
+    font-size: clamp(0.875rem, 3.8vw, 1rem);
     line-height: 1.85;
     color: rgb(232, 218, 190);
-    letter-spacing: 0.025em;
-    word-spacing: 0.08em;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    letter-spacing: 0.022em;
+    word-spacing: 0.06em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     margin: 0;
-    padding: 0.5rem 0;
+    padding: 0.35rem 0;
+
+    /* Estado inicial: invisible y desplazado */
+    opacity: 0;
+    transform: translateY(1.4rem);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
   }
 
-  .card p + p {
-    margin-top: 1.1em;
+  .pm-p + .pm-p {
+    margin-top: 1.2em;
   }
 
-  .card p.first-p::first-letter {
+  /* Estado visible (clase añadida por IntersectionObserver) */
+  .pm-p--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Drop cap en el primer párrafo */
+  .pm-p--first::first-letter {
     font-family: "Cinzel Variable", Georgia, serif;
-    font-size: 3.5em;
+    font-size: 3.1em;
     font-weight: 700;
     line-height: 0.75;
     float: left;
     margin-right: 0.09em;
-    margin-top: 0.2em;
+    margin-top: 0.22em;
     color: rgb(180, 151, 76);
     text-shadow:
-      0 0 24px rgba(180, 151, 76, 0.5),
-      0 2px 6px rgba(0, 0, 0, 0.8);
+      0 0 20px rgba(180, 151, 76, 0.5),
+      0 2px 6px rgba(0, 0, 0, 0.9);
   }
 
-  .card p :global(strong) {
+  .pm-p :global(strong) {
     font-weight: 600;
     color: rgb(222, 196, 128);
     text-shadow: 0 0 10px rgba(180, 151, 76, 0.2);
     letter-spacing: 0.03em;
-  }
-
-  @media (max-width: 900px) {
-    .card {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      gap: 2rem;
-    }
-    .card h2 {
-      grid-column: 1;
-      grid-row: 1;
-    }
-    .text-wrap {
-      grid-column: 1;
-      grid-row: 2;
-      max-width: 100%;
-    }
-    .vignette {
-      inset: -5% -5%;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .parallax {
-      display: none;
-    }
   }
 </style>
