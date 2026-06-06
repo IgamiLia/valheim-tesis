@@ -16,7 +16,7 @@ interface Episode {
   description: string;
   behindTheScenes: string;
   releaseDate: string;
-  tiktokUrl: string;
+  ytUrl: string;
   cover: DatoCover | null;
 }
 
@@ -31,7 +31,7 @@ const EPISODES_QUERY = `
             duration
             behindTheScenes
             releaseDate
-            tiktokUrl
+            ytUrl
             cover {
                 url
                 alt
