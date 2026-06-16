@@ -394,6 +394,8 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     const mouse = new THREE.Vector2();
     let masks: MaskData[] = [];
     let currentHovered: IslandDef | null = null;
+    let activeIsland: IslandDef | null = null;
+    let displayedIslandId: string | null = null;
     let targetOpacity = 0;
 
     function getIslandAtHit(hit: THREE.Intersection): IslandDef | null {
@@ -410,6 +412,18 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
       return masks.find((m) => m.island.id === island.id) ?? null;
     }
 
+    // Asigna la máscara de una isla al overlay de marcado.
+    function showMask(island: IslandDef) {
+      const maskData = getMaskForIsland(island);
+      if (maskData) {
+        hoverUniforms.uMask.value = maskData.texture;
+        hoverUniforms.uTexelSize.value.set(
+          1 / maskData.width,
+          1 / maskData.height,
+        );
+      }
+    }
+
     // ─── Modal ────────────────────────────────────────────────────────────
     function openModal(island: IslandDef) {
       modalName!.textContent = island.name;
@@ -418,9 +432,16 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
       modalLore!.innerHTML = island.lore;
       modalDescription!.textContent = island.description;
       modal!.classList.add("visible");
+
+      // La isla con modal abierta queda marcada de forma persistente.
+      // La transición (fade) la gestiona el loop de animación.
+      activeIsland = island;
     }
 
-    const onCloseClick = () => modal.classList.remove("visible");
+    const onCloseClick = () => {
+      modal.classList.remove("visible");
+      activeIsland = null;
+    };
     modalClose.addEventListener("click", onCloseClick);
 
     // ─── Mouse events ─────────────────────────────────────────────────────
@@ -435,21 +456,12 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
       raycaster.setFromCamera(mouse, camera);
       const hits = raycaster.intersectObject(earth);
 
+      // Solo registramos la isla bajo el cursor; el marcado y su
+      // transición suave se resuelven en el loop de animación.
       if (hits.length > 0) {
         const island = getIslandAtHit(hits[0]);
         if (island) {
-          if (!currentHovered || currentHovered.id !== island.id) {
-            const maskData = getMaskForIsland(island);
-            if (maskData) {
-              hoverUniforms.uMask.value = maskData.texture;
-              hoverUniforms.uTexelSize.value.set(
-                1 / maskData.width,
-                1 / maskData.height,
-              );
-            }
-          }
           currentHovered = island;
-          targetOpacity = 1;
           canvasEl.style.cursor =
             'url("/cursor/pointer_fixed.cur") 16 2, pointer';
           return;
@@ -457,7 +469,6 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
       }
 
       currentHovered = null;
-      targetOpacity = 0;
       canvasEl.style.cursor = 'url("/cursor/cursor_fixed.cur") 0 0, auto';
     };
 
@@ -495,8 +506,28 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
       earthGroup.rotation.y += 0.002;
       controls.update();
       hoverUniforms.uTime.value = elapsed;
+
+      // ── Marcado suave (cross-fade) ──────────────────────────────────────
+      // Isla deseada: la del hover, o la activa (modal abierta) si no hay
+      // hover. Si cambia respecto a la mostrada, primero se desvanece, luego
+      // se intercambia la máscara y vuelve a aparecer.
+      const desired = currentHovered ?? activeIsland;
+      if (!desired) {
+        targetOpacity = 0;
+      } else if (displayedIslandId === desired.id) {
+        targetOpacity = 1;
+      } else {
+        targetOpacity = 0;
+        if (hoverUniforms.uOpacity.value < 0.12) {
+          showMask(desired);
+          displayedIslandId = desired.id;
+          targetOpacity = 1;
+        }
+      }
+
+      // ~0.2s por transición a 60fps.
       hoverUniforms.uOpacity.value +=
-        (targetOpacity - hoverUniforms.uOpacity.value) * 0.08;
+        (targetOpacity - hoverUniforms.uOpacity.value) * 0.3;
       if (renderer) renderer.render(scene, camera);
     }
     animate();
@@ -505,6 +536,10 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     try {
       masks = await Promise.all(islandsData.map(loadMask));
       console.log(`✅ ${masks.length} máscaras de isla cargadas`);
+
+      // ─── Activar Praderas (meadows) por defecto ──────────────────────────
+      const meadows = islandsData.find((i) => i.id === "meadows");
+      if (meadows) openModal(meadows);
     } catch (err) {
       console.error("Error cargando máscaras:", err);
     }
@@ -861,6 +896,10 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
 
   /* ─── Responsive ─────────────────────────────────────────────────────────── */
   @media (max-width: 600px) {
+    .world-wrapper {
+      justify-content: center;
+    }
+
     .world {
       width: 90vw !important;
       height: 90vw !important;

@@ -267,4 +267,20 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
   .ficha-label a:hover {
     background-color: rgba(0, 0, 0, 0.5);
   }
+
+  @media (max-width: 768px) {
+    section {
+      padding: 6rem 1.5rem;
+    }
+
+    div > h2 {
+      font-size: clamp(2rem, 10vw, 3rem);
+      white-space: nowrap;
+      letter-spacing: 2px;
+    }
+
+    div > p {
+      font-size: clamp(1rem, 4vw, 1.4rem);
+    }
+  }
 </style>

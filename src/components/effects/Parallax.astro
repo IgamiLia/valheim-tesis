@@ -88,7 +88,9 @@ const biografias = [
     </section>
   ))
 }
-<SectionDivider />
+<div class="parallax-divider">
+  <SectionDivider />
+</div>
 <style>
   .parallax {
     width: 100%;
@@ -316,6 +318,10 @@ const biografias = [
 
   @media (max-width: 768px) {
     .parallax {
+      display: none;
+    }
+
+    .parallax-divider {
       display: none;
     }
   }

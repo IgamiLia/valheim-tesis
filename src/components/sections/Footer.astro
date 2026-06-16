@@ -217,4 +217,59 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
   .creditos a {
     /* margin: 0 0.5rem; */
   }
+
+  @media (max-width: 600px) {
+    footer {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 0 1.5rem;
+      text-align: center;
+    }
+
+    .redes-footer {
+      gap: 1.5rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    .redes-footer h3 {
+      text-align: center;
+    }
+
+    .iconos-footer {
+      justify-content: center;
+    }
+
+    .contactos-footer {
+      grid-column: 1;
+      align-items: center;
+      width: 100%;
+    }
+
+    .contactos-footer h3 {
+      text-align: center;
+    }
+
+    span {
+      text-align: center;
+      display: block;
+    }
+
+    .valheim-page-footer {
+      grid-column: 1;
+    }
+
+    .creditos {
+      grid-column: 1;
+      padding: 0 0.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 5vw, 1.5rem);
+    }
+
+    span {
+      font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    }
+  }
 </style>
