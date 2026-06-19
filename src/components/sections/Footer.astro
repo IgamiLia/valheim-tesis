@@ -1,8 +1,10 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
+import FixedBackground from "@components/ui/FixedBackground.astro";
 ---
 
 <section>
+  <FixedBackground image="/images/backgrounds/image_footer.png" />
   <footer>
     <div class="redes-footer">
       <h3>Seguí la serie en nuestras redes sociales</h3>
@@ -87,15 +89,13 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
   section {
     width: 100%;
     min-height: 100vh;
-    background-image: url("/images/backgrounds/image_footer.png");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     scroll-snap-align: start;
     position: relative;
+    /* Contiene el FixedBackground (fixed) dentro de la sección */
+    transform: translateZ(0);
   }
 
   footer {

@@ -1,8 +1,10 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
+import FixedBackground from "@components/ui/FixedBackground.astro";
 ---
 
 <section>
+  <FixedBackground image="/images/Banner.webp" brightness={1} />
   <div>
     <h2>BANDA SONORA</h2>
     <p>
@@ -146,10 +148,6 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
   section {
     width: 100%;
     min-height: 100vh;
-    background-image: url(/images/Banner.webp);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -158,6 +156,7 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
     scroll-snap-align: start;
     position: relative;
     gap: 2rem;
+    /* filter ya crea el bloque contenedor para el FixedBackground (fixed) */
     filter: brightness(0.8);
   }
   div {

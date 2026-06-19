@@ -1,6 +1,15 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
-const biografias = [
+
+type Bio = {
+  name: string;
+  slug: string;
+  /** extensión del archivo mobile (default: webp) */
+  ext?: string;
+  paragraphs: string[];
+};
+
+const biografias: Bio[] = [
   {
     name: "Einar",
     slug: "einar",
@@ -47,6 +56,7 @@ const biografias = [
   {
     name: "Fader",
     slug: "fader",
+    ext: "png",
     paragraphs: [
       `Fue llamado <strong>padre antes de ser llamado monstruo</strong>. Su existencia precede a muchos de los pactos que hoy sostienen a Midgard, y su influencia fue tan profunda que incluso los dioses temieron aquello que había creado.`,
       `Por eso, <strong>no lo mataron. Lo borraron.</strong> Su nombre fue arrancado de las runas, de las canciones y de la memoria divina. Condenado al bioma más infernal de Midgard, existe en un lugar donde la tierra quema, el aire corrompe y el tiempo se distorsiona. Allí no hay redención ni muerte verdadera, solo una <strong>eternidad de furia contenida</strong>. Cada latido del mundo resuena como un recordatorio de lo que le fue arrebatado.`,
@@ -81,7 +91,7 @@ const biografias = [
         {/* ── Imagen fija (sticky) ── */}
         <div class="pm-pin">
           <img
-            src={`/images/parallax/mobile/parallax-mobile-${bio.slug}.webp`}
+            src={`/images/parallax/mobile/parallax-mobile-${bio.slug}.${bio.ext ?? "webp"}`}
             alt=""
             class="pm-img"
             loading={i === 0 ? "eager" : "lazy"}

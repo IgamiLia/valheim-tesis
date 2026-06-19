@@ -1,8 +1,13 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
+import FixedBackground from "@components/ui/FixedBackground.astro";
 ---
 
 <section>
+    <FixedBackground
+      image="/images/backgrounds/00_background__.png"
+      imageMobile="/images/backgrounds/hero_bg_mobile.png"
+    />
     <main>
       <img class="logo" src="/images/logos/Logo_valheim.webp" alt="imagen" />
 
@@ -198,10 +203,6 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
   section {
     width: 100%;
     min-height: 100vh;
-    background-image: url(/images/backgrounds/00_background__.png);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;

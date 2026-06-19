@@ -106,6 +106,7 @@ function formatDuration(raw: string): string {
               data-bts={ep.behindTheScenes}
               data-date={formatDate(ep.releaseDate)}
               data-tiktok={ep.tiktokUrl}
+              data-yt={ep.ytUrl}
               data-duration={ep.duration}
               data-cover={ep.cover?.url ?? ""}
             />
@@ -122,7 +123,26 @@ function formatDuration(raw: string): string {
                 alt={episodes[0].cover?.alt ?? episodes[0].title}
                 class="featured-cover-img"
               />
-              <div class="cover-shine" aria-hidden="true"></div>
+              <iframe
+                id="featured-video"
+                class="featured-video"
+                title={episodes[0].title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+                loading="lazy"
+                hidden></iframe>
+              <button
+                id="play-btn"
+                class="play-btn"
+                type="button"
+                aria-label="Reproducir video"
+                hidden={!episodes[0].ytUrl}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"></path>
+                </svg>
+              </button>
             </div>
             <div class="cover-shadow" aria-hidden="true"></div>
           </div>
@@ -305,6 +325,7 @@ function formatDuration(raw: string): string {
     bts: string;
     date: string;
     tiktok: string;
+    yt: string;
     duration: string;
     cover: string;
   };
@@ -322,94 +343,122 @@ function formatDuration(raw: string): string {
     return raw;
   }
 
-  const cards = document.querySelectorAll<HTMLButtonElement>(".catalogue-card");
-  const articles = document.querySelectorAll<HTMLElement>(".featured-episode");
+  // Se ejecuta en la carga inicial y tras cada navegación con view
+  // transitions (astro:page-load), porque los <script> de página no se
+  // re-ejecutan solos al navegar con <ClientRouter />.
+  function initSerie() {
+    const cards =
+      document.querySelectorAll<HTMLButtonElement>(".catalogue-card");
+    const articles =
+      document.querySelectorAll<HTMLElement>(".featured-episode");
+    if (!articles.length) return;
 
-  const coverImg = document.getElementById(
-    "featured-cover",
-  ) as HTMLImageElement;
-  const epBadge = document.getElementById("ep-badge")!;
-  const epTitle = document.getElementById("ep-title")!;
-  const epDate = document.getElementById("ep-date")!;
-  const epDuration = document.getElementById("ep-duration")!;
-  const epDesc = document.getElementById("ep-description")!;
-  const tiktokBtn = document.getElementById(
-    "ep-tiktok-link",
-  ) as HTMLAnchorElement;
-  const btnPrev = document.getElementById("btn-prev") as HTMLButtonElement;
-  const btnNext = document.getElementById("btn-next") as HTMLButtonElement;
-  const epInput = document.getElementById("ep-input") as HTMLInputElement;
+    const coverImg = document.getElementById(
+      "featured-cover",
+    ) as HTMLImageElement;
+    const featuredVideo = document.getElementById(
+      "featured-video",
+    ) as HTMLIFrameElement;
+    const playBtn = document.getElementById("play-btn") as HTMLButtonElement;
+    const epBadge = document.getElementById("ep-badge")!;
+    const epTitle = document.getElementById("ep-title")!;
+    const epDate = document.getElementById("ep-date")!;
+    const epDuration = document.getElementById("ep-duration")!;
+    const epDesc = document.getElementById("ep-description")!;
+    const tiktokBtn = document.getElementById(
+      "ep-tiktok-link",
+    ) as HTMLAnchorElement;
+    const btnPrev = document.getElementById("btn-prev") as HTMLButtonElement;
+    const btnNext = document.getElementById("btn-next") as HTMLButtonElement;
+    const epInput = document.getElementById("ep-input") as HTMLInputElement;
 
-  let current = 0;
+    let current = 0;
 
-  function getEpisodeData(index: number): EpisodeData {
-    const el = articles[index];
-    return {
-      number: el.dataset.ep ?? "",
-      title: el.dataset.title ?? "",
-      description: el.dataset.description ?? "",
-      bts: el.dataset.bts ?? "",
-      date: el.dataset.date ?? "",
-      tiktok: el.dataset.tiktok ?? "",
-      duration: el.dataset.duration ?? "",
-      cover: el.dataset.cover ?? "",
-    };
-  }
+    function getEpisodeData(index: number): EpisodeData {
+      const el = articles[index];
+      return {
+        number: el.dataset.ep ?? "",
+        title: el.dataset.title ?? "",
+        description: el.dataset.description ?? "",
+        bts: el.dataset.bts ?? "",
+        date: el.dataset.date ?? "",
+        tiktok: el.dataset.tiktok ?? "",
+        yt: el.dataset.yt ?? "",
+        duration: el.dataset.duration ?? "",
+        cover: el.dataset.cover ?? "",
+      };
+    }
 
-  function loadEpisode(index: number) {
-    if (index < 0 || index >= articles.length) return;
-    current = index;
+    // Carga el iframe (con autoplay) sobre la portada al pulsar play.
+    function playVideo() {
+      const yt = getEpisodeData(current).yt;
+      if (!yt) return;
+      const sep = yt.includes("?") ? "&" : "?";
+      featuredVideo.src = `${yt}${sep}autoplay=1&playsinline=1`;
+      featuredVideo.hidden = false;
+      coverImg.hidden = true;
+      playBtn.hidden = true;
+    }
 
-    const ep = getEpisodeData(index);
+    playBtn.addEventListener("click", playVideo);
 
-    // Fade de la portada
-    coverImg.style.opacity = "0";
-    setTimeout(() => {
+    function loadEpisode(index: number) {
+      if (index < 0 || index >= articles.length) return;
+      current = index;
+
+      const ep = getEpisodeData(index);
+
+      // Vuelve al estado "portada": descarga el iframe y muestra la cover
+      featuredVideo.hidden = true;
+      featuredVideo.removeAttribute("src");
       coverImg.src = ep.cover;
       coverImg.alt = ep.title;
-      coverImg.style.opacity = "1";
-    }, 180);
+      coverImg.hidden = false;
+      playBtn.hidden = !ep.yt;
 
-    epBadge.textContent = `Episodio ${ep.number}`;
-    epTitle.textContent = ep.title;
-    epDesc.textContent = ep.description;
-    tiktokBtn.href = ep.tiktok;
+      epBadge.textContent = `Episodio ${ep.number}`;
+      epTitle.textContent = ep.title;
+      epDesc.textContent = ep.description;
+      tiktokBtn.href = ep.tiktok;
 
-    // Fecha (preserva el ícono SVG)
-    const dateIcon = epDate.querySelector("svg")!.outerHTML;
-    epDate.innerHTML = dateIcon + " " + ep.date;
+      // Fecha (preserva el ícono SVG)
+      const dateIcon = epDate.querySelector("svg")!.outerHTML;
+      epDate.innerHTML = dateIcon + " " + ep.date;
 
-    // Duración (preserva el ícono SVG)
-    const durationIcon = epDuration.querySelector("svg")!.outerHTML;
-    epDuration.innerHTML =
-      durationIcon + " Duración: " + formatDuration(ep.duration);
+      // Duración (preserva el ícono SVG)
+      const durationIcon = epDuration.querySelector("svg")!.outerHTML;
+      epDuration.innerHTML =
+        durationIcon + " Duración: " + formatDuration(ep.duration);
 
-    epInput.value = ep.number;
-    btnPrev.disabled = index === 0;
-    btnNext.disabled = index === articles.length - 1;
+      epInput.value = ep.number;
+      btnPrev.disabled = index === 0;
+      btnNext.disabled = index === articles.length - 1;
 
-    cards.forEach((c, i) => c.classList.toggle("active", i === index));
+      cards.forEach((c, i) => c.classList.toggle("active", i === index));
 
-    document
-      .querySelector(".featured-inner")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document
+        .querySelector(".featured-inner")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    btnPrev.addEventListener("click", () => loadEpisode(current - 1));
+    btnNext.addEventListener("click", () => loadEpisode(current + 1));
+
+    epInput.addEventListener("change", () => {
+      const num = parseInt(epInput.value, 10);
+      const idx = Array.from(articles).findIndex(
+        (a) => Number(a.dataset.ep) === num,
+      );
+      if (idx !== -1) loadEpisode(idx);
+      else epInput.value = articles[current].dataset.ep ?? "1";
+    });
+
+    cards.forEach((card, i) =>
+      card.addEventListener("click", () => loadEpisode(i)),
+    );
   }
 
-  btnPrev.addEventListener("click", () => loadEpisode(current - 1));
-  btnNext.addEventListener("click", () => loadEpisode(current + 1));
-
-  epInput.addEventListener("change", () => {
-    const num = parseInt(epInput.value, 10);
-    const idx = Array.from(articles).findIndex(
-      (a) => Number(a.dataset.ep) === num,
-    );
-    if (idx !== -1) loadEpisode(idx);
-    else epInput.value = articles[current].dataset.ep ?? "1";
-  });
-
-  cards.forEach((card, i) =>
-    card.addEventListener("click", () => loadEpisode(i)),
-  );
+  document.addEventListener("astro:page-load", initSerie);
 </script>
 
 <style>
@@ -556,24 +605,67 @@ function formatDuration(raw: string): string {
       0 30px 80px rgba(0, 0, 0, 0.8);
   }
 
+  /* Portada (poster) de cada episodio */
   .featured-cover-img {
     width: 100%;
     height: 100%;
-    aspect-ratio: 9 / 16;
+    object-fit: cover;
     display: block;
-    transition: opacity 0.18s ease;
   }
 
-  .cover-shine {
+  /* Iframe del short: superpuesto, llena el contenedor 9:16 al reproducir */
+  .featured-video {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.04) 0%,
-      transparent 50%,
-      rgba(0, 0, 0, 0.2) 100%
-    );
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    z-index: 3;
+  }
+
+  .featured-video[hidden] {
+    display: none;
+  }
+
+  /* Botón de play sobre la portada */
+  .play-btn {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    cursor: pointer;
+    z-index: 4;
+    transition:
+      background var(--transition),
+      color var(--transition),
+      box-shadow var(--transition),
+      transform var(--transition);
+  }
+
+  .play-btn[hidden] {
+    display: none;
+  }
+
+  .play-btn:hover {
+    background: var(--color-gold);
+    color: var(--dark);
+    box-shadow: 0 0 24px var(--gold-glow);
+    transform: scale(1.05);
+  }
+
+  .play-btn svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-left: 3px;
   }
 
   .cover-shadow {

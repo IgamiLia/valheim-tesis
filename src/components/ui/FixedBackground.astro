@@ -1,0 +1,57 @@
+---
+interface Props {
+  image: string;
+  imageMobile?: string;
+  /** background-position en desktop, ej: "center 62%" */
+  position?: string;
+  /** background-position en mobile (default: igual que position) */
+  positionMobile?: string;
+  /** brillo del fondo (1 = sin oscurecer). Default 0.7 */
+  brightness?: number;
+  class?: string;
+}
+
+const {
+  image,
+  imageMobile,
+  position = "center",
+  positionMobile,
+  brightness = 0.7,
+  class: className,
+} = Astro.props;
+---
+
+<div
+  aria-hidden="true"
+  class:list={["fixed-bg", className]}
+  style={`--bg-mobile: url("${imageMobile ?? image}"); --bg-desktop: url("${image}"); --bg-pos-mobile: ${positionMobile ?? position}; --bg-pos-desktop: ${position}; --bg-brightness: ${brightness};`}
+>
+</div>
+
+<style>
+  .fixed-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+
+    background-image: var(--bg-mobile);
+    background-position: var(--bg-pos-mobile);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    /* Capa GPU: evita parpadeos y mejora el repintado al hacer scroll */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+
+    filter: brightness(var(--bg-brightness, 0.7));
+  }
+
+  /* md: a partir de 768px usa la imagen y posición de escritorio */
+  @media (min-width: 768px) {
+    .fixed-bg {
+      background-image: var(--bg-desktop);
+      background-position: var(--bg-pos-desktop);
+    }
+  }
+</style>

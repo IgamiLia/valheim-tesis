@@ -1,58 +1,56 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
 import CharacterCard from "@components/ui/CharacterCard.astro";
+import FixedBackground from "@components/ui/FixedBackground.astro";
 const characters = [
   {
     name: "Einar",
     img: "/images/cards/einar_card.png",
-    portrait: "/images/einar_character.png",
   },
   {
     name: "Runa",
     img: "/images/cards/runa_card.png",
-    portrait: "/images/einar_character.png",
   },
   {
     name: "Hel",
     img: "/images/cards/hel_card.png",
-    portrait: "/images/einar_character.png",
   },
   {
     name: "Stalker",
     img: "/images/cards/stalker_card.png",
-    portrait: "/images/einar_character.png",
   },
   {
     name: "Moder",
     img: "/images/cards/moder_card.png",
-    portrait: "/images/einar_character.png",
   },
   {
     name: "Fader",
     img: "/images/cards/fader_card.png",
-    portrait: "/images/einar_character.png",
   },
 ];
 ---
 
-<img
-  id="characters-logo"
-  src="/images/logos/personajes_logo.png"
-  alt="Logo de Personajes"
-/>
+<section class="characters-section">
+  <FixedBackground
+    image="/images/backgrounds/characters_bg.png"
+    imageMobile="/images/backgrounds/characters_bg_mobile.png"
+    brightness={0.5}
+  />
 
-<main>
-  {
-    characters.map((char, i) => (
-      <CharacterCard
-        name={char.name}
-        img={char.img}
-        portrait={char.portrait}
-        index={i}
-      />
-    ))
-  }
-</main>
+  <img
+    id="characters-logo"
+    src="/images/logos/personajes_logo.png"
+    alt="Logo de Personajes"
+  />
+
+  <main>
+    {
+      characters.map((char, i) => (
+        <CharacterCard name={char.name} img={char.img} index={i} />
+      ))
+    }
+  </main>
+</section>
 <div class="presentation hidden">
   <div class="presentation__text hidden"></div>
   <div class="presentation__card"></div>
@@ -63,10 +61,19 @@ const characters = [
   <div class="overlay hidden"></div>
 </section>
 
-<script src="@scripts/characters.js"></script>
 <SectionDivider />
 
 <style>
+  .characters-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateZ(0);
+  }
+
   #characters-logo {
     margin-top: 8rem;
   }

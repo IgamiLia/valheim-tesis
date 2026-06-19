@@ -1,8 +1,14 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
+import FixedBackground from "@components/ui/FixedBackground.astro";
 ---
 
 <section>
+  <FixedBackground
+    image="/images/backgrounds/trailer_bg.png"
+    imageMobile="/images/backgrounds/trailer_bg_mobile.png"
+    brightness={1}
+  />
   <div class="trailer-bg" aria-hidden="true"></div>
 
   <div class="trailer-inner">
@@ -58,15 +64,13 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
     position: relative;
     width: 100vw;
     min-height: 100svh;
-    background-image: url("/images/backgrounds/portal_background.png");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
     overflow: hidden;
+    /* Contiene el FixedBackground (fixed) dentro de la sección */
+    transform: translateZ(0);
   }
 
   /* Capa oscura encima del fondo */

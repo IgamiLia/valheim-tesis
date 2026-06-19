@@ -89,7 +89,7 @@ const biografias = [
   ))
 }
 <div class="parallax-divider">
-  <SectionDivider />
+  <!-- <SectionDivider /> -->
 </div>
 <style>
   .parallax {
@@ -127,22 +127,22 @@ const biografias = [
     background: linear-gradient(to top, rgb(0, 0, 0), transparent);
   }
 
-  .parallax:nth-of-type(5) {
+  .parallax:nth-of-type(6) {
     background-image: url("/images/parallax/parallax_einar.png");
   }
-  .parallax:nth-of-type(6) {
+  .parallax:nth-of-type(7) {
     background-image: url("/images/parallax/parallax_runa.png");
   }
-  .parallax:nth-of-type(7) {
+  .parallax:nth-of-type(8) {
     background-image: url("/images/parallax/parallax_stalker.png");
   }
-  .parallax:nth-of-type(8) {
+  .parallax:nth-of-type(9) {
     background-image: url("/images/parallax/parallax_hel.png");
   }
-  .parallax:nth-of-type(9) {
+  .parallax:nth-of-type(10) {
     background-image: url("/images/parallax/parallax_moder.png");
   }
-  .parallax:nth-of-type(10) {
+  .parallax:nth-of-type(11) {
     background-image: url("/images/parallax/parallax_fader.png");
   }
 
@@ -155,25 +155,24 @@ const biografias = [
   }
 
   .card {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     width: 100%;
     height: 100%;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 5rem;
+    max-width: 110ch;
+    gap: 1.75rem;
+    /* Aire respecto al degradado negro superior (15%) */
+    padding: 7rem 1rem 2rem;
     text-align: start;
     text-wrap: balance;
-    padding: 1rem;
-    margin-top: 2rem;
   }
 
-  /* ── H2 base ── */
+  /* ── H2 base (mismo posicionamiento para todos los nombres) ── */
   .card h2 {
     height: fit-content;
-    grid-column: span 2 / span 2;
-    grid-row-start: 1;
-    display: grid;
-    align-items: center;
+    margin: 0;
     font-family: "Cinzel", Georgia, serif;
     font-size: clamp(5rem, 11.0803vw + 1.6898rem, 8rem);
     font-weight: 700;
@@ -199,21 +198,9 @@ const biografias = [
       0 0 20px rgba(200, 165, 70, 0.6),
       0 0 60px rgba(180, 151, 76, 0.25),
       0 6px 16px rgba(0, 0, 0, 0.75);
-  }
-
-  /* Einar, Runa, Stalker: margin-top */
-  .parallax:nth-of-type(4) .card h2,
-  .parallax:nth-of-type(5) .card h2,
-  .parallax:nth-of-type(6) .card h2 {
-    margin-top: 6rem;
-  }
-
-  /* Einar, Runa: drop-shadow para fondos claros */
-  .parallax:nth-of-type(4) .card h2,
-  .parallax:nth-of-type(5) .card h2 {
+    /* Sombra fuerte para legibilidad sobre cualquier fondo (claro u oscuro) */
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95))
-      drop-shadow(0 4px 16px rgba(0, 0, 0, 0.75))
-      drop-shadow(0 8px 32px rgba(0, 0, 0, 0.5));
+      drop-shadow(0 4px 16px rgba(0, 0, 0, 0.7));
   }
 
   /* Línea decorativa debajo del nombre */
@@ -234,9 +221,6 @@ const biografias = [
 
   .text-wrap {
     position: relative;
-    grid-column: span 3 / span 3;
-    grid-row: span 3 / span 3;
-    grid-row-start: 2;
     height: fit-content;
     max-width: 100ch;
   }
@@ -298,17 +282,10 @@ const biografias = [
 
   @media (max-width: 900px) {
     .card {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      gap: 2rem;
-    }
-    .card h2 {
-      grid-column: 1;
-      grid-row: 1;
+      padding-top: 4rem;
+      gap: 1.25rem;
     }
     .text-wrap {
-      grid-column: 1;
-      grid-row: 2;
       max-width: 100%;
     }
     .vignette {

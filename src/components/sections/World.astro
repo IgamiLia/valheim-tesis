@@ -1,8 +1,10 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
+import FixedBackground from "@components/ui/FixedBackground.astro";
 ---
 
 <section>
+    <FixedBackground image="/images/backgrounds/world_bg.png" />
     <div class="world-wrapper">
       <div class="world">
         <div class="corner-tr"></div>
@@ -569,16 +571,14 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
   section {
     width: 100%;
     min-height: 100vh;
-    background-image: url(/images/backgrounds/world_bg.png);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     scroll-snap-align: start;
     position: relative;
     padding: 8rem 0;
+    /* Contiene el FixedBackground (fixed) dentro de la sección */
+    transform: translateZ(0);
   }
 
   .world-wrapper {

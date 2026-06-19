@@ -1,5 +1,5 @@
 ---
-const { name, img, portrait } = Astro.props;
+const { name, img } = Astro.props;
 ---
 
 <article class="char-container">
@@ -9,7 +9,6 @@ const { name, img, portrait } = Astro.props;
     <div class="rune-band"></div>
     <img class="char-img" src={img} alt={name} />
   </section>
-  <img class="character" src={portrait} alt="" />
   <span class="char-name">{name}</span>
 </article>
 
