@@ -53,6 +53,10 @@
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
   background-image: url("/images/fire-ring/fire-ring-center.png");
+  background-image: image-set(
+    url("/images/fire-ring/fire-ring-center.avif") type("image/avif"),
+    url("/images/fire-ring/fire-ring-center.webp") type("image/webp")
+  );
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -91,6 +95,10 @@
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
   background-image: url("/images/fire-ring/fire-ring-first.png");
+  background-image: image-set(
+    url("/images/fire-ring/fire-ring-first.avif") type("image/avif"),
+    url("/images/fire-ring/fire-ring-first.webp") type("image/webp")
+  );
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -120,6 +128,10 @@
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
   background-image: url("/images/fire-ring/fire-ring-second.png");
+  background-image: image-set(
+    url("/images/fire-ring/fire-ring-second.avif") type("image/avif"),
+    url("/images/fire-ring/fire-ring-second.webp") type("image/webp")
+  );
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -149,6 +161,10 @@
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
   background-image: url("/images/fire-ring/fire-ring-third.png");
+  background-image: image-set(
+    url("/images/fire-ring/fire-ring-third.avif") type("image/avif"),
+    url("/images/fire-ring/fire-ring-third.webp") type("image/webp")
+  );
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

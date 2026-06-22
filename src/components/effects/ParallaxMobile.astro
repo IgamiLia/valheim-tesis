@@ -134,6 +134,46 @@ const biografias: Bio[] = [
   );
 
   paragraphs.forEach((p) => observer.observe(p));
+
+  // ── Cámara + parallax: progreso de scroll por escena en --p ──
+  const scenes = document.querySelectorAll<HTMLElement>(".pm-scene");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce && scenes.length) {
+    const active = new Set<HTMLElement>();
+    const sceneIO = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          const el = e.target as HTMLElement;
+          e.isIntersecting ? active.add(el) : active.delete(el);
+          el.classList.toggle("is-active", e.isIntersecting);
+        }),
+      { rootMargin: "12% 0px 12% 0px" },
+    );
+    scenes.forEach((s) => sceneIO.observe(s));
+
+    let ticking = false;
+    const ease = (t: number) => t * t * (3 - 2 * t); // smoothstep → "peso"
+    const update = () => {
+      const vh = window.innerHeight;
+      active.forEach((s) => {
+        const r = s.getBoundingClientRect();
+        const p = Math.min(Math.max(-r.top / (r.height - vh || 1), 0), 1);
+        s.style.setProperty("--p", ease(p).toFixed(3));
+      });
+      ticking = false;
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    update();
+  }
 </script>
 
 <style>
@@ -152,6 +192,7 @@ const biografias: Bio[] = [
   /* ── Escena: altura determinada por el texto ── */
   .pm-scene {
     position: relative;
+    --p: 0; /* progreso de scroll (0→1) seteado por el controlador rAF */
   }
 
   /* ────────────────────────────────────────────
@@ -162,9 +203,65 @@ const biografias: Bio[] = [
   .pm-pin {
     position: sticky;
     top: 0;
-    height: 100svh;
+    /* lvh = viewport con la barra de URL oculta: evita la franja vacía al
+       pie cuando la barra se esconde (100svh quedaba más corto que el viewport). */
+    height: 100lvh;
     overflow: hidden;
     z-index: 0;
+  }
+
+  /* Viñeta cinematográfica */
+  .pm-pin::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      132% 100% at 50% 40%,
+      transparent 56%,
+      rgba(0, 0, 0, 0.38) 100%
+    );
+  }
+
+  /* Niebla sutil + variación de luz (solo corre en la escena activa) */
+  .pm-pin::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        38% 30% at 30% 38%,
+        rgba(222, 233, 248, 0.06),
+        transparent 70%
+      ),
+      radial-gradient(
+        44% 34% at 72% 56%,
+        rgba(222, 233, 248, 0.05),
+        transparent 70%
+      );
+    opacity: 0;
+    animation: pm-fog 34s ease-in-out infinite alternate;
+    animation-play-state: paused;
+  }
+  .pm-scene.is-active .pm-pin::before {
+    animation-play-state: running;
+  }
+
+  @keyframes pm-fog {
+    0% {
+      transform: translate3d(-3%, 2%, 0);
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(3%, -2%, 0);
+      opacity: 0.65;
+    }
   }
 
   .pm-img {
@@ -173,6 +270,13 @@ const biografias: Bio[] = [
     object-fit: cover;
     object-position: center top;
     display: block;
+    transform-origin: 50% 42%; /* push-in hacia el rostro */
+    /* base 1.04 cubre la deriva de -2% sin revelar bordes */
+    transform: translate3d(0, calc(var(--p) * -2%), 0)
+      scale(calc(1.04 + 0.06 * var(--p)));
+  }
+  .pm-scene.is-active .pm-img {
+    will-change: transform;
   }
 
   /* Gradientes del pin (sobre la imagen) */
@@ -187,17 +291,17 @@ const biografias: Bio[] = [
 
   .pm-fade-bot {
     position: absolute;
-    inset: auto 0 0;
-    height: 52%;
-    background: linear-gradient(
-      to top,
-      rgb(0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.88) 22%,
-      rgba(0, 0, 0, 0.45) 55%,
-      transparent 100%
-    );
+    inset: 0; /* cubre el pin; el degradado deja libre la parte alta */
     z-index: 1;
     pointer-events: none;
+    background:
+      radial-gradient(
+        135% 78% at 50% 116%,
+        rgba(0, 0, 0, 0.92) 0%,
+        rgba(0, 0, 0, 0.55) 36%,
+        transparent 70%
+      ),
+      linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 42%);
   }
 
   /* Nombre del personaje (dentro del pin, siempre encima) */
@@ -211,6 +315,9 @@ const biografias: Bio[] = [
     font-weight: 700;
     letter-spacing: 6px;
     line-height: 1;
+    /* Foreground: deriva más rápido que el fondo y se desvanece al avanzar */
+    transform: translate3d(0, calc(var(--p) * -3.5svh), 0);
+    opacity: calc(1 - 0.4 * var(--p));
     background: linear-gradient(
       to bottom,
       rgb(255, 252, 220) 0%,
@@ -225,6 +332,9 @@ const biografias: Bio[] = [
     color: transparent;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.95))
       drop-shadow(0 4px 20px rgba(0, 0, 0, 0.75));
+  }
+  .pm-scene.is-active .pm-name {
+    will-change: transform, opacity;
   }
 
   /* Línea decorativa bajo el nombre */
@@ -265,7 +375,7 @@ const biografias: Bio[] = [
   .pm-story {
     position: relative;
     z-index: 1;
-    margin-top: -100svh;
+    margin-top: -100lvh; /* coincide con la altura del pin (100lvh) */
     padding-top: 115svh;
     padding-bottom: 65svh;
     padding-left: 1.5rem;
@@ -274,11 +384,12 @@ const biografias: Bio[] = [
     background: linear-gradient(
       to bottom,
       transparent 0,
-      transparent 75svh,
-      rgba(0, 0, 0, 0.38) 86svh,
-      rgba(0, 0, 0, 0.82) 98svh,
-      rgba(0, 0, 0, 0.96) 108svh,
-      rgb(0, 0, 0) 120svh
+      transparent 72svh,
+      rgba(0, 0, 0, 0.3) 90svh,
+      rgba(0, 0, 0, 0.62) 106svh,
+      rgba(0, 0, 0, 0.8) 122svh,
+      /* zona de lectura: la ilustración sigue visible */ rgba(0, 0, 0, 0.96)
+        150svh /* cola: separación entre escenas */
     );
   }
 
@@ -296,10 +407,10 @@ const biografias: Bio[] = [
 
     /* Estado inicial: invisible y desplazado */
     opacity: 0;
-    transform: translateY(1.4rem);
+    transform: translateY(1.8rem);
     transition:
-      opacity 0.7s ease,
-      transform 0.7s ease;
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .pm-p + .pm-p {
@@ -332,5 +443,17 @@ const biografias: Bio[] = [
     color: rgb(222, 196, 128);
     text-shadow: 0 0 10px rgba(180, 151, 76, 0.2);
     letter-spacing: 0.03em;
+  }
+
+  /* ── Accesibilidad: sin movimiento ── */
+  @media (prefers-reduced-motion: reduce) {
+    .pm-img,
+    .pm-name {
+      transform: none;
+    }
+    .pm-pin::before {
+      animation: none;
+      opacity: 0.5;
+    }
   }
 </style>

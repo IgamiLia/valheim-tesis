@@ -25,6 +25,25 @@ const {
       href="images/icons/favicon.webp"
       type="image/x-icon"
     />
+    {/* Preload del fondo del Hero (LCP). type=avif → los navegadores sin
+        soporte lo omiten y cargan el webp por CSS. media → solo la variante
+        que corresponde al viewport. */}
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      href="/images/backgrounds/hero-bg-mobile.avif"
+      media="(max-width: 767.98px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      href="/images/backgrounds/hero-bg.avif"
+      media="(min-width: 768px)"
+      fetchpriority="high"
+    />
     <title>{title}</title>
     <ClientRouter />
   </head>

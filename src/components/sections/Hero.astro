@@ -5,11 +5,20 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
 
 <section>
     <FixedBackground
-      image="/images/backgrounds/00_background__.png"
-      imageMobile="/images/backgrounds/hero_bg_mobile.png"
+      image="/images/backgrounds/hero-bg.png"
+      imageMobile="/images/backgrounds/hero-bg-mobile.png"
+      pinMobile
     />
     <main>
-      <img class="logo" src="/images/logos/Logo_valheim.webp" alt="imagen" />
+      <picture class="logo-pic">
+        <source srcset="/images/logos/hero-logo.avif" type="image/avif" />
+        <img
+          class="logo"
+          src="/images/logos/hero-logo.webp"
+          alt="Valheim: Larga vida a La Reina"
+          fetchpriority="high"
+        />
+      </picture>
 
       <div class="text-wrap">
         <div class="vignette"></div>
@@ -200,6 +209,10 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
   </section>
 <SectionDivider />
 <style>
+  .logo-pic {
+    display: contents;
+  }
+
   section {
     width: 100%;
     min-height: 100vh;

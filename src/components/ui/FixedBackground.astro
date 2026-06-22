@@ -8,6 +8,10 @@ interface Props {
   positionMobile?: string;
   /** brillo del fondo (1 = sin oscurecer). Default 0.7 */
   brightness?: number;
+  /** En mobile, fija el fondo a escala de viewport (sticky) en vez de cubrir
+      toda la sección. Útil en secciones más altas que el viewport para que la
+      imagen no se vea ampliada. Default false. */
+  pinMobile?: boolean;
   class?: string;
 }
 
@@ -17,41 +21,115 @@ const {
   position = "center",
   positionMobile,
   brightness = 0.7,
+  pinMobile = false,
   class: className,
 } = Astro.props;
+
+// Deriva AVIF/WebP del path original y construye un image-set() con
+// fallback al original. El navegador elige el primer formato soportado.
+const variants = (path: string) => {
+  const base = path.replace(/\.[^.]+$/, "");
+  const ext = path.split(".").pop()?.toLowerCase();
+  const webp = ext === "webp" ? path : `${base}.webp`;
+  return `image-set(url("${base}.avif") type("image/avif"), url("${webp}") type("image/webp"))`;
+};
+
+const desktop = image;
+const mobile = imageMobile ?? image;
+
+// En mobile el brillo se aplica como capa oscura (equivale a
+// filter:brightness para b<=1, sin el coste de filtro en compositor).
+const dim = Math.max(0, 1 - brightness);
 ---
 
 <div
   aria-hidden="true"
-  class:list={["fixed-bg", className]}
-  style={`--bg-mobile: url("${imageMobile ?? image}"); --bg-desktop: url("${image}"); --bg-pos-mobile: ${positionMobile ?? position}; --bg-pos-desktop: ${position}; --bg-brightness: ${brightness};`}
+  class:list={["fixed-bg", className, { "fixed-bg--pin": pinMobile }]}
+  style={`--bg-mobile-set: ${variants(mobile)}; --bg-mobile-fb: url("${mobile}"); --bg-desktop-set: ${variants(desktop)}; --bg-desktop-fb: url("${desktop}"); --bg-pos-mobile: ${positionMobile ?? position}; --bg-pos-desktop: ${position}; --bg-brightness: ${brightness}; --bg-dim: ${dim};`}
 >
+  <div class="fixed-bg__layer"></div>
 </div>
 
 <style>
+  /* ── MOBILE (base): sin position:fixed para evitar el jank de iOS/Android ──
+     El fondo cubre TODA la sección (absolute inset:0) y scrollea con ella,
+     igual que hace el desktop dentro de las secciones con transform. Sin
+     sticky → funciona aunque la sección tenga overflow:hidden/transform y
+     no se recorta cuando la sección mide más de 100vh. */
   .fixed-bg {
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: -10;
-
-    background-image: var(--bg-mobile);
-    background-position: var(--bg-pos-mobile);
-    background-size: cover;
-    background-repeat: no-repeat;
-
-    /* Capa GPU: evita parpadeos y mejora el repintado al hacer scroll */
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform;
-
-    filter: brightness(var(--bg-brightness, 0.7));
+    pointer-events: none;
   }
 
-  /* md: a partir de 768px usa la imagen y posición de escritorio */
+  .fixed-bg__layer {
+    position: absolute;
+    inset: 0;
+
+    /* Brillo como overlay oscuro (sin filter en mobile) */
+    background-image:
+      linear-gradient(
+        rgba(0, 0, 0, var(--bg-dim)),
+        rgba(0, 0, 0, var(--bg-dim))
+      ),
+      var(--bg-mobile-fb);
+    background-image:
+      linear-gradient(
+        rgba(0, 0, 0, var(--bg-dim)),
+        rgba(0, 0, 0, var(--bg-dim))
+      ),
+      var(--bg-mobile-set);
+    background-position:
+      0 0,
+      var(--bg-pos-mobile);
+    background-size: cover, cover;
+    background-repeat: no-repeat;
+    /* Sin filter / will-change / translateZ en mobile: el fondo es estático y
+       scrollea con la sección (contenido compositado normal), sin repaint por
+       frame ni capas extra. El brillo va como overlay, no como filter. */
+  }
+
+  /* ── MOBILE + pinMobile: fija la capa a escala de viewport (sticky) ──
+     Solo para secciones más altas que el viewport (Hero, Characters): la
+     imagen mantiene su escala en vez de ampliarse al cubrir toda la sección.
+     sticky = compositor nativo (sin jank ni JS). Funciona porque estas
+     secciones no son scroll-container (sin overflow:hidden propio). */
+  @media (max-width: 767.98px) {
+    .fixed-bg--pin .fixed-bg__layer {
+      position: sticky;
+      inset: auto;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh; /* fallback */
+      height: 100lvh;
+    }
+  }
+
+  /* ── DESKTOP (>=768px): comportamiento actual intacto (fixed + filter) ── */
   @media (min-width: 768px) {
     .fixed-bg {
-      background-image: var(--bg-desktop);
+      position: fixed;
+      overflow: visible;
+    }
+
+    .fixed-bg__layer {
+      position: absolute;
+      inset: 0;
+      height: auto;
+
+      background-image: var(--bg-desktop-fb);
+      background-image: var(--bg-desktop-set);
       background-position: var(--bg-pos-desktop);
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      /* Capa GPU + brillo: rendimiento excelente en desktop */
+      filter: brightness(var(--bg-brightness, 0.7));
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      will-change: transform;
     }
   }
 </style>

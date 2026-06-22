@@ -53,7 +53,11 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url("/images/backgrounds/portal_background.png");
+    background-image: url("/images/backgrounds/serie-bg.png");
+    background-image: image-set(
+      url("/images/backgrounds/serie-bg.avif") type("image/avif"),
+      url("/images/backgrounds/serie-bg.webp") type("image/webp")
+    );
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -226,9 +230,9 @@ import Smoke from "@components/effects/SmokeEffect.astro";
   // ─── Configuración ───────────────────────────────────────────────────────
 
   const TEXTURES = {
-    base: "/images/portal/portal.png",
-    active: "/images/portal/portal_active.png",
-    mask: "/images/portal/portal_mask.png",
+    base: "/images/portal/portal-base.webp",
+    active: "/images/portal/portal-active.webp",
+    mask: "/images/portal/portal-mask.webp",
   } as const;
 
   const NAVIGATION_TARGET = "/serie";
@@ -462,3 +466,4 @@ import Smoke from "@components/effects/SmokeEffect.astro";
   initPortal();
   document.addEventListener("astro:page-load", initPortal);
 </script>
+        

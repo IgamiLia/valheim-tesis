@@ -1,5 +1,6 @@
 ---
 const { name, img } = Astro.props;
+const base = img.replace(/\.[^.]+$/, "");
 ---
 
 <article class="char-container">
@@ -7,10 +8,22 @@ const { name, img } = Astro.props;
     <div class="corner-tr"></div>
     <div class="corner-bl"></div>
     <div class="rune-band"></div>
-    <img class="char-img" src={img} alt={name} />
+    <picture>
+      <source srcset={`${base}.avif`} type="image/avif" />
+      <source srcset={`${base}.webp`} type="image/webp" />
+      <img class="char-img" src={img} alt={name} loading="lazy" decoding="async" />
+    </picture>
   </section>
   <span class="char-name">{name}</span>
 </article>
+
+<style>
+  /* El wrapper <picture> no debe afectar el layout: el <img> participa
+     directamente como antes. */
+  picture {
+    display: contents;
+  }
+</style>
 
 <script>
   const RUNES = [

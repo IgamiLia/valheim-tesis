@@ -16,6 +16,7 @@
     "@fontsource-variable/cinzel": "^5.2.8",
     "astro": "^6.1.9",
     "graphql-request": "^7.4.0",
+    "sharp": "^0.35.2",
     "three": "^0.184.0"
   },
   "devDependencies": {

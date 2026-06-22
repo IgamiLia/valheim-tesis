@@ -5,43 +5,50 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
 const characters = [
   {
     name: "Einar",
-    img: "/images/cards/einar_card.png",
+    img: "/images/cards/card-einar.png",
   },
   {
     name: "Runa",
-    img: "/images/cards/runa_card.png",
+    img: "/images/cards/card-runa.png",
   },
   {
     name: "Hel",
-    img: "/images/cards/hel_card.png",
+    img: "/images/cards/card-hel.png",
   },
   {
     name: "Stalker",
-    img: "/images/cards/stalker_card.png",
+    img: "/images/cards/card-stalker.png",
   },
   {
     name: "Moder",
-    img: "/images/cards/moder_card.png",
+    img: "/images/cards/card-moder.png",
   },
   {
     name: "Fader",
-    img: "/images/cards/fader_card.png",
+    img: "/images/cards/card-fader.png",
   },
 ];
 ---
 
 <section class="characters-section">
   <FixedBackground
-    image="/images/backgrounds/characters_bg.png"
-    imageMobile="/images/backgrounds/characters_bg_mobile.png"
+    image="/images/backgrounds/characters-bg.png"
+    imageMobile="/images/backgrounds/characters-bg-mobile.png"
     brightness={0.5}
+    pinMobile
   />
 
-  <img
-    id="characters-logo"
-    src="/images/logos/personajes_logo.png"
-    alt="Logo de Personajes"
-  />
+  <picture class="characters-logo-pic">
+    <source srcset="/images/logos/characters-title.avif" type="image/avif" />
+    <source srcset="/images/logos/characters-title.webp" type="image/webp" />
+    <img
+      id="characters-logo"
+      src="/images/logos/characters-title.png"
+      alt="Logo de Personajes"
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
 
   <main>
     {
@@ -63,7 +70,28 @@ const characters = [
 
 <SectionDivider />
 
+<script>
+  // Prefetch en idle de las cards (AVIF) para que estén en caché antes de
+  // verse, sin competir con la carga crítica del Hero.
+  (() => {
+    const slugs = ["einar", "runa", "hel", "stalker", "moder", "fader"];
+    const warm = () =>
+      slugs.forEach((s) => {
+        const img = new Image();
+        img.src = `/images/cards/card-${s}.avif`;
+      });
+    if ("requestIdleCallback" in window)
+      requestIdleCallback(warm, { timeout: 3000 });
+    else setTimeout(warm, 1500);
+  })();
+</script>
+
 <style>
+  /* El wrapper <picture> del logo no debe afectar el layout */
+  .characters-logo-pic {
+    display: contents;
+  }
+
   .characters-section {
     position: relative;
     width: 100%;
