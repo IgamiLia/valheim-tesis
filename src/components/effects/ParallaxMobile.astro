@@ -91,7 +91,7 @@ const biografias: Bio[] = [
         {/* ── Imagen fija (sticky) ── */}
         <div class="pm-pin">
           <img
-            src={`/images/parallax/mobile/parallax-mobile-${bio.slug}.${bio.ext ?? "webp"}`}
+            src={`/images/parallax/mobile/${bio.ext ?? "webp"}/parallax-mobile-${bio.slug}.${bio.ext ?? "webp"}`}
             alt=""
             class="pm-img"
             loading={i === 0 ? "eager" : "lazy"}

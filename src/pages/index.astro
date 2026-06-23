@@ -5,6 +5,7 @@ import Hero from "@components/sections/Hero.astro";
 import Characters from "@components/sections/Characters.astro";
 import World from "@components/sections/World.astro";
 import SectionSerie from "@components/sections/SectionSerie.astro";
+import SectionSerieMobile from "@components/sections/SectionSerieMobile.astro";
 import Footer from "@components/sections/Footer.astro";
 import Parallax from "@components/effects/Parallax.astro";
 import ParallaxMobile from "@components/effects/ParallaxMobile.astro";
@@ -18,20 +19,23 @@ import Trailer from "@components/sections/Trailer.astro";
   <div id="inicio" class="nav-target"><Hero /></div>
   <Trailer />
   <div id="personajes" class="nav-target"><Characters /></div>
-  <World />
+  <div id="mundo" class="nav-target"><World /></div>
   <div id="biografias" class="nav-target">
     <Parallax />
     <ParallaxMobile />
   </div>
   <div id="musica" class="nav-target"><SectionMusic /></div>
-  <div id="serie" class="nav-target"><SectionSerie /></div>
+  <div id="serie" class="nav-target">
+    <SectionSerieMobile />
+    <SectionSerie />
+  </div>
   <div id="contactos" class="nav-target"><Footer /></div>
   <MusicButton audioSrc="/ost/home.mp3" />
 </Layout>
 
 <style>
-  /* Compensa el header fijo al saltar a una sección desde el menú */
   .nav-target {
+    width: 100%;
     scroll-margin-top: 4.5rem;
   }
 </style>

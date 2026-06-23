@@ -52,10 +52,10 @@
   z-index: -1;
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
-  background-image: url("/images/fire-ring/fire-ring-center.png");
+  background-image: url("/images/fire-ring/png/fire-ring-center.png");
   background-image: image-set(
-    url("/images/fire-ring/fire-ring-center.avif") type("image/avif"),
-    url("/images/fire-ring/fire-ring-center.webp") type("image/webp")
+    url("/images/fire-ring/avif/fire-ring-center.avif") type("image/avif"),
+    url("/images/fire-ring/webp/fire-ring-center.webp") type("image/webp")
   );
   background-repeat: no-repeat;
   background-position: center;
@@ -94,10 +94,10 @@
   position: absolute;
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
-  background-image: url("/images/fire-ring/fire-ring-first.png");
+  background-image: url("/images/fire-ring/png/fire-ring-first.png");
   background-image: image-set(
-    url("/images/fire-ring/fire-ring-first.avif") type("image/avif"),
-    url("/images/fire-ring/fire-ring-first.webp") type("image/webp")
+    url("/images/fire-ring/avif/fire-ring-first.avif") type("image/avif"),
+    url("/images/fire-ring/webp/fire-ring-first.webp") type("image/webp")
   );
   background-repeat: no-repeat;
   background-position: center;
@@ -127,10 +127,10 @@
   position: absolute;
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
-  background-image: url("/images/fire-ring/fire-ring-second.png");
+  background-image: url("/images/fire-ring/png/fire-ring-second.png");
   background-image: image-set(
-    url("/images/fire-ring/fire-ring-second.avif") type("image/avif"),
-    url("/images/fire-ring/fire-ring-second.webp") type("image/webp")
+    url("/images/fire-ring/avif/fire-ring-second.avif") type("image/avif"),
+    url("/images/fire-ring/webp/fire-ring-second.webp") type("image/webp")
   );
   background-repeat: no-repeat;
   background-position: center;
@@ -160,10 +160,10 @@
   position: absolute;
   width: var(--fire-ring-size);
   height: var(--fire-ring-size);
-  background-image: url("/images/fire-ring/fire-ring-third.png");
+  background-image: url("/images/fire-ring/png/fire-ring-third.png");
   background-image: image-set(
-    url("/images/fire-ring/fire-ring-third.avif") type("image/avif"),
-    url("/images/fire-ring/fire-ring-third.webp") type("image/webp")
+    url("/images/fire-ring/avif/fire-ring-third.avif") type("image/avif"),
+    url("/images/fire-ring/webp/fire-ring-third.webp") type("image/webp")
   );
   background-repeat: no-repeat;
   background-position: center;

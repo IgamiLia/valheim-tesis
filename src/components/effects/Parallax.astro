@@ -70,7 +70,7 @@ const biografias = [
 
 {
   biografias.map((bio) => (
-    <section class="parallax">
+    <section class:list={["parallax", `parallax--${bio.name.toLowerCase()}`]}>
       <div class="content">
         <div class="card">
           <h2>{bio.name}</h2>
@@ -94,7 +94,7 @@ const biografias = [
 <style>
   .parallax {
     width: 100%;
-    height: 100%;
+    min-height: 100svh;
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -127,46 +127,46 @@ const biografias = [
     background: linear-gradient(to top, rgb(0, 0, 0), transparent);
   }
 
-  .parallax:nth-of-type(6) {
-    background-image: url("/images/parallax/parallax-einar.png");
+  .parallax--einar {
+    background-image: url("/images/parallax/png/parallax-einar.png");
     background-image: image-set(
-      url("/images/parallax/parallax-einar.avif") type("image/avif"),
-      url("/images/parallax/parallax-einar.webp") type("image/webp")
+      url("/images/parallax/avif/parallax-einar.avif") type("image/avif"),
+      url("/images/parallax/webp/parallax-einar.webp") type("image/webp")
     );
   }
-  .parallax:nth-of-type(7) {
-    background-image: url("/images/parallax/parallax-runa.png");
+  .parallax--runa {
+    background-image: url("/images/parallax/png/parallax-runa.png");
     background-image: image-set(
-      url("/images/parallax/parallax-runa.avif") type("image/avif"),
-      url("/images/parallax/parallax-runa.webp") type("image/webp")
+      url("/images/parallax/avif/parallax-runa.avif") type("image/avif"),
+      url("/images/parallax/webp/parallax-runa.webp") type("image/webp")
     );
   }
-  .parallax:nth-of-type(8) {
-    background-image: url("/images/parallax/parallax-stalker.png");
+  .parallax--stalker {
+    background-image: url("/images/parallax/png/parallax-stalker.png");
     background-image: image-set(
-      url("/images/parallax/parallax-stalker.avif") type("image/avif"),
-      url("/images/parallax/parallax-stalker.webp") type("image/webp")
+      url("/images/parallax/avif/parallax-stalker.avif") type("image/avif"),
+      url("/images/parallax/webp/parallax-stalker.webp") type("image/webp")
     );
   }
-  .parallax:nth-of-type(9) {
-    background-image: url("/images/parallax/parallax-hel.png");
+  .parallax--hel {
+    background-image: url("/images/parallax/png/parallax-hel.png");
     background-image: image-set(
-      url("/images/parallax/parallax-hel.avif") type("image/avif"),
-      url("/images/parallax/parallax-hel.webp") type("image/webp")
+      url("/images/parallax/avif/parallax-hel.avif") type("image/avif"),
+      url("/images/parallax/webp/parallax-hel.webp") type("image/webp")
     );
   }
-  .parallax:nth-of-type(10) {
-    background-image: url("/images/parallax/parallax-moder.png");
+  .parallax--moder {
+    background-image: url("/images/parallax/png/parallax-moder.png");
     background-image: image-set(
-      url("/images/parallax/parallax-moder.avif") type("image/avif"),
-      url("/images/parallax/parallax-moder.webp") type("image/webp")
+      url("/images/parallax/avif/parallax-moder.avif") type("image/avif"),
+      url("/images/parallax/webp/parallax-moder.webp") type("image/webp")
     );
   }
-  .parallax:nth-of-type(11) {
-    background-image: url("/images/parallax/parallax-fader.png");
+  .parallax--fader {
+    background-image: url("/images/parallax/png/parallax-fader.png");
     background-image: image-set(
-      url("/images/parallax/parallax-fader.avif") type("image/avif"),
-      url("/images/parallax/parallax-fader.webp") type("image/webp")
+      url("/images/parallax/avif/parallax-fader.avif") type("image/avif"),
+      url("/images/parallax/webp/parallax-fader.webp") type("image/webp")
     );
   }
 
@@ -187,8 +187,10 @@ const biografias = [
     height: 100%;
     max-width: 110ch;
     gap: 1.75rem;
-    /* Aire respecto al degradado negro superior (15%) */
-    padding: 7rem 1rem 2rem;
+    /* Aire respecto a los bordes; vertical en vh para despegarse de los
+       degradados negros del 15% (superior e inferior) en desktop. */
+    padding: clamp(9rem, 18vh, 14rem) clamp(2.5rem, 5vw, 5rem)
+      clamp(5rem, 14vh, 10rem);
     text-align: start;
     text-wrap: balance;
   }

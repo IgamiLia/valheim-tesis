@@ -5,45 +5,45 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
 const characters = [
   {
     name: "Einar",
-    img: "/images/cards/card-einar.png",
+    img: "/images/cards/png/card-einar.png",
   },
   {
     name: "Runa",
-    img: "/images/cards/card-runa.png",
+    img: "/images/cards/png/card-runa.png",
   },
   {
     name: "Hel",
-    img: "/images/cards/card-hel.png",
+    img: "/images/cards/png/card-hel.png",
   },
   {
     name: "Stalker",
-    img: "/images/cards/card-stalker.png",
+    img: "/images/cards/png/card-stalker.png",
   },
   {
     name: "Moder",
-    img: "/images/cards/card-moder.png",
+    img: "/images/cards/png/card-moder.png",
   },
   {
     name: "Fader",
-    img: "/images/cards/card-fader.png",
+    img: "/images/cards/png/card-fader.png",
   },
 ];
 ---
 
 <section class="characters-section">
   <FixedBackground
-    image="/images/backgrounds/characters-bg.png"
-    imageMobile="/images/backgrounds/characters-bg-mobile.png"
+    image="/images/backgrounds/png/characters-bg.png"
+    imageMobile="/images/backgrounds/png/characters-bg-mobile.png"
     brightness={0.5}
     pinMobile
   />
 
   <picture class="characters-logo-pic">
-    <source srcset="/images/logos/characters-title.avif" type="image/avif" />
-    <source srcset="/images/logos/characters-title.webp" type="image/webp" />
+    <source srcset="/images/logos/avif/characters-title.avif" type="image/avif" />
+    <source srcset="/images/logos/webp/characters-title.webp" type="image/webp" />
     <img
       id="characters-logo"
-      src="/images/logos/characters-title.png"
+      src="/images/logos/png/characters-title.png"
       alt="Logo de Personajes"
       loading="lazy"
       decoding="async"
@@ -78,7 +78,7 @@ const characters = [
     const warm = () =>
       slugs.forEach((s) => {
         const img = new Image();
-        img.src = `/images/cards/card-${s}.avif`;
+        img.src = `/images/cards/avif/card-${s}.avif`;
       });
     if ("requestIdleCallback" in window)
       requestIdleCallback(warm, { timeout: 3000 });

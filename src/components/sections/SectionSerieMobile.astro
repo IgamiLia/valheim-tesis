@@ -1,0 +1,202 @@
+---
+---
+
+<section class="serie-m" aria-label="Portal hacia la serie">
+  <div class="serie-m__bg" aria-hidden="true"></div>
+
+  <span class="serie-m__runes" aria-hidden="true">ᚱᚨᛁᛞᛟ</span>
+
+  <a class="serie-m__portal" href="/serie" aria-label="Entrar a la serie">
+    <img
+      src="/images/portal/webp/portal-base.webp"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+    <span class="serie-m__hint">
+      <span class="hint-rune" aria-hidden="true">ᛈ</span>
+      Toca el portal para entrar
+      <span class="hint-rune" aria-hidden="true">ᛈ</span>
+    </span>
+  </a>
+
+  <div class="serie-m__info">
+    <p>
+      Cruza la senda de piedra donde los antiguos caminos conducen hacia los
+      salones de los dioses y los cuervos de Odín custodian la memoria del
+      norte.
+      <br /><br />
+      Allí, bajo las ramas eternas de Yggdrasil, las voces olvidadas aún
+      susurran entre la niebla y anuncian el destino de
+      <span class="serie-m__title">Valheim: Larga vida a La Reina.</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Solo visible en mobile */
+  .serie-m {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .serie-m {
+      display: flex;
+    }
+  }
+
+  .serie-m {
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100svh;
+    padding-bottom: 3.5rem;
+    overflow: hidden;
+    background: #0a0503;
+  }
+
+  /* Fondo atmosférico + degradado para legibilidad del texto */
+  .serie-m__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("/images/backgrounds/png/serie-bg.png");
+    background-image: image-set(
+      url("/images/backgrounds/avif/serie-bg.avif") type("image/avif"),
+      url("/images/backgrounds/webp/serie-bg.webp") type("image/webp")
+    );
+    background-size: cover;
+    background-position: center;
+  }
+  .serie-m__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 40%,
+      rgba(8, 3, 1, 0.55) 60%,
+      rgba(8, 3, 1, 0.94) 100%
+    );
+  }
+
+  /* Runas decorativas */
+  .serie-m__runes {
+    position: absolute;
+    top: 1.4rem;
+    left: 0.9rem;
+    z-index: 1;
+    font-family: "Runes", "Cinzel", "Palatino Linotype", serif;
+    letter-spacing: 0.6rem;
+    font-weight: bold;
+    color: #573c2a;
+    opacity: 0.4;
+    font-size: clamp(2.2rem, 11vw, 4rem);
+    text-shadow: 0 0 2px #3d3020;
+    pointer-events: none;
+  }
+
+  /* Portal (tap → /serie) */
+  .serie-m__portal {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    text-decoration: none;
+  }
+  .serie-m__portal img {
+    display: block;
+    width: 100%;
+    height: 46vh;
+    object-fit: cover;
+    /* Encuadra el arco (mitad derecha de la imagen) y lo centra */
+    object-position: 70% 42%;
+    filter: drop-shadow(0 10px 34px rgba(0, 0, 0, 0.6));
+    transition: transform 0.4s ease;
+  }
+  .serie-m__portal:active img {
+    transform: scale(1.02);
+  }
+
+  .serie-m__hint {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    padding: 0.35rem 0.85rem;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 200, 100, 0.85);
+    font-family: "Cinzel", "Palatino Linotype", serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-shadow: 0 0 12px rgba(255, 120, 0, 0.5);
+    animation: serie-m-glow 3s ease-in-out infinite alternate;
+  }
+  .serie-m__hint .hint-rune {
+    font-size: 1.1em;
+  }
+  .serie-m__hint .hint-rune:last-child {
+    transform: scaleX(-1);
+  }
+
+  /* Texto narrativo */
+  .serie-m__info {
+    position: relative;
+    z-index: 3;
+    margin-top: 2.5rem;
+    padding: 0 1.6rem;
+    max-width: 42rem;
+    text-wrap: pretty;
+  }
+  .serie-m__info p {
+    color: var(--color-gold-light);
+    font-size: clamp(1rem, 4.4vw, 1.35rem);
+    line-height: 1.5;
+    text-shadow:
+      0 0 2px #000,
+      0 1px 16px #080300,
+      0 1px 24px #000;
+  }
+  .serie-m__title {
+    display: block;
+    margin-top: 0.85rem;
+    font-family: "Cinzel", serif;
+    font-weight: bold;
+    font-size: clamp(1.2rem, 5.6vw, 1.85rem);
+    color: #bf6515;
+    text-shadow:
+      0 0 2px #000,
+      0 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 8px rgba(212, 175, 55, 0.6);
+    filter: contrast(1.15) brightness(1.1) saturate(1.2);
+  }
+
+  @keyframes serie-m-glow {
+    0% {
+      box-shadow: 0 0 6px rgba(136, 54, 0, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 18px rgba(139, 88, 0, 0.5);
+    }
+    100% {
+      box-shadow: 0 0 6px rgba(116, 47, 1, 0.2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .serie-m__hint {
+      animation: none;
+    }
+    .serie-m__portal img {
+      transition: none;
+    }
+  }
+</style>

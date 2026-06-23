@@ -49,14 +49,21 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       auto;
     background-color: #000000;
   }
+
+  /* En mobile se reemplaza por <SectionSerieMobile> */
+  @media (max-width: 768px) {
+    #portal-section {
+      display: none;
+    }
+  }
   .portal-background {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url("/images/backgrounds/serie-bg.png");
+    background-image: url("/images/backgrounds/png/serie-bg.png");
     background-image: image-set(
-      url("/images/backgrounds/serie-bg.avif") type("image/avif"),
-      url("/images/backgrounds/serie-bg.webp") type("image/webp")
+      url("/images/backgrounds/avif/serie-bg.avif") type("image/avif"),
+      url("/images/backgrounds/webp/serie-bg.webp") type("image/webp")
     );
     background-size: cover;
     background-position: center;
@@ -230,9 +237,9 @@ import Smoke from "@components/effects/SmokeEffect.astro";
   // ─── Configuración ───────────────────────────────────────────────────────
 
   const TEXTURES = {
-    base: "/images/portal/portal-base.webp",
-    active: "/images/portal/portal-active.webp",
-    mask: "/images/portal/portal-mask.webp",
+    base: "/images/portal/webp/portal-base.webp",
+    active: "/images/portal/webp/portal-active.webp",
+    mask: "/images/portal/webp/portal-mask.webp",
   } as const;
 
   const NAVIGATION_TARGET = "/serie";
@@ -348,6 +355,9 @@ import Smoke from "@components/effects/SmokeEffect.astro";
 
   async function initPortal() {
     dispose();
+
+    // En mobile se usa <SectionSerieMobile> (estático); no inicializamos WebGL.
+    if (window.matchMedia("(max-width: 768px)").matches) return;
 
     const canvas = document.getElementById(
       "portal-canvas",
