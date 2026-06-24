@@ -1,11 +1,7 @@
 ---
-interface Props {
-  audioSrc: string;
-}
-const { audioSrc } = Astro.props;
+/* El audio lo gestiona el audioManager global (única instancia de Audio que
+   persiste entre navegaciones). La canción se declara en <body data-music>. */
 ---
-
-<audio id="bg-audio" src={audioSrc} loop preload="auto"></audio>
 
 <button
   id="music-btn"
@@ -33,52 +29,6 @@ const { audioSrc } = Astro.props;
     <path d="M8 5v14l11-7z"></path>
   </svg>
 </button>
-
-<script>
-  const audio = document.getElementById("bg-audio") as HTMLAudioElement;
-  const btn = document.getElementById("music-btn") as HTMLButtonElement;
-
-  function setPlayingState(playing: boolean): void {
-    btn.classList.toggle("paused", !playing);
-    btn.setAttribute("aria-pressed", String(playing));
-  }
-
-  function fade(from: number, to: number, duration = 300): Promise<void> {
-    return new Promise((resolve) => {
-      const startTime = performance.now();
-      const tick = (now: number) => {
-        const t = Math.min((now - startTime) / duration, 1);
-        audio.volume = Math.max(0, Math.min(1, from + (to - from) * t));
-        t < 1 ? requestAnimationFrame(tick) : resolve();
-      };
-      requestAnimationFrame(tick);
-    });
-  }
-
-  // Autoplay con fade in
-  audio.volume = 0;
-  audio
-    .play()
-    .then(() => fade(0, 1).then(() => setPlayingState(true)))
-    .catch(() => {
-      audio.volume = 1;
-      setPlayingState(false);
-    });
-
-  // Toggle play / pause
-  btn.addEventListener("click", async () => {
-    if (audio.paused) {
-      audio.volume = 0;
-      await audio.play();
-      await fade(0, 1);
-      setPlayingState(true);
-    } else {
-      await fade(audio.volume, 0);
-      audio.pause();
-      setPlayingState(false);
-    }
-  });
-</script>
 
 <style>
   .music-btn {

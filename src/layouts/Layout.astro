@@ -6,11 +6,17 @@ import { ClientRouter } from "astro:transitions";
 interface Props {
   title?: string;
   description?: string;
+  /** Música de fondo de la página, ej: "/ost/home.mp3" */
+  music?: string;
+  /** Identificador de página para scripts específicos (pageManager) */
+  page?: string;
 }
 
 const {
   title = "Valheim: Larga vida a La Reina | Tésis",
   description = "Adéntrate en el universo de Valheim: Larga vida a La Reina, la webserie de Ailén Braga y Matías Aguirre. Descubre sus personajes, su mundo y la historia detrás de su creación.",
+  music,
+  page,
 } = Astro.props;
 ---
 
@@ -59,8 +65,15 @@ const {
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body>
+  <body data-music={music} data-page={page}>
     <slot />
+
+    {/* Orquestador de scripts con las transiciones de Astro (música, header,
+        scripts por página). Re-init en astro:page-load, cleanup en before-swap. */}
+    <script>
+      import { setupNavigation } from "@utils/navigationManager";
+      setupNavigation();
+    </script>
 
     <!-- Portal de transición entre páginas -->
     <div id="vt-portal-overlay" style="display:none">

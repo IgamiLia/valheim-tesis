@@ -14,7 +14,7 @@ import MusicButton from "@components/ui/MusicButton.astro";
 import Trailer from "@components/sections/Trailer.astro";
 ---
 
-<Layout>
+<Layout music="/ost/home.mp3" page="index">
   <Header />
   <div id="inicio" class="nav-target"><Hero /></div>
   <Trailer />
@@ -30,7 +30,7 @@ import Trailer from "@components/sections/Trailer.astro";
     <SectionSerie />
   </div>
   <div id="contactos" class="nav-target"><Footer /></div>
-  <MusicButton audioSrc="/ost/home.mp3" />
+  <MusicButton />
 </Layout>
 
 <style>
