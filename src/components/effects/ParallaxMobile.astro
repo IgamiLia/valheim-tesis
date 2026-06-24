@@ -310,7 +310,7 @@ const biografias: Bio[] = [
     top: 2.75rem;
     left: 1.5rem;
     z-index: 2;
-    font-family: "Cinzel", Georgia, serif;
+    font-family: var(--font-display);
     font-size: clamp(2.8rem, 13vw, 4.5rem);
     font-weight: 700;
     letter-spacing: 6px;
@@ -395,7 +395,7 @@ const biografias: Bio[] = [
 
   /* ── Párrafos ── */
   .pm-p {
-    font-family: "Book Antiqua", "Palatino Linotype", Palatino, serif;
+    font-family: var(--font-body);
     font-size: clamp(0.875rem, 3.8vw, 1rem);
     line-height: 1.85;
     color: rgb(232, 218, 190);
@@ -425,7 +425,7 @@ const biografias: Bio[] = [
 
   /* Drop cap en el primer párrafo */
   .pm-p--first::first-letter {
-    font-family: "Cinzel Variable", Georgia, serif;
+    font-family: var(--font-display);
     font-size: 3.1em;
     font-weight: 700;
     line-height: 0.75;

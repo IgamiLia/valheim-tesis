@@ -199,7 +199,7 @@ const biografias = [
   .card h2 {
     height: fit-content;
     margin: 0;
-    font-family: "Cinzel", Georgia, serif;
+    font-family: var(--font-display);
     font-size: clamp(5rem, 11.0803vw + 1.6898rem, 8rem);
     font-weight: 700;
     font-feature-settings:
@@ -270,7 +270,7 @@ const biografias = [
   .card p {
     position: relative;
     z-index: 2;
-    font-family: "Book Antiqua", "Palatino Linotype", Palatino, serif;
+    font-family: var(--font-body);
     font-size: clamp(0.875rem, 1.2vw + 1rem, 2rem);
     line-height: 1.85;
     color: rgb(232, 218, 190);
@@ -286,7 +286,7 @@ const biografias = [
   }
 
   .card p.first-p::first-letter {
-    font-family: "Cinzel Variable", Georgia, serif;
+    font-family: var(--font-display);
     font-size: 3.5em;
     font-weight: 700;
     line-height: 0.75;

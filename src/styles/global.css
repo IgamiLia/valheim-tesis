@@ -1,3 +1,14 @@
+/* ─── Fuentes locales (Fontsource / self-hosted — sin Google Fonts ni CDN) ── */
+@import "@fontsource-variable/cinzel";
+
+@font-face {
+  font-family: "Book Antiqua";
+  src: url("/fonts/bookantiqua.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -71,6 +82,11 @@
 
   /* Transition (Short) */
   --transition: 0.25s ease;
+
+  /* Fuentes (locales) */
+  --font-display: "Cinzel Variable", Georgia, serif;
+  --font-body: "Book Antiqua", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-rune: "Runes", "Cinzel Variable", "Palatino Linotype", serif;
 }
 
 html {
@@ -132,7 +148,7 @@ html {
 
 body {
   color: rgb(225, 210, 178);
-  font-family: "Book Antiqua", "Palatino Linotype", Palatino, Georgia, serif;
+  font-family: var(--font-body);
   display: flex;
   flex-direction: column;
   align-items: center;

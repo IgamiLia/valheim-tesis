@@ -124,7 +124,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       0 0 8px rgba(212, 175, 55, 0.6),
       2px 2px 8px rgba(101, 82, 40, 0.5),
       -1px -1px 2px rgba(0, 0, 0, 0.4);
-    font-family: "Cinzel", serif;
+    font-family: var(--font-display);
     filter: contrast(1.15) brightness(1.1) saturate(1.2) sepia(0.5);
   }
 
@@ -134,7 +134,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     display: block;
     position: absolute;
     z-index: 5;
-    font-family: "Runes", "Cinzel", "Palatino Linotype", serif;
+    font-family: var(--font-rune);
     letter-spacing: 1rem;
     font-weight: bold;
     color: #573c2a;
@@ -180,7 +180,7 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     padding: 0.2rem 0.5rem;
     border-radius: 3px;
     color: rgba(255, 200, 100, 0.75);
-    font-family: "Cinzel", "Palatino Linotype", serif;
+    font-family: var(--font-display);
     font-size: clamp(0.75rem, 1.5vw, 1rem);
     letter-spacing: 0.15em;
     text-shadow: 0 0 12px rgba(255, 120, 0, 0.5);

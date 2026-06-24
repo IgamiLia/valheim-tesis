@@ -246,6 +246,9 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
   let animationId: number | null = null;
   let renderer: THREE.WebGLRenderer | null = null;
   let resizeObserver: ResizeObserver | null = null;
+  let intersectionObserver: IntersectionObserver | null = null;
+  let onVisibility: (() => void) | null = null;
+  let inView = true;
   let cleanupListeners: (() => void) | null = null;
 
   function dispose() {
@@ -255,6 +258,12 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     }
     resizeObserver?.disconnect();
     resizeObserver = null;
+    intersectionObserver?.disconnect();
+    intersectionObserver = null;
+    if (onVisibility) {
+      document.removeEventListener("visibilitychange", onVisibility);
+      onVisibility = null;
+    }
     cleanupListeners?.();
     cleanupListeners = null;
     if (renderer) {
@@ -503,6 +512,12 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     const clock = new THREE.Timer();
 
     function animate() {
+      // Pausa cuando el globo está fuera del viewport o la pestaña oculta:
+      // el loop se detiene en lugar de renderizar a 60fps en vano.
+      if (!inView || document.hidden) {
+        animationId = null;
+        return;
+      }
       animationId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsed();
       earthGroup.rotation.y += 0.002;
@@ -533,6 +548,22 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
       if (renderer) renderer.render(scene, camera);
     }
     animate();
+
+    // ── Pausa/reanuda el loop según visibilidad (ahorra Main Thread) ───────
+    function resume() {
+      if (animationId === null && inView && !document.hidden) animate();
+    }
+    intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        inView = entries[0]?.isIntersecting ?? true;
+        resume();
+      },
+      { threshold: 0 },
+    );
+    intersectionObserver.observe(worldContainer);
+
+    onVisibility = () => resume();
+    document.addEventListener("visibilitychange", onVisibility);
 
     // ─── Cargar máscaras ─────────────────────────────────────────────────
     try {
@@ -761,14 +792,14 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     text-transform: uppercase;
     color: rgba(180, 140, 60, 0.6);
     margin: 0 0 3px;
-    font-family: "Cinzel", "Georgia", serif;
+    font-family: var(--font-display);
   }
 
   .modal-name {
     font-size: clamp(1rem, 1.2vw + 0.6rem, 1.5rem);
     margin: 0;
     color: var(--color-gold, #c9a84c);
-    font-family: "Cinzel", "Georgia", serif;
+    font-family: var(--font-display);
     font-weight: 700;
     line-height: 1.2;
     text-shadow: 0 0 20px rgba(201, 168, 76, 0.35);
@@ -812,7 +843,7 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     font-size: clamp(0.78rem, 0.7vw + 0.55rem, 1.3rem);
     line-height: 1.75;
     color: rgba(215, 190, 135, 0.88);
-    font-family: "Book Antiqua", "Palatino Linotype", Palatino, serif;
+    font-family: var(--font-body);
     position: relative;
     scrollbar-width: thin;
     scrollbar-color: rgba(130, 103, 40, 0.45) transparent;
@@ -868,7 +899,7 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     font-size: clamp(0.55rem, 0.5vw + 0.4rem, 1rem);
     line-height: 1.6;
     color: rgba(175, 155, 105, 0.68);
-    font-family: "Cinzel", "Georgia", Palatino, serif;
+    font-family: var(--font-display);
     margin: 0;
   }
 

@@ -15,16 +15,28 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0503" />
     <link
       rel="shortcut icon"
-      href="images/icons/webp/favicon.webp"
+      href="/images/icons/webp/favicon.webp"
       type="image/x-icon"
     />
+
+    {/* SEO / Open Graph / Twitter */}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/backgrounds/webp/hero-bg.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/images/backgrounds/webp/hero-bg.webp" />
     {/* Preload del fondo del Hero (LCP). type=avif → los navegadores sin
         soporte lo omiten y cargan el webp por CSS. media → solo la variante
         que corresponde al viewport. */}

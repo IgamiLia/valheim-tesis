@@ -1,18 +1,18 @@
 ---
 const links = [
-  { href: "#inicio", label: "Inicio" },
-  { href: "#serie", label: "Serie" },
-  { href: "#personajes", label: "Personajes" },
-  { href: "#mundo", label: "Mundo" },
-  { href: "#biografias", label: "Biografías" },
-  { href: "#musica", label: "Música" },
-  { href: "#contactos", label: "Contactos" },
+  { href: "/#inicio", label: "Inicio" },
+  { href: "/#serie", label: "Serie" },
+  { href: "/#personajes", label: "Personajes" },
+  { href: "/#mundo", label: "Mundo" },
+  { href: "/#biografias", label: "Biografías" },
+  { href: "/#musica", label: "Música" },
+  // { href: "#contactos", label: "Contactos" },
 ];
 ---
 
 <header class="site-header" id="siteHeader">
-  <a class="brand" href="#inicio" aria-label="Inicio">
-    <span class="brand-rune" aria-hidden="true">ᚹ</span>
+  <a class="brand" href="/#inicio" aria-label="Inicio">
+    <!-- <span class="brand-rune" aria-hidden="true">ᚹ</span> -->
     <span class="brand-text">Valheim</span>
   </a>
 
@@ -157,7 +157,7 @@ const links = [
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: "Cinzel", Georgia, serif;
+    font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: 0.18em;
     font-size: clamp(1.05rem, 1.4vw + 0.55rem, 1.45rem);
@@ -193,7 +193,7 @@ const links = [
   .primary-nav a {
     position: relative;
     display: inline-block;
-    font-family: "Cinzel", Georgia, serif;
+    font-family: var(--font-display);
     font-size: 0.82rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
