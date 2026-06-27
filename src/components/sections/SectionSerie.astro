@@ -31,9 +31,15 @@ import Smoke from "@components/effects/SmokeEffect.astro";
     <canvas id="portal-canvas"></canvas>
 
     <div id="portal-hint">
-      <span class="hint-rune">ᛈ</span>
+      <img class="hint-rune" src="/svg/rune-icon.svg" alt="" aria-hidden="true" />
       <span class="hint-text">Pasa el cursor por el portal</span>
-      <span class="hint-rune" style="transform: scaleX(-1)">ᛈ</span>
+      <img
+        class="hint-rune"
+        src="/svg/rune-icon.svg"
+        alt=""
+        aria-hidden="true"
+        style="transform: scaleX(-1)"
+      />
     </div>
   </section>
 <SectionDivider />
@@ -196,7 +202,9 @@ import Smoke from "@components/effects/SmokeEffect.astro";
   }
 
   .hint-rune {
-    font-size: 1.2em;
+    width: 1.5em;
+    height: auto;
+    flex-shrink: 0;
     animation: runeFlicker 2.5s ease-in-out infinite alternate;
   }
 
@@ -221,11 +229,11 @@ import Smoke from "@components/effects/SmokeEffect.astro";
   @keyframes runeFlicker {
     0% {
       opacity: 0.4;
-      text-shadow: 0 0 6px rgba(255, 100, 0, 0.3);
+      filter: drop-shadow(0 0 6px rgba(255, 100, 0, 0.3));
     }
     100% {
       opacity: 1;
-      text-shadow: 0 0 18px rgba(255, 160, 0, 0.9);
+      filter: drop-shadow(0 0 18px rgba(255, 160, 0, 0.9));
     }
   }
 </style>

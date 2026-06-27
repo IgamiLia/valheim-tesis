@@ -51,9 +51,19 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
     </div>
 
     <p class="trailer-caption">
-      <span class="caption-rune" aria-hidden="true">ᛈ</span>
+      <img
+        class="caption-rune"
+        src="/svg/rune-icon.svg"
+        alt=""
+        aria-hidden="true"
+      />
       Valheim: Larga vida a La Reina
-      <span class="caption-rune reverse" aria-hidden="true">ᛈ</span>
+      <img
+        class="caption-rune reverse"
+        src="/svg/rune-icon.svg"
+        alt=""
+        aria-hidden="true"
+      />
     </p>
   </div>
 </section>
@@ -294,7 +304,10 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
   }
 
   .caption-rune {
-    font-size: 1.1em;
+    width: 1.3em;
+    height: auto;
+    flex-shrink: 0;
+    vertical-align: middle;
     opacity: 0.6;
   }
   .reverse {

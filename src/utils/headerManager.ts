@@ -67,6 +67,37 @@ export const headerManager = {
       () => nav.removeEventListener("click", onNavClick),
       () => window.removeEventListener("scroll", onScroll),
     ];
+
+    // ── Modal de contactos ───────────────────────────────────────────────
+    const modal = document.getElementById(
+      "contactModal",
+    ) as HTMLDialogElement | null;
+    const contactOpen =
+      document.querySelector<HTMLElement>("[data-contact-open]");
+    const contactClose =
+      modal?.querySelector<HTMLElement>("[data-contact-close]") ?? null;
+
+    if (modal && contactOpen) {
+      const openModal = () => {
+        close(); // cierra el menú mobile si estaba abierto
+        modal.showModal?.();
+      };
+      const closeModal = () => modal.close();
+      // Click en el backdrop (fuera del contenido) → cerrar.
+      const onBackdrop = (e: MouseEvent) => {
+        if (e.target === modal) modal.close();
+      };
+
+      contactOpen.addEventListener("click", openModal);
+      contactClose?.addEventListener("click", closeModal);
+      modal.addEventListener("click", onBackdrop);
+
+      cleanup.push(
+        () => contactOpen.removeEventListener("click", openModal),
+        () => contactClose?.removeEventListener("click", closeModal),
+        () => modal.removeEventListener("click", onBackdrop),
+      );
+    }
   },
 
   destroy(): void {

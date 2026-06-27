@@ -1,6 +1,7 @@
 ---
 import SectionDivider from "@components/ui/SectionDivider.astro";
 import FixedBackground from "@components/ui/FixedBackground.astro";
+import Contenido from "@components/sections/Contenido.astro";
 ---
 
 <section>
@@ -64,147 +65,7 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
         </p>
       </div>
 
-      <div class="index-aside">
-        <!-- ÍNDICE -->
-        <nav class="contenido">
-          <h2>Contenido</h2>
-          <ol>
-            <li><a href="#sinopsis">Sinopsis</a></li>
-            <li>
-              <details open>
-                <summary>Personajes</summary>
-                <ol>
-                  <li><a href="#einar">Einar</a></li>
-                  <li><a href="#runa">Runa</a></li>
-                  <li><a href="#hel">Hel</a></li>
-                  <li><a href="#stalker">Stalker</a></li>
-                  <li><a href="#moder">Moder</a></li>
-                  <li><a href="#fader">Fader</a></li>
-                </ol>
-              </details>
-            </li>
-            <li><a href="#mapa">Mapa de Midgard</a></li>
-            <li>
-              <details open>
-                <summary>Biografías</summary>
-                <ol>
-                  <li><a href="#runa-bio">La hechicera de runas</a></li>
-                  <li><a href="#einar-bio">El luchador más leal</a></li>
-                  <li><a href="#hel-bio">La diosa de los muertos</a></li>
-                  <li><a href="#stalker-bio">El acechador silencioso</a></li>
-                  <li><a href="#moder-bio">Madre de dragones</a></li>
-                  <li><a href="#fader-bio">El padre desterrado</a></li>
-                </ol>
-              </details>
-            </li>
-            <li><a href="#banda">Banda sonora</a></li>
-            <li><a href="#musica">Música utilizada en la webserie</a></li>
-          </ol>
-        </nav>
-
-        <!-- COLUMNA DE ASIDES -->
-        <div class="asides-col">
-          <aside class="aside-redes">
-            <h2>Podés ver la webserie en</h2>
-            <div class="redes-links">
-              <a
-                class="tiktok"
-                href="https://www.tiktok.com/@valheimwebserie?_t=ZM-8xM7SS8YEYY&_r=1"
-              >
-                <img src="/images/icons/svg/tiktok-icon-dark.svg" alt="TikTok" />
-                <span>TikTok</span>
-              </a>
-              <a
-                class="ig"
-                href="https://www.instagram.com/valheimwebserie?igsh=Njk4Zzdic2luZzZk"
-              >
-                <img src="/images/icons/svg/instagram-icon.svg" alt="Instagram" />
-                <span>Instagram</span>
-              </a>
-            </div>
-          </aside>
-
-          <aside class="ficha-tec">
-            <table class="ficha-table">
-              <tbody>
-                <tr class="ficha-titulo">
-                  <td colspan="2">Valheim: Larga vida a la Reina</td>
-                </tr>
-                <tr class="ficha-seccion">
-                  <td colspan="2">Información de lanzamiento</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Formato</td>
-                  <td class="ficha-valor">
-                    <a
-                      href="https://es.wikipedia.org/wiki/Machinima"
-                      target="_blank"
-                      rel="noopener noreferrer">Machinima</a
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Capítulos</td>
-                  <td class="ficha-valor"><a href="">18</a></td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Fecha de inicio</td>
-                  <td class="ficha-valor">1 de julio de 2025</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Fecha de finalización</td>
-                  <td class="ficha-valor">9 de julio de 2025</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Plataformas</td>
-                  <td class="ficha-valor">
-                    <a href="#tk">TikTok</a> · <a href="#ig">Instagram</a>
-                  </td>
-                </tr>
-                <tr class="ficha-seccion">
-                  <td colspan="2">Información de producción</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Autora</td>
-                  <td class="ficha-valor">Braga Ailen</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Editora</td>
-                  <td class="ficha-valor">Braga Ailen</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Actores</td>
-                  <td class="ficha-valor ficha-stack">
-                    <a href="">Braga Ailen</a>
-                    <a href="">Aguirre Matías</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Directores</td>
-                  <td class="ficha-valor ficha-stack">
-                    <span>Ailen Braga</span>
-                    <span>Matías Aguirre</span>
-                  </td>
-                </tr>
-                <tr class="ficha-seccion">
-                  <td colspan="2">Información cronológica</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Universo</td>
-                  <td class="ficha-valor">Mitología Nórdica (Valheim)</td>
-                </tr>
-                <tr>
-                  <td class="ficha-label">Basado en</td>
-                  <td class="ficha-valor ficha-italic">
-                    Valheim<br />por Iron Gate Studio
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </aside>
-        </div>
-      </div>
-
+      <Contenido />
     </main>
   </section>
 <SectionDivider />
@@ -233,16 +94,19 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
   }
 
   .logo {
+    display: block;
     margin-top: 2rem;
-    align-self: center;
-    width: clamp(300px, 45vw + 1rem, 600px);
+    margin-inline: auto;
+    width: clamp(300px, 45vw, 600px);
   }
 
   .text-wrap {
     padding: 1rem;
     position: relative;
     width: fit-content;
+    max-width: min(90vw, 40rem);
     margin: 0 auto;
+    text-align: center;
   }
 
   h1 {
@@ -250,7 +114,8 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
     font-size: clamp(1.1rem, calc(0.5rem + 2.8vw), 2.6rem);
     z-index: 2;
     position: relative;
-    text-wrap: pretty;
+    text-align: center;
+    text-wrap: balance;
     padding: 0.5rem 2rem;
   }
 
@@ -315,7 +180,7 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
 
   .intro {
     width: 100%;
-    font-size: clamp(0.85rem, calc(0.4rem + 1.3vw), 1.5rem);
+    font-size: clamp(0.95rem, calc(0.5rem + 1.45vw), 1.65rem);
     line-height: 1.9;
     color: rgb(232, 218, 190);
     letter-spacing: 0.028em;
@@ -351,315 +216,4 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
     text-decoration: underline;
   }
 
-  /* spans dentro de asides */
-  span,
-  span a {
-    font-weight: bold;
-    color: rgb(233, 200, 101);
-  }
-
-  a {
-    color: var(--color-gold-light);
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
-
-  /* ── Index aside ── */
-  .index-aside {
-    display: flex;
-    justify-content: space-around;
-    align-items: stretch;
-    gap: 2rem;
-    width: 100%;
-  }
-
-  .contenido {
-    background-color: rgba(0, 0, 0, 0.438);
-    flex-shrink: 0;
-    width: clamp(200px, 22vw, 320px);
-    min-width: fit-content;
-    border: var(--card-border-width) solid var(--color-gold-dark);
-    outline-offset: 4px;
-    box-shadow:
-      0 0 0 1px rgba(10, 9, 6, 0.8),
-      0 0 0 4px var(--color-gold-dark),
-      0 0 24px 2px rgba(130, 103, 40, 0.35),
-      inset 0 1px 0 rgba(220, 195, 120, 0.1);
-    border-radius: 2px;
-    overflow: visible;
-    transition: all var(--transition-fast);
-    position: relative;
-  }
-
-  .contenido h2 {
-    text-shadow: var(--color-gold) 0px 0px 24px;
-    -webkit-text-stroke: 0.9px var(--color-gold-light);
-    font-size: clamp(0.85rem, calc(0.455rem + 1.5vw), 1.6rem);
-    letter-spacing: 1.5px;
-    color: transparent;
-    font-weight: bold;
-    text-align: center;
-    padding: 0.6rem 1rem;
-    background: linear-gradient(
-      180deg,
-      rgba(100, 78, 15, 0.45) 0%,
-      rgba(50, 36, 5, 0.65) 100%
-    );
-    border-bottom: 1px solid var(--color-gold-dark);
-  }
-
-  .contenido ol {
-    list-style: none;
-    counter-reset: item;
-    padding: 0 1.5rem;
-  }
-
-  .contenido > ol > li {
-    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
-    font-weight: bold;
-    margin: 0.5rem;
-  }
-
-  .contenido summary {
-    list-style: none;
-    color: var(--color-gold-light);
-    font-weight: bold;
-    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
-  }
-
-  .contenido summary::after {
-    margin: 0.2rem;
-    display: inline-block;
-    content: " ►";
-    font-size: 0.8rem;
-    transition: transform var(--transition-fast);
-  }
-
-  .contenido details[open] summary::after {
-    transform: rotate(90deg);
-  }
-
-  .contenido details > ol > li {
-    font-weight: normal;
-    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
-    margin: 0.4rem;
-  }
-
-  .contenido ol li {
-    counter-increment: item;
-  }
-
-  .contenido ol li::before {
-    content: counters(item, ".") " - ";
-    font-weight: 900;
-    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
-    color: #9b7c16;
-    opacity: 0.85;
-    text-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.8),
-      0 0 8px rgba(212, 175, 55, 0.6),
-      2px 2px 8px rgba(101, 82, 40, 0.5),
-      -1px -1px 2px rgba(0, 0, 0, 0.4);
-    letter-spacing: 0.05em;
-    font-family: "Georgia", serif;
-    filter: contrast(1.15) brightness(1.1) saturate(1.2) sepia(0.5);
-  }
-
-  .contenido ol ol {
-    margin-left: 1.5rem;
-  }
-
-  .contenido > ol > li:has(details)::before {
-    content: none;
-  }
-
-  .contenido > ol > li:has(details) > details > summary::before {
-    content: counters(item, ".") " - ";
-    font-weight: 900;
-    font-size: clamp(0.75rem, calc(0.386rem + 1.818vw), 1.75rem);
-    color: #9b7c16;
-    opacity: 0.85;
-    text-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.8),
-      0 0 8px rgba(212, 175, 55, 0.6),
-      2px 2px 8px rgba(101, 82, 40, 0.5),
-      -1px -1px 2px rgba(0, 0, 0, 0.4);
-    letter-spacing: 0.05em;
-    font-family: "Georgia", serif;
-    filter: contrast(1.15) brightness(1.1) saturate(1.2) sepia(0.5);
-  }
-
-  /* ── Asides ── */
-  .asides-col {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    min-width: 0;
-  }
-
-  aside {
-    background-color: rgba(0, 0, 0, 0.438);
-    border: var(--card-border-width) solid var(--color-gold-dark);
-    outline-offset: 4px;
-    box-shadow:
-      0 0 0 1px rgba(10, 9, 6, 0.8),
-      0 0 0 4px var(--color-gold-dark),
-      0 0 24px 2px rgba(130, 103, 40, 0.35),
-      inset 0 1px 0 rgba(220, 195, 120, 0.1);
-    border-radius: 2px;
-    overflow: hidden;
-    max-width: 500px;
-  }
-
-  aside h2 {
-    text-shadow: var(--color-gold) 0px 0px 24px;
-    -webkit-text-stroke: 0.9px var(--color-gold-light);
-    font-size: clamp(0.85rem, calc(0.455rem + 1.5vw), 1.6rem);
-    letter-spacing: 1.5px;
-    color: transparent;
-    font-weight: bold;
-    text-align: center;
-    padding: 0.6rem 1rem;
-    background: linear-gradient(
-      180deg,
-      rgba(100, 78, 15, 0.45) 0%,
-      rgba(50, 36, 5, 0.65) 100%
-    );
-    border-bottom: 1px solid var(--color-gold-dark);
-  }
-
-  .aside-redes .redes-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
-    padding: 1.25rem 2rem;
-  }
-
-  .aside-redes a {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    align-items: center;
-    filter: drop-shadow(0 0 5px var(--color-gold-dark));
-    transition: all var(--transition-fast);
-  }
-
-  .aside-redes a img {
-    width: clamp(2rem, 4vw, 3.5rem);
-    aspect-ratio: 1;
-  }
-
-  .aside-redes a span {
-    font-size: clamp(0.7rem, calc(0.3rem + 1vw), 1rem);
-    font-weight: bold;
-    color: rgb(233, 200, 101);
-  }
-
-  .aside-redes a:hover {
-    filter: drop-shadow(0 0 15px var(--color-gold-light));
-    transform: scale(1.05);
-  }
-
-  /* ── Ficha técnica ── */
-  .ficha-tec {
-    display: flex;
-    flex-direction: column;
-    max-width: 500px;
-  }
-
-  .ficha-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: "Georgia", serif;
-  }
-
-  .ficha-titulo td {
-    text-align: center;
-    padding: 0.6rem 1rem;
-    font-size: clamp(0.85rem, calc(0.4rem + 1.3vw), 1.3rem);
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: transparent;
-    -webkit-text-stroke: 0.8px var(--color-gold-light);
-    text-shadow: var(--color-gold) 0px 0px 20px;
-    background: linear-gradient(
-      180deg,
-      rgba(100, 78, 15, 0.45) 0%,
-      rgba(50, 36, 5, 0.65) 100%
-    );
-    border-bottom: 1px solid var(--color-gold-dark);
-  }
-
-  .ficha-seccion td {
-    text-align: center;
-    padding: 0.4rem 1rem;
-    font-size: clamp(0.72rem, calc(0.35rem + 1vw), 1rem);
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    color: transparent;
-    -webkit-text-stroke: 0.6px var(--color-gold-light);
-    text-shadow: var(--color-gold) 0px 0px 16px;
-    background: linear-gradient(
-      180deg,
-      rgba(80, 60, 10, 0.4) 0%,
-      rgba(40, 28, 4, 0.55) 100%
-    );
-    border-top: 1px solid rgba(138, 106, 26, 0.5);
-    border-bottom: 1px solid rgba(138, 106, 26, 0.35);
-    text-transform: uppercase;
-  }
-
-  .ficha-table tr:not(.ficha-titulo):not(.ficha-seccion) td {
-    padding: 0.4rem 0.9rem;
-    border-bottom: 1px solid rgba(138, 106, 26, 0.18);
-    vertical-align: top;
-    line-height: 1.55;
-    font-size: clamp(0.7rem, calc(0.35rem + 1vw), 1rem);
-  }
-
-  .ficha-label {
-    color: rgb(233, 200, 101);
-    font-weight: bold;
-    width: 38%;
-    white-space: nowrap;
-  }
-
-  .ficha-valor {
-    color: rgb(210, 188, 145);
-  }
-
-  .ficha-valor a {
-    color: var(--color-gold-light);
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
-
-  .ficha-valor a:hover {
-    text-decoration: underline;
-    color: var(--color-gold);
-  }
-
-  .ficha-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .ficha-italic {
-    font-style: italic;
-  }
-
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
-    .index-aside {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 2rem;
-    }
-
-    .contenido {
-      width: 100%;
-    }
-  }
 </style>

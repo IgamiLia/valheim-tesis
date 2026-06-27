@@ -21,21 +21,30 @@
 
   <a class="serie-m__portal" href="/serie" aria-label="Entrar a la serie">
     <span class="serie-m__hint">
-      <span class="hint-rune" aria-hidden="true">ᛈ</span>
+      <img class="hint-rune" src="/svg/rune-icon.svg" alt="" aria-hidden="true" />
       Toca el portal para entrar
-      <span class="hint-rune" aria-hidden="true">ᛈ</span>
+      <img class="hint-rune" src="/svg/rune-icon.svg" alt="" aria-hidden="true" />
     </span>
-    <img
-      src="/images/portal/webp/portal-base.webp"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
+    <picture>
+      <source
+        srcset="/images/portal/avif/portal-base-mobile.avif"
+        type="image/avif"
+      />
+      <source
+        srcset="/images/portal/webp/portal-base-mobile.webp"
+        type="image/webp"
+      />
+      <img
+        src="/images/portal/webp/portal-base-mobile.webp"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
   </a>
 </section>
 
 <style>
-  /* Solo visible en mobile */
   .serie-m {
     display: none;
   }
@@ -55,7 +64,6 @@
     background: #0a0503;
   }
 
-  /* Fondo atmosférico + degradado oscuro ARRIBA (donde va el texto) */
   .serie-m__bg {
     position: absolute;
     inset: 0;
@@ -81,7 +89,6 @@
     );
   }
 
-  /* Runas decorativas */
   .serie-m__runes {
     position: absolute;
     top: 1.2rem;
@@ -97,7 +104,6 @@
     pointer-events: none;
   }
 
-  /* Texto narrativo (ARRIBA) */
   .serie-m__info {
     position: relative;
     z-index: 3;
@@ -107,7 +113,7 @@
   }
   .serie-m__info p {
     color: var(--color-gold-light);
-    font-size: clamp(1rem, 4.4vw, 1.35rem);
+    font-size: clamp(1.05rem, 4.9vw, 1.5rem);
     line-height: 1.5;
     text-shadow:
       0 0 2px #000,
@@ -116,37 +122,58 @@
   }
   .serie-m__title {
     display: block;
-    margin-top: 0.85rem;
+    white-space: nowrap;
+    margin-top: 1.5rem;
+    text-align: center;
     font-family: var(--font-display);
     font-weight: bold;
-    font-size: clamp(1.2rem, 5.6vw, 1.85rem);
-    color: #bf6515;
-    text-shadow:
-      0 0 2px #000,
-      0 2px 4px rgba(0, 0, 0, 0.8),
-      0 0 8px rgba(212, 175, 55, 0.6);
-    filter: contrast(1.15) brightness(1.1) saturate(1.2);
+    font-size: clamp(1.15rem, 5vw, 2.1rem);
+    color: #e6ab40;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.95))
+      drop-shadow(0 1px 2px rgba(0, 0, 0, 0.9));
   }
 
-  /* Portal apoyado en el suelo (ABAJO) — tap → /serie */
+  .serie-m__title::before,
+  .serie-m__title::after {
+    content: "";
+    display: block;
+    width: min(58%, 13rem);
+    height: 1px;
+    margin-inline: auto;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(214, 170, 92, 0.75),
+      transparent
+    );
+    box-shadow: 0 0 8px rgba(214, 150, 60, 0.35);
+  }
+  .serie-m__title::before {
+    margin-bottom: 1.05rem;
+  }
+  .serie-m__title::after {
+    margin-top: 1.05rem;
+  }
+
   .serie-m__portal {
     position: relative;
     z-index: 2;
     display: block;
     width: 100%;
-    margin-top: auto; /* empuja el portal al fondo de la sección */
+    margin-top: auto;
     text-decoration: none;
   }
   .serie-m__portal img {
     display: block;
     width: 100%;
-    height: 56vh;
+    height: 48vh;
     object-fit: cover;
-    /* Encuadra el arco + su plataforma de piedra (mitad derecha de la imagen),
-       con la base al pie → queda "en el suelo". */
-    object-position: 72% 50%;
+    object-position: center bottom;
     filter: drop-shadow(0 10px 34px rgba(0, 0, 0, 0.55));
     transition: transform 0.4s ease;
+  }
+  .serie-m__portal picture {
+    display: contents;
   }
   .serie-m__portal:active img {
     transform: scale(1.02);
@@ -155,7 +182,8 @@
   .serie-m__hint {
     position: absolute;
     left: 50%;
-    top: 0.75rem;
+    bottom: 1.4rem;
+    z-index: 2;
     transform: translateX(-50%);
     display: inline-flex;
     align-items: center;
@@ -172,7 +200,10 @@
     animation: serie-m-glow 3s ease-in-out infinite alternate;
   }
   .serie-m__hint .hint-rune {
-    font-size: 1.1em;
+    width: 1.4em;
+    height: auto;
+    flex-shrink: 0;
+    opacity: 0.9;
   }
   .serie-m__hint .hint-rune:last-child {
     transform: scaleX(-1);
