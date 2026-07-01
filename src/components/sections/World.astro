@@ -3,54 +3,52 @@ import SectionDivider from "@components/ui/SectionDivider.astro";
 import FixedBackground from "@components/ui/FixedBackground.astro";
 ---
 
-<section>
-    <FixedBackground image="/images/backgrounds/png/world-bg.png" />
-    <div class="world-wrapper">
-      <div class="world">
-        <div class="corner-tr"></div>
-        <div class="corner-bl"></div>
+<section id="mapa">
+  <FixedBackground image="/images/backgrounds/png/world-bg.png" />
+  <div class="world-wrapper">
+    <div class="world">
+      <div class="corner-tr"></div>
+      <div class="corner-bl"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="island-modal" id="islandModal">
+      <div class="modal-rune-bar"></div>
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+
+      <div class="modal-header">
+        <div class="modal-icon" id="modalIcon"></div>
+        <div>
+          <p class="modal-biome" id="modalBiome"></p>
+          <h2 class="modal-name" id="modalName"></h2>
+        </div>
       </div>
 
-      <!-- Modal -->
-      <div class="island-modal" id="islandModal">
-          <div class="modal-rune-bar"></div>
-          <button class="modal-close" id="modalClose" aria-label="Cerrar"
-            >✕</button
-          >
+      <div class="modal-divider">
+        <span class="modal-divider-rune">᛭</span>
+      </div>
 
-          <div class="modal-header">
-            <div class="modal-icon" id="modalIcon"></div>
-            <div>
-              <p class="modal-biome" id="modalBiome"></p>
-              <h2 class="modal-name" id="modalName"></h2>
-            </div>
-          </div>
+      <div class="modal-lore" id="modalLore"></div>
 
-          <div class="modal-divider">
-            <span class="modal-divider-rune">᛭</span>
-          </div>
+      <div class="modal-divider">
+        <span class="modal-divider-rune">᛭</span>
+      </div>
 
-          <div class="modal-lore" id="modalLore"></div>
+      <p class="modal-description" id="modalDescription"></p>
 
-          <div class="modal-divider">
-            <span class="modal-divider-rune">᛭</span>
-          </div>
-
-          <p class="modal-description" id="modalDescription"></p>
-
-          <div class="modal-footer">
-            <div class="modal-footer-rune">
-              <span class="rune-char" style="animation-delay:0.00s">ᚠ</span>
-              <span class="rune-char" style="animation-delay:0.14s">ᚢ</span>
-              <span class="rune-char" style="animation-delay:0.28s">ᚦ</span>
-              <span class="rune-char" style="animation-delay:0.42s">ᚨ</span>
-              <span class="rune-char" style="animation-delay:0.56s">ᚱ</span>
-              <span class="rune-char" style="animation-delay:0.70s">ᚲ</span>
-            </div>
-          </div>
+      <div class="modal-footer">
+        <div class="modal-footer-rune">
+          <span class="rune-char" style="animation-delay:0.00s">ᚠ</span>
+          <span class="rune-char" style="animation-delay:0.14s">ᚢ</span>
+          <span class="rune-char" style="animation-delay:0.28s">ᚦ</span>
+          <span class="rune-char" style="animation-delay:0.42s">ᚨ</span>
+          <span class="rune-char" style="animation-delay:0.56s">ᚱ</span>
+          <span class="rune-char" style="animation-delay:0.70s">ᚲ</span>
         </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 <SectionDivider />
 <script>
   import * as THREE from "three";

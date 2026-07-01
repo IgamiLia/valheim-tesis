@@ -6,26 +6,32 @@ const characters = [
   {
     name: "Einar",
     img: "/images/cards/png/card-einar.png",
+    id: "einar",
   },
   {
     name: "Runa",
     img: "/images/cards/png/card-runa.png",
+    id: "runa",
   },
   {
     name: "Hel",
     img: "/images/cards/png/card-hel.png",
+    id: "hel",
   },
   {
     name: "Stalker",
     img: "/images/cards/png/card-stalker.png",
+    id: "stalker",
   },
   {
     name: "Moder",
     img: "/images/cards/png/card-moder.png",
+    id: "moder",
   },
   {
     name: "Fader",
     img: "/images/cards/png/card-fader.png",
+    id: "fader",
   },
 ];
 ---
@@ -39,8 +45,14 @@ const characters = [
   />
 
   <picture class="characters-logo-pic">
-    <source srcset="/images/logos/avif/characters-title.avif" type="image/avif" />
-    <source srcset="/images/logos/webp/characters-title.webp" type="image/webp" />
+    <source
+      srcset="/images/logos/avif/characters-title.avif"
+      type="image/avif"
+    />
+    <source
+      srcset="/images/logos/webp/characters-title.webp"
+      type="image/webp"
+    />
     <img
       id="characters-logo"
       src="/images/logos/png/characters-title.png"
@@ -53,7 +65,7 @@ const characters = [
   <main>
     {
       characters.map((char, i) => (
-        <CharacterCard name={char.name} img={char.img} index={i} />
+        <CharacterCard name={char.name} img={char.img} index={i} id={char.id} />
       ))
     }
   </main>
