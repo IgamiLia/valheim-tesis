@@ -12,6 +12,8 @@ import ParallaxMobile from "@components/effects/ParallaxMobile.astro";
 import SectionMusic from "@components/sections/SectionMusic.astro";
 import MusicButton from "@components/ui/MusicButton.astro";
 import Trailer from "@components/sections/Trailer.astro";
+import SectionDivider from "@components/ui/SectionDivider.astro";
+import { biografias } from "@data/biografias";
 ---
 
 <Layout music="/ost/home.mp3" page="index">
@@ -21,8 +23,15 @@ import Trailer from "@components/sections/Trailer.astro";
   <div id="personajes" class="nav-target"><Characters /></div>
   <div id="mundo" class="nav-target"><World /></div>
   <div id="biografias" class="nav-target">
-    <Parallax />
-    <ParallaxMobile />
+    {
+      biografias.map((bio, i) => (
+        <div id={bio.id} class="nav-target">
+          <Parallax bio={bio} />
+          <ParallaxMobile bio={bio} eager={i === 0} />
+        </div>
+      ))
+    }
+    <SectionDivider />
   </div>
   <div id="musica" class="nav-target"><SectionMusic /></div>
   <div id="serie" class="nav-target">

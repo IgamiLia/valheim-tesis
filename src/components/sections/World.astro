@@ -4,7 +4,14 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
 ---
 
 <section id="mapa">
-  <FixedBackground image="/images/backgrounds/png/world-bg.png" />
+  <FixedBackground image="/images/backgrounds/png/world-bg.png" pinMobile />
+  <header class="world-header">
+    <h2 class="world-title">Cartografía de Valheim</h2>
+    <p class="world-subtitle">
+      Recorre sus biomas y descubre los escenarios donde se desarrolla la
+      historia.
+    </p>
+  </header>
   <div class="world-wrapper">
     <div class="world">
       <div class="corner-tr"></div>
@@ -664,13 +671,103 @@ El aire es denso, cargado de humo y partículas ardientes. Respirar quema los pu
     width: 100%;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     scroll-snap-align: start;
     position: relative;
-    padding: 8rem 0;
+    padding: 8rem 0 8rem;
     /* Contiene el FixedBackground (fixed) dentro de la sección */
     transform: translateZ(0);
+  }
+
+  /* ─── Título de sección ─────────────────────────────────────────────────── */
+  .world-header {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    /* El padding horizontal da aire al halo sin desbordar el viewport
+       (a diferencia de un ::before con inset negativo, participa del layout) */
+    padding: 1.5rem clamp(2rem, 6vw, 6rem);
+    max-width: 100%;
+  }
+
+  /* Halo oscuro tras el texto: lo despega del cielo claro del fondo.
+     Solo se extiende en vertical; en horizontal queda contenido para no
+     generar overflow-x (franja blanca en mobile). */
+  .world-header::before {
+    content: "";
+    position: absolute;
+    inset: -30% 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgba(8, 5, 2, 0.8) 0%,
+      rgba(8, 5, 2, 0.5) 45%,
+      transparent 72%
+    );
+  }
+
+  /* En mobile el header ocupa todo el ancho: la elipse se lee como una
+     "mancha" recortada. Se cambia por un degradado vertical de borde a
+     borde que se funde con el humo del divider superior. */
+  @media (max-width: 767.98px) {
+    .world-header {
+      align-self: stretch;
+    }
+
+    /* Llega hasta el tope de la sección (compensa su padding-top de 8rem):
+       ahí se funde con el humo del divider, oscuro sobre oscuro, sin borde
+       visible. La curva tiene paradas intermedias para un fade sin saltos. */
+    .world-header::before {
+      inset: -8rem 0 -20%;
+      background: linear-gradient(
+        to bottom,
+        rgba(8, 5, 2, 0.9) 0%,
+        rgba(8, 5, 2, 0.78) 35%,
+        rgba(8, 5, 2, 0.55) 60%,
+        rgba(8, 5, 2, 0.28) 80%,
+        transparent 100%
+      );
+    }
+  }
+
+  .world-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw + 1rem, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 4px;
+    background: linear-gradient(
+      to bottom,
+      rgb(255, 252, 220) 0%,
+      rgb(242, 214, 116) 18%,
+      rgb(205, 170, 80) 68%,
+      rgb(180, 151, 76) 78%,
+      rgb(145, 114, 46) 88%,
+      rgb(95, 72, 22) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 1))
+      drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95))
+      drop-shadow(0 8px 28px rgba(0, 0, 0, 0.85));
+  }
+
+  .world-subtitle {
+    margin: 0.75rem auto 0;
+    max-width: 55ch;
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 0.6vw + 0.75rem, 1.25rem);
+    line-height: 1.6;
+    color: rgb(240, 224, 185);
+    text-shadow:
+      0 1px 2px rgb(0, 0, 0),
+      0 2px 6px rgba(0, 0, 0, 0.9),
+      0 0 18px rgba(0, 0, 0, 0.8);
+    text-wrap: balance;
   }
 
   .world-wrapper {

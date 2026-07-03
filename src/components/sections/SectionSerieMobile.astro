@@ -2,7 +2,7 @@
 
 ---
 
-<section class="serie-m" aria-label="Portal hacia la serie">
+<section id="portal-section" class="serie-m" aria-label="Portal hacia la serie">
   <div class="serie-m__bg" aria-hidden="true"></div>
 
   <span class="serie-m__runes" aria-hidden="true">ᚱᚨᛁᛞᛟ</span>
@@ -21,9 +21,19 @@
 
   <a class="serie-m__portal" href="/serie" aria-label="Entrar a la serie">
     <span class="serie-m__hint">
-      <img class="hint-rune" src="/svg/rune-icon.svg" alt="" aria-hidden="true" />
+      <img
+        class="hint-rune"
+        src="/svg/rune-icon.svg"
+        alt=""
+        aria-hidden="true"
+      />
       Toca el portal para entrar
-      <img class="hint-rune" src="/svg/rune-icon.svg" alt="" aria-hidden="true" />
+      <img
+        class="hint-rune"
+        src="/svg/rune-icon.svg"
+        alt=""
+        aria-hidden="true"
+      />
     </span>
     <picture>
       <source
@@ -37,6 +47,8 @@
       <img
         src="/images/portal/webp/portal-base-mobile.webp"
         alt=""
+        width="1030"
+        height="838"
         loading="lazy"
         decoding="async"
       />
@@ -159,16 +171,15 @@
     position: relative;
     z-index: 2;
     display: block;
-    width: 100%;
+    width: 110%;
     margin-top: auto;
     text-decoration: none;
   }
   .serie-m__portal img {
     display: block;
     width: 100%;
-    height: 48vh;
-    object-fit: cover;
-    object-position: center bottom;
+    margin-inline: auto;
+    height: auto;
     filter: drop-shadow(0 10px 34px rgba(0, 0, 0, 0.55));
     transition: transform 0.4s ease;
   }

@@ -71,6 +71,21 @@ function formatDuration(raw: string): string {
   }
   return raw;
 }
+
+/**
+ * Las covers de DatoCMS tienen ratios mixtos (9:16, ~2:3…). Se normalizan
+ * vía imgix: `fit=fill` + `fill=blur` encaja la imagen completa en el ratio
+ * pedido y rellena los bordes con una extensión difuminada (sin recortes ni
+ * bandas negras). `auto=format` sirve AVIF/WebP según el navegador.
+ */
+function coverSrc(
+  url: string | null | undefined,
+  w: number,
+  h: number,
+): string {
+  if (!url) return "";
+  return `${url}?w=${w}&h=${h}&fit=fill&fill=blur&auto=format`;
+}
 ---
 
 <Layout>
@@ -108,7 +123,7 @@ function formatDuration(raw: string): string {
               data-tiktok={ep.tiktokUrl}
               data-yt={ep.ytUrl}
               data-duration={ep.duration}
-              data-cover={ep.cover?.url ?? ""}
+              data-cover={coverSrc(ep.cover?.url, 810, 1440)}
             />
           ))
         }
@@ -119,7 +134,7 @@ function formatDuration(raw: string): string {
             <div class="cover-frame">
               <img
                 id="featured-cover"
-                src={episodes[0].cover?.url ?? ""}
+                src={coverSrc(episodes[0].cover?.url, 810, 1440)}
                 alt={episodes[0].cover?.alt ?? episodes[0].title}
                 class="featured-cover-img"
               />
@@ -287,7 +302,7 @@ function formatDuration(raw: string): string {
                 <div class="card-thumb">
                   {ep.cover ? (
                     <img
-                      src={ep.cover.url}
+                      src={coverSrc(ep.cover.url, 432, 672)}
                       alt={ep.cover.alt ?? ep.title}
                       loading="lazy"
                     />
@@ -396,7 +411,8 @@ function formatDuration(raw: string): string {
       const sep = yt.includes("?") ? "&" : "?";
       featuredVideo.src = `${yt}${sep}autoplay=1&playsinline=1`;
       featuredVideo.hidden = false;
-      coverImg.hidden = true;
+      // La cover queda debajo del iframe (opaco): no se oculta para que
+      // el frame conserve su altura (ahora depende de la imagen en flujo).
       playBtn.hidden = true;
     }
 
@@ -594,12 +610,15 @@ function formatDuration(raw: string): string {
     flex-shrink: 0;
   }
 
+  /* 9:16 fijo: coincide con los Shorts (iframe sin bandas) y las covers
+     llegan ya normalizadas a ese ratio desde imgix (coverSrc). */
   .cover-frame {
     position: relative;
     width: clamp(280px, calc(236.364px + 13.636vw), 400px);
     aspect-ratio: 9 / 16;
     border-radius: var(--radius);
     overflow: hidden;
+    background: var(--surface-2);
     box-shadow:
       0 0 0 2px var(--gold-dim),
       0 30px 80px rgba(0, 0, 0, 0.8);
@@ -963,6 +982,7 @@ function formatDuration(raw: string): string {
   .card-thumb img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
     display: block;
     transition: transform 0.4s ease;
   }
@@ -1057,7 +1077,7 @@ function formatDuration(raw: string): string {
     }
 
     .serie-header {
-      padding: 1.5rem 1.5rem 1.5rem;
+      padding: 6rem 1.5rem 1.5rem;
     }
 
     .featured-inner {
