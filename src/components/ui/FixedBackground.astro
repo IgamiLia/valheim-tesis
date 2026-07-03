@@ -28,7 +28,7 @@ const {
 // Deriva AVIF/WebP del path original y construye un image-set() con
 // fallback al original. El navegador elige el primer formato soportado.
 // Soporta rutas con subcarpeta de extensión (ej: /images/backgrounds/png/hero-bg.png)
-// y rutas raíz sin subcarpeta de extensión (ej: /images/music-bg.webp).
+// y rutas sin subcarpeta de extensión (ej: /images/foo.webp).
 const FORMAT_DIRS = new Set(["avif", "webp", "png", "svg"]);
 const variants = (path: string) => {
   const segments = path.split("/");

@@ -26,13 +26,49 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
         <div class="corner corner-br" aria-hidden="true"></div>
 
         <div class="iframe-shell">
+          <!-- Portada: el iframe de YouTube solo se carga al pulsar play
+               (mismo patrón que las portadas de Serie) -->
+          <picture>
+            <source
+              srcset="/images/trailer/avif/trailer-portrait.avif"
+              type="image/avif"
+            />
+            <source
+              srcset="/images/trailer/webp/trailer-portrait.webp"
+              type="image/webp"
+            />
+            <img
+              id="trailer-poster"
+              class="trailer-poster"
+              src="/images/trailer/webp/trailer-portrait.webp"
+              alt="Portada del tráiler de Valheim: Larga vida a La Reina"
+              width="941"
+              height="1672"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+
+          <button
+            id="trailer-play"
+            class="play-btn"
+            type="button"
+            aria-label="Reproducir tráiler"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+          </button>
+
           <iframe
-            src="https://youtube.com/embed/QCZ85PqcfV4?si=oeTs8xcNWTZ__Ewk"
+            id="trailer-video"
+            data-src="https://youtube.com/embed/QCZ85PqcfV4?autoplay=1&playsinline=1"
             title="Trailer — Valheim: Larga vida a La Reina"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
-            loading="lazy"></iframe>
+            loading="lazy"
+            hidden></iframe>
         </div>
       </div>
 
@@ -68,6 +104,32 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
   </div>
 </section>
 <SectionDivider />
+
+<script>
+  // La portada evita cargar el embed de YouTube (~1 MB de JS de terceros)
+  // hasta que el usuario pulsa play. La cover queda debajo del iframe opaco.
+  function initTrailer() {
+    const playBtn = document.getElementById(
+      "trailer-play",
+    ) as HTMLButtonElement | null;
+    const video = document.getElementById(
+      "trailer-video",
+    ) as HTMLIFrameElement | null;
+    if (!playBtn || !video) return;
+
+    playBtn.addEventListener(
+      "click",
+      () => {
+        video.src = video.dataset.src ?? "";
+        video.hidden = false;
+        playBtn.hidden = true;
+      },
+      { once: true },
+    );
+  }
+
+  document.addEventListener("astro:page-load", initTrailer);
+</script>
 
 <style>
   section {
@@ -268,6 +330,7 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
   }
 
   .iframe-shell {
+    position: relative;
     border: 2px solid var(--color-gold-dark);
     box-shadow:
       0 0 0 1px rgba(10, 9, 6, 0.8),
@@ -281,11 +344,66 @@ import FixedBackground from "@components/ui/FixedBackground.astro";
     width: clamp(280px, 38vw, 480px);
   }
 
+  /* Portada del tráiler (mismo ratio 9:16 que el shell) */
+  .trailer-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Botón de play sobre la portada (mismo lenguaje que en Serie) */
+  .play-btn {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    cursor: pointer;
+    z-index: 3;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .play-btn[hidden] {
+    display: none;
+  }
+
+  .play-btn:hover {
+    background: var(--color-gold);
+    color: #0a0906;
+    box-shadow: 0 0 24px var(--color-gold-glow);
+    transform: scale(1.05);
+  }
+
+  .play-btn svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-left: 3px;
+  }
+
   iframe {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     display: block;
     border: none;
+    z-index: 2;
+  }
+
+  iframe[hidden] {
+    display: none;
   }
 
   /* ── Caption ────────────────────────────────────────────────────────────── */

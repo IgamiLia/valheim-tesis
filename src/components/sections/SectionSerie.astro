@@ -62,6 +62,21 @@ import Smoke from "@components/effects/SmokeEffect.astro";
       display: none;
     }
   }
+
+  /* Fade superior: funde la sección con el humo del SectionDivider anterior.
+     Sin esto, el fondo (posicionado y posterior en el DOM) pinta encima del
+     ::after del divider y se ve un corte duro. Mismo patrón que .parallax. */
+  #portal-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 16%;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, #000 0%, transparent 100%);
+  }
   .portal-background {
     position: absolute;
     inset: 0;
