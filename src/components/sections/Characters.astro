@@ -7,31 +7,37 @@ const characters = [
     name: "Einar",
     img: "/images/cards/png/card-einar.png",
     id: "einar",
+    title: "El luchador más leal",
   },
   {
     name: "Runa",
     img: "/images/cards/png/card-runa.png",
     id: "runa",
+    title: "La hechicera de runas",
   },
   {
     name: "Hel",
     img: "/images/cards/png/card-hel.png",
     id: "hel",
+    title: "La diosa de los muertos",
   },
   {
     name: "Stalker",
     img: "/images/cards/png/card-stalker.png",
     id: "stalker",
+    title: "El acechador silencioso",
   },
   {
     name: "Moder",
     img: "/images/cards/png/card-moder.png",
     id: "moder",
+    title: "Madre de dragones",
   },
   {
     name: "Fader",
     img: "/images/cards/png/card-fader.png",
     id: "fader",
+    title: "El padre desterrado",
   },
 ];
 ---
@@ -65,7 +71,13 @@ const characters = [
   <main>
     {
       characters.map((char, i) => (
-        <CharacterCard name={char.name} img={char.img} index={i} id={char.id} />
+        <CharacterCard
+          name={char.name}
+          img={char.img}
+          index={i}
+          id={char.id}
+          title={char.title}
+        />
       ))
     }
   </main>

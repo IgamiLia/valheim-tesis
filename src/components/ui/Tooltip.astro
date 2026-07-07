@@ -1,0 +1,144 @@
+---
+
+---
+
+<div id="tooltip"></div>
+
+<style>
+  #tooltip {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    transform: translate3d(-9999px, -9999px, 0) scale(0.94);
+
+    max-width: 280px;
+    padding: 0.75rem 1rem;
+
+    background: linear-gradient(
+      to bottom,
+      rgba(30, 22, 8, 0.98),
+      rgba(10, 8, 3, 0.98)
+    );
+
+    color: var(--color-gold-light, #dbc17a);
+
+    border: 1px solid var(--color-gold-dark, #8d6b2d);
+    outline: 1px solid rgba(180, 151, 76, 0.35);
+    outline-offset: 2px;
+
+    font-family: Cinzel, serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.45;
+
+    box-shadow:
+      0 10px 25px rgba(0, 0, 0, 0.55),
+      0 0 10px rgba(180, 151, 76, 0.18);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    will-change: transform;
+
+    transition:
+      opacity 0.18s ease,
+      scale 0.18s ease;
+
+    z-index: 999999;
+  }
+
+  #tooltip.show {
+    opacity: 1;
+    transform-origin: center;
+  }
+
+  #tooltip::before,
+  #tooltip::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+  }
+
+  #tooltip::before {
+    top: 3px;
+    left: 3px;
+
+    border-top: 2px solid var(--color-gold, #d7b461);
+    border-left: 2px solid var(--color-gold, #d7b461);
+  }
+
+  #tooltip::after {
+    bottom: 3px;
+    right: 3px;
+
+    border-bottom: 2px solid var(--color-gold, #d7b461);
+    border-right: 2px solid var(--color-gold, #d7b461);
+  }
+</style>
+
+<script>
+  (() => {
+    function init() {
+      const tooltip = document.getElementById("tooltip");
+      if (!tooltip) return;
+
+      let current = null;
+
+      let mx = 0;
+      let my = 0;
+
+      let x = 0;
+      let y = 0;
+
+      let raf = null;
+
+      function animate() {
+        x += (mx - x) * 0.18;
+        y += (my - y) * 0.18;
+
+        tooltip.style.transform = `translate3d(${x + 18}px,${y + 22}px,0) scale(1)`;
+
+        raf = requestAnimationFrame(animate);
+      }
+
+      if (!raf) animate();
+
+      document.addEventListener("pointermove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+
+      document.addEventListener("pointerover", (e) => {
+        const target = e.target.closest("[data-tooltip]");
+
+        if (!target) return;
+
+        current = target;
+
+        tooltip.textContent = target.dataset.tooltip;
+
+        tooltip.classList.add("show");
+      });
+
+      document.addEventListener("pointerout", (e) => {
+        const target = e.target.closest("[data-tooltip]");
+
+        if (!target) return;
+
+        if (target !== current) return;
+
+        current = null;
+
+        tooltip.classList.remove("show");
+      });
+    }
+
+    init();
+
+    document.addEventListener("astro:page-load", init);
+  })();
+</script>
