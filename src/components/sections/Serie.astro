@@ -72,12 +72,6 @@ function formatDuration(raw: string): string {
   return raw;
 }
 
-/**
- * Las covers de DatoCMS tienen ratios mixtos (9:16, ~2:3…). Se normalizan
- * vía imgix: `fit=fill` + `fill=blur` encaja la imagen completa en el ratio
- * pedido y rellena los bordes con una extensión difuminada (sin recortes ni
- * bandas negras). `auto=format` sirve AVIF/WebP según el navegador.
- */
 function coverSrc(
   url: string | null | undefined,
   w: number,
@@ -493,6 +487,7 @@ function coverSrc(
     inset: 0;
     pointer-events: none;
     z-index: 0;
+    width: 100%;
   }
 
   .bg-orb {
@@ -586,6 +581,7 @@ function coverSrc(
     display: flex;
     flex-direction: column;
     gap: 4rem;
+    width: 100vw;
   }
 
   /* ── Featured ── */
